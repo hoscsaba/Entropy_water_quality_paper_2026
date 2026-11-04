@@ -1,0 +1,983 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<svg width="155.575mm" height="202.142mm"
+ viewBox="0 0 441 573"
+ xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" version="1.1">
+<title>Qt SVG Document</title>
+<desc>MATLAB, The MathWorks, Inc. Version 26.1.0.3346908 R2026a Update 5</desc>
+<defs>
+</defs>
+<g fill="none" stroke="black" stroke-width="1" fill-rule="evenodd" stroke-linecap="square" stroke-linejoin="bevel" >
+
+<g fill="#ffffff" fill-opacity="1" stroke="none" transform="matrix(0.5,0,0,0.5,-303.655,-30.875)"
+font-family=".AppleSystemUIFont" font-size="13" font-weight="400" font-style="normal" 
+>
+<path vector-effect="none" fill-rule="evenodd" d="M606,60 L1489,60 L1489,1207 L606,1207 L606,60"/>
+</g>
+
+<g fill="#212121" fill-opacity="1" stroke="#212121" stroke-opacity="1" stroke-width="1" stroke-linecap="square" stroke-linejoin="bevel" transform="matrix(0.5,0,0,0.5,112.095,13.5)"
+font-family="Helvetica" font-size="34" font-weight="400" font-style="normal" 
+>
+<text fill="#212121" fill-opacity="1" stroke="none" xml:space="preserve" x="0" y="0.171875" font-family="Helvetica" font-size="34" font-weight="400" font-style="normal" 
+ >Balerma benchmark network</text>
+</g>
+
+<g fill="#595959" fill-opacity="1" stroke="#595959" stroke-opacity="1" stroke-width="1.1" stroke-linecap="butt" stroke-linejoin="round" transform="matrix(0.5,0,0,0.5,-303.655,-30.875)"
+font-family="Helvetica" font-size="34" font-weight="400" font-style="normal" 
+>
+<polyline fill="none" vector-effect="none" points="1417.45,817.314 1401.85,818.513 " />
+<polyline fill="none" vector-effect="none" points="1401.85,818.513 1387.98,816.218 " />
+<polyline fill="none" vector-effect="none" points="1387.98,816.218 1373.18,814.335 " />
+<polyline fill="none" vector-effect="none" points="1373.18,814.335 1337.44,811.356 " />
+<polyline fill="none" vector-effect="none" points="1337.44,811.356 1333.99,831.938 " />
+<polyline fill="none" vector-effect="none" points="1333.99,831.938 1333.87,842.918 " />
+<polyline fill="none" vector-effect="none" points="1333.87,842.918 1333.99,854.497 " />
+<polyline fill="none" vector-effect="none" points="1333.99,854.497 1321.06,855.256 " />
+<polyline fill="none" vector-effect="none" points="1333.99,854.497 1334.15,866.489 " />
+<polyline fill="none" vector-effect="none" points="1334.15,866.489 1348.43,865.393 " />
+<polyline fill="none" vector-effect="none" points="1348.43,865.393 1362.12,861.589 " />
+<polyline fill="none" vector-effect="none" points="1334.15,866.489 1334.49,880.354 " />
+<polyline fill="none" vector-effect="none" points="1334.49,880.354 1335.76,898.351 " />
+<polyline fill="none" vector-effect="none" points="1335.76,898.351 1345.89,893.789 " />
+<polyline fill="none" vector-effect="none" points="1345.89,893.789 1355.53,893.789 " />
+<polyline fill="none" vector-effect="none" points="1335.76,898.351 1335.5,920.395 " />
+<polyline fill="none" vector-effect="none" points="1335.5,920.395 1342.86,944.988 " />
+<polyline fill="none" vector-effect="none" points="1335.5,920.395 1351.29,918.4 " />
+<polyline fill="none" vector-effect="none" points="1342.86,944.988 1349.7,968.559 " />
+<polyline fill="none" vector-effect="none" points="1342.86,944.988 1307.13,930.916 " />
+<polyline fill="none" vector-effect="none" points="1362.12,861.589 1374.54,857.795 " />
+<polyline fill="none" vector-effect="none" points="1373.18,814.335 1379.72,843.508 " />
+<polyline fill="none" vector-effect="none" points="1406.99,860.578 1418.64,863.116 " />
+<polyline fill="none" vector-effect="none" points="1418.64,863.116 1431.57,858.048 " />
+<polyline fill="none" vector-effect="none" points="1388.66,861.973 1393.55,906.455 " />
+<polyline fill="none" vector-effect="none" points="1407.49,903.167 1407.12,890.557 " />
+<polyline fill="none" vector-effect="none" points="1393.55,906.455 1407.49,903.167 " />
+<polyline fill="none" vector-effect="none" points="1407.49,903.167 1419.41,899.11 " />
+<polyline fill="none" vector-effect="none" points="1419.41,899.11 1435.12,896.318 " />
+<polyline fill="none" vector-effect="none" points="1393.55,906.455 1382.39,956.642 " />
+<polyline fill="none" vector-effect="none" points="1382.39,956.642 1396.6,956.642 " />
+<polyline fill="none" vector-effect="none" points="1396.6,956.642 1425.74,939.919 " />
+<polyline fill="none" vector-effect="none" points="1396.6,956.642 1431.82,955.377 " />
+<polyline fill="none" vector-effect="none" points="1396.6,956.642 1393.8,965.514 " />
+<polyline fill="none" vector-effect="none" points="1379.15,996.908 1403.74,992.851 " />
+<polyline fill="none" vector-effect="none" points="1403.74,992.851 1413.37,981.187 " />
+<polyline fill="none" vector-effect="none" points="1413.37,981.187 1425.28,987.024 " />
+<polyline fill="none" vector-effect="none" points="1379.15,996.908 1417.17,1002.99 " />
+<polyline fill="none" vector-effect="none" points="1379.15,996.908 1367.49,996.908 " />
+<polyline fill="none" vector-effect="none" points="1367.49,996.908 1340.11,997.161 " />
+<polyline fill="none" vector-effect="none" points="1340.11,997.161 1329.47,997.667 " />
+<polyline fill="none" vector-effect="none" points="1373.18,814.335 1372.58,798.249 " />
+<polyline fill="none" vector-effect="none" points="1372.58,798.249 1392.36,780.355 " />
+<polyline fill="none" vector-effect="none" points="1392.36,780.355 1404.25,780.711 " />
+<polyline fill="none" vector-effect="none" points="1404.25,780.711 1417.45,783.11 " />
+<polyline fill="none" vector-effect="none" points="1417.45,783.11 1427.65,774.715 " />
+<polyline fill="none" vector-effect="none" points="1417.45,783.11 1425.61,791.063 " />
+<polyline fill="none" vector-effect="none" points="1425.61,791.063 1430.65,800.516 " />
+<polyline fill="none" vector-effect="none" points="1430.65,800.516 1440.85,808.311 " />
+<polyline fill="none" vector-effect="none" points="1419.25,730.749 1427.39,730.749 " />
+<polyline fill="none" vector-effect="none" points="1427.39,730.749 1438.74,734.965 " />
+<polyline fill="none" vector-effect="none" points="1451.27,739.743 1456.64,754.658 " />
+<polyline fill="none" vector-effect="none" points="1438.74,734.965 1451.27,739.743 " />
+<polyline fill="none" vector-effect="none" points="1337.44,811.356 1318.99,808.967 " />
+<polyline fill="none" vector-effect="none" points="1318.99,808.967 1302.31,812.545 " />
+<polyline fill="none" vector-effect="none" points="1302.31,812.545 1285.19,816.218 " />
+<polyline fill="none" vector-effect="none" points="1285.19,816.218 1281.23,786.033 " />
+<polyline fill="none" vector-effect="none" points="1302.31,812.545 1304.76,797.79 " />
+<polyline fill="none" vector-effect="none" points="1304.76,797.79 1316.11,793.331 " />
+<polyline fill="none" vector-effect="none" points="1285.19,816.218 1264.79,815.525 " />
+<polyline fill="none" vector-effect="none" points="1264.79,815.525 1266.58,843.508 " />
+<polyline fill="none" vector-effect="none" points="1266.58,843.508 1273.03,857.027 " />
+<polyline fill="none" vector-effect="none" points="1273.03,857.027 1280.12,871.23 " />
+<polyline fill="none" vector-effect="none" points="1264.79,815.525 1246.34,816.115 " />
+<polyline fill="none" vector-effect="none" points="1246.34,816.115 1237.03,789.686 " />
+<polyline fill="none" vector-effect="none" points="1237.03,789.686 1245.55,767.783 " />
+<polyline fill="none" vector-effect="none" points="1246.34,816.115 1232.04,820.883 " />
+<polyline fill="none" vector-effect="none" points="1232.04,820.883 1219.53,823.263 " />
+<polyline fill="none" vector-effect="none" points="1219.53,823.263 1229.03,848.52 " />
+<polyline fill="none" vector-effect="none" points="1229.03,848.52 1238.63,876.719 " />
+<polyline fill="none" vector-effect="none" points="1238.63,876.719 1247.88,901.209 " />
+<polyline fill="none" vector-effect="none" points="1247.88,901.209 1258.24,920.33 " />
+<polyline fill="none" vector-effect="none" points="1258.24,920.33 1284.43,907.214 " />
+<polyline fill="none" vector-effect="none" points="1284.43,907.214 1298.62,899.616 " />
+<polyline fill="none" vector-effect="none" points="1258.24,920.33 1266.18,939.16 " />
+<polyline fill="none" vector-effect="none" points="1266.18,939.16 1285.44,936.622 " />
+<polyline fill="none" vector-effect="none" points="1266.18,939.16 1288.48,982.752 " />
+<polyline fill="none" vector-effect="none" points="1302.31,1026.33 1333.27,1096.01 " />
+<polyline fill="none" vector-effect="none" points="1333.27,1096.01 1305.88,1094.23 " />
+<polyline fill="none" vector-effect="none" points="1305.88,1094.23 1272.26,1066.91 " />
+<polyline fill="none" vector-effect="none" points="1305.88,1094.23 1271.94,1094.82 " />
+<polyline fill="none" vector-effect="none" points="1379.15,996.908 1397.98,1056.27 " />
+<polyline fill="none" vector-effect="none" points="1397.98,1056.27 1405.93,1078.14 " />
+<polyline fill="none" vector-effect="none" points="1405.93,1078.14 1420.22,1107.32 " />
+<polyline fill="none" vector-effect="none" points="1405.93,1078.14 1438.54,1087.7 " />
+<polyline fill="none" vector-effect="none" points="1365.1,1158.78 1326.5,1158.92 " />
+<polyline fill="none" vector-effect="none" points="1326.5,1158.92 1304.71,1155.38 " />
+<polyline fill="none" vector-effect="none" points="1304.71,1155.38 1278.85,1141.17 " />
+<polyline fill="none" vector-effect="none" points="1393.93,1168.04 1407.11,1180.21 " />
+<polyline fill="none" vector-effect="none" points="1407.11,1180.21 1413.2,1201 " />
+<polyline fill="none" vector-effect="none" points="1407.11,1180.21 1423.84,1176.66 " />
+<polyline fill="none" vector-effect="none" points="1423.84,1176.66 1449.19,1169.06 " />
+<polyline fill="none" vector-effect="none" points="1302.31,1026.33 1277.34,1038.27 " />
+<polyline fill="none" vector-effect="none" points="1277.34,1038.27 1257.05,1039.28 " />
+<polyline fill="none" vector-effect="none" points="1257.05,1039.28 1235.25,1038.27 " />
+<polyline fill="none" vector-effect="none" points="1274.65,985.572 1248.43,1003.79 " />
+<polyline fill="none" vector-effect="none" points="1248.43,1003.79 1215.48,1002.78 " />
+<polyline fill="none" vector-effect="none" points="1302.31,1026.33 1274.65,985.572 " />
+<polyline fill="none" vector-effect="none" points="1274.65,985.572 1254.36,944.201 " />
+<polyline fill="none" vector-effect="none" points="1254.36,944.201 1241.85,965.767 " />
+<polyline fill="none" vector-effect="none" points="1241.85,965.767 1206.87,973.374 " />
+<polyline fill="none" vector-effect="none" points="1254.36,944.201 1229.17,935.357 " />
+<polyline fill="none" vector-effect="none" points="1229.17,935.357 1214.47,936.369 " />
+<polyline fill="none" vector-effect="none" points="1214.47,936.369 1186.08,940.425 " />
+<polyline fill="none" vector-effect="none" points="1222.74,877.684 1207.18,885.957 " />
+<polyline fill="none" vector-effect="none" points="1207.18,885.957 1182.11,892.524 " />
+<polyline fill="none" vector-effect="none" points="1182.11,892.524 1163.77,899.363 " />
+<polyline fill="none" vector-effect="none" points="1245.96,927.141 1222.74,877.684 " />
+<polyline fill="none" vector-effect="none" points="1222.74,877.684 1202.45,827.394 " />
+<polyline fill="none" vector-effect="none" points="1202.45,827.394 1183.29,836.248 " />
+<polyline fill="none" vector-effect="none" points="1183.29,836.248 1180.25,847.143 " />
+<polyline fill="none" vector-effect="none" points="1180.25,847.143 1177.71,859.819 " />
+<polyline fill="none" vector-effect="none" points="1183.29,836.248 1154.65,839.283 " />
+<polyline fill="none" vector-effect="none" points="1202.45,827.394 1186.78,787.532 " />
+<polyline fill="none" vector-effect="none" points="1186.78,787.532 1162.37,796.469 " />
+<polyline fill="none" vector-effect="none" points="1162.37,796.469 1136.86,808.742 " />
+<polyline fill="none" vector-effect="none" points="1219.53,823.263 1194.52,741.673 " />
+<polyline fill="none" vector-effect="none" points="1194.52,741.673 1227.87,730.955 " />
+<polyline fill="none" vector-effect="none" points="1186.78,787.532 1178.44,763.117 " />
+<polyline fill="none" vector-effect="none" points="1174.27,746.441 1178.44,763.117 " />
+<polyline fill="none" vector-effect="none" points="1178.44,763.117 1154.03,766.687 " />
+<polyline fill="none" vector-effect="none" points="1154.03,766.687 1128.41,756.569 " />
+<polyline fill="none" vector-effect="none" points="1194.52,741.673 1174.27,746.441 " />
+<polyline fill="none" vector-effect="none" points="1174.27,746.441 1161.6,723.985 " />
+<polyline fill="none" vector-effect="none" points="1161.6,723.985 1135.64,711.815 " />
+<polyline fill="none" vector-effect="none" points="1135.64,711.815 1135.64,701.679 " />
+<polyline fill="none" vector-effect="none" points="1269.23,679.897 1284.84,667.896 " />
+<polyline fill="none" vector-effect="none" points="1284.84,667.896 1295.64,687.701 " />
+<polyline fill="none" vector-effect="none" points="1295.64,687.701 1301.64,701.501 " />
+<polyline fill="none" vector-effect="none" points="1301.64,701.501 1304.04,723.704 " />
+<polyline fill="none" vector-effect="none" points="1304.04,723.704 1298.04,740.511 " />
+<polyline fill="none" vector-effect="none" points="1245.95,680.581 1223.64,683.832 " />
+<polyline fill="none" vector-effect="none" points="1419.25,730.749 1427.37,706.541 " />
+<polyline fill="none" vector-effect="none" points="1427.37,706.541 1418.34,682.792 " />
+<polyline fill="none" vector-effect="none" points="1418.34,682.792 1415.62,664.692 " />
+<polyline fill="none" vector-effect="none" points="1415.62,664.692 1404.77,647.492 " />
+<polyline fill="none" vector-effect="none" points="1284.84,667.896 1294.56,607.085 " />
+<polyline fill="none" vector-effect="none" points="1284.84,667.896 1302.9,666.641 " />
+<polyline fill="none" vector-effect="none" points="1274.92,616.622 1254.07,627.34 " />
+<polyline fill="none" vector-effect="none" points="1339.32,598.738 1328.75,598.625 " />
+<polyline fill="none" vector-effect="none" points="1328.75,598.625 1328.75,614.009 " />
+<polyline fill="none" vector-effect="none" points="1328.75,614.009 1318.79,633.017 " />
+<polyline fill="none" vector-effect="none" points="1318.79,633.017 1318.79,647.492 " />
+<polyline fill="none" vector-effect="none" points="1328.75,614.009 1340.52,628.492 " />
+<polyline fill="none" vector-effect="none" points="1340.52,628.492 1343.23,641.158 " />
+<polyline fill="none" vector-effect="none" points="1343.23,641.158 1342.65,654.621 " />
+<polyline fill="none" vector-effect="none" points="1342.65,654.621 1332.69,673.63 " />
+<polyline fill="none" vector-effect="none" points="1364.64,567.691 1376.65,567.691 " />
+<polyline fill="none" vector-effect="none" points="1376.65,567.691 1376.65,580.891 " />
+<polyline fill="none" vector-effect="none" points="1376.65,580.891 1376.65,593.492 " />
+<polyline fill="none" vector-effect="none" points="1376.65,580.891 1389.85,585.688 " />
+<polyline fill="none" vector-effect="none" points="1376.65,567.691 1377.47,555.54 " />
+<polyline fill="none" vector-effect="none" points="1327.84,569.668 1337.64,544.888 " />
+<polyline fill="none" vector-effect="none" points="1377.47,555.54 1397.63,558.913 " />
+<polyline fill="none" vector-effect="none" points="1397.63,558.913 1410,558.913 " />
+<polyline fill="none" vector-effect="none" points="1397.63,558.913 1412.44,571.288 " />
+<polyline fill="none" vector-effect="none" points="1412.44,571.288 1413.05,587.917 " />
+<polyline fill="none" vector-effect="none" points="1410,558.913 1427.2,559.222 " />
+<polyline fill="none" vector-effect="none" points="1427.2,559.222 1443.85,558.688 " />
+<polyline fill="none" vector-effect="none" points="1443.85,558.688 1467.86,550.443 " />
+<polyline fill="none" vector-effect="none" points="1467.86,550.443 1482.51,528.802 " />
+<polyline fill="none" vector-effect="none" points="1467.86,550.443 1469.77,566.36 " />
+<polyline fill="none" vector-effect="none" points="1469.77,566.36 1469.77,581.64 " />
+<polyline fill="none" vector-effect="none" points="1377.47,555.54 1374.24,544.888 " />
+<polyline fill="none" vector-effect="none" points="1374.24,544.888 1374.24,533.486 " />
+<polyline fill="none" vector-effect="none" points="1374.24,533.486 1374.24,520.286 " />
+<polyline fill="none" vector-effect="none" points="1482.75,489.773 1469.14,490.607 " />
+<polyline fill="none" vector-effect="none" points="1469.14,490.607 1456.4,490.607 " />
+<polyline fill="none" vector-effect="none" points="1456.4,490.607 1455.77,503.339 " />
+<polyline fill="none" vector-effect="none" points="1455.77,503.339 1436.04,503.339 " />
+<polyline fill="none" vector-effect="none" points="1374.24,520.286 1387.01,520.521 " />
+<polyline fill="none" vector-effect="none" points="1387.01,520.521 1401.66,520.521 " />
+<polyline fill="none" vector-effect="none" points="1401.66,520.521 1415.66,528.165 " />
+<polyline fill="none" vector-effect="none" points="1374.24,520.286 1374.24,478.278 " />
+<polyline fill="none" vector-effect="none" points="1374.24,478.278 1387.65,479.14 " />
+<polyline fill="none" vector-effect="none" points="1387.65,479.14 1395.25,487.881 " />
+<polyline fill="none" vector-effect="none" points="1374.24,478.278 1360.44,478.278 " />
+<polyline fill="none" vector-effect="none" points="1482.75,489.773 1482.75,458.211 " />
+<polyline fill="none" vector-effect="none" points="1460.92,450.632 1450.46,450.678 " />
+<polyline fill="none" vector-effect="none" points="1450.46,450.678 1450.46,458.473 " />
+<polyline fill="none" vector-effect="none" points="1450.46,458.473 1414.86,457.611 " />
+<polyline fill="none" vector-effect="none" points="1374.24,478.278 1374.28,437.769 " />
+<polyline fill="none" vector-effect="none" points="1374.28,437.769 1376.65,413.467 " />
+<polyline fill="none" vector-effect="none" points="1401.85,413.467 1415.65,413.467 " />
+<polyline fill="none" vector-effect="none" points="1415.65,413.467 1431.85,413.467 " />
+<polyline fill="none" vector-effect="none" points="1401.85,413.467 1401.85,444.074 " />
+<polyline fill="none" vector-effect="none" points="1401.85,444.074 1415.05,444.074 " />
+<polyline fill="none" vector-effect="none" points="1482.86,415.275 1476.26,400.267 " />
+<polyline fill="none" vector-effect="none" points="1476.26,400.267 1455.25,400.267 " />
+<polyline fill="none" vector-effect="none" points="1476.26,400.267 1476.26,381.071 " />
+<polyline fill="none" vector-effect="none" points="1476.26,381.071 1475.61,360.544 " />
+<polyline fill="none" vector-effect="none" points="1475.61,360.544 1476.26,339.062 " />
+<polyline fill="none" vector-effect="none" points="1401.85,316.26 1387.65,317.449 " />
+<polyline fill="none" vector-effect="none" points="1387.65,317.449 1381.29,334.631 " />
+<polyline fill="none" vector-effect="none" points="1401.85,413.467 1401.85,316.26 " />
+<polyline fill="none" vector-effect="none" points="1401.85,316.26 1412.49,296.23 " />
+<polyline fill="none" vector-effect="none" points="1412.49,296.23 1446.86,296.455 " />
+<polyline fill="none" vector-effect="none" points="1446.86,296.455 1475.61,296.23 " />
+<polyline fill="none" vector-effect="none" points="1475.61,296.23 1476.26,317.459 " />
+<polyline fill="none" vector-effect="none" points="1476.26,317.459 1476.26,339.062 " />
+<polyline fill="none" vector-effect="none" points="1413.08,251.561 1412.49,296.23 " />
+<polyline fill="none" vector-effect="none" points="1413.08,251.561 1399.98,250.971 " />
+<polyline fill="none" vector-effect="none" points="1401.85,413.467 1376.65,413.467 " />
+<polyline fill="none" vector-effect="none" points="1376.65,413.467 1366.45,413.467 " />
+<polyline fill="none" vector-effect="none" points="1361.13,393.446 1362.35,298.141 " />
+<polyline fill="none" vector-effect="none" points="1377.35,267.319 1362.35,298.141 " />
+<polyline fill="none" vector-effect="none" points="1430.65,246.652 1413.08,251.561 " />
+<polyline fill="none" vector-effect="none" points="1374.24,520.286 1362.84,520.286 " />
+<polyline fill="none" vector-effect="none" points="1337.64,544.888 1327.99,542.021 " />
+<polyline fill="none" vector-effect="none" points="1299.32,553.666 1309.54,544.907 " />
+<polyline fill="none" vector-effect="none" points="1309.54,544.907 1320.25,546.368 " />
+<polyline fill="none" vector-effect="none" points="1320.25,546.368 1327.99,542.021 " />
+<polyline fill="none" vector-effect="none" points="1337.64,544.888 1341.65,505.643 " />
+<polyline fill="none" vector-effect="none" points="1290.4,495.132 1314.73,494.195 " />
+<polyline fill="none" vector-effect="none" points="1314.73,494.195 1322.98,488.171 " />
+<polyline fill="none" vector-effect="none" points="1287.32,466.043 1275.59,463.448 " />
+<polyline fill="none" vector-effect="none" points="1252.28,458.801 1258.52,444.139 " />
+<polyline fill="none" vector-effect="none" points="1136.04,659.905 1146.19,652.597 " />
+<polyline fill="none" vector-effect="none" points="1146.19,652.597 1146.59,631.106 " />
+<polyline fill="none" vector-effect="none" points="1146.59,631.106 1162.82,631.509 " />
+<polyline fill="none" vector-effect="none" points="1162.82,631.509 1178.23,625.026 " />
+<polyline fill="none" vector-effect="none" points="1178.23,625.026 1177.81,650.977 " />
+<polyline fill="none" vector-effect="none" points="1178.23,625.026 1193.64,620.154 " />
+<polyline fill="none" vector-effect="none" points="1193.64,620.154 1209.85,614.074 " />
+<polyline fill="none" vector-effect="none" points="1209.85,614.074 1227.06,618.187 " />
+<polyline fill="none" vector-effect="none" points="1209.85,614.074 1220.38,598.176 " />
+<polyline fill="none" vector-effect="none" points="1220.38,598.176 1224.86,584.47 " />
+<polyline fill="none" vector-effect="none" points="1224.86,584.47 1219.19,568.646 " />
+<polyline fill="none" vector-effect="none" points="1219.19,568.646 1198.9,556.889 " />
+<polyline fill="none" vector-effect="none" points="1224.86,584.47 1238.24,587.711 " />
+<polyline fill="none" vector-effect="none" points="1238.24,587.711 1253.66,590.953 " />
+<polyline fill="none" vector-effect="none" points="1253.66,590.953 1271.34,591.609 " />
+<polyline fill="none" vector-effect="none" points="1271.34,591.609 1292.78,593.389 " />
+<polyline fill="none" vector-effect="none" points="1271.34,591.609 1278.49,571.354 " />
+<polyline fill="none" vector-effect="none" points="1238.24,587.711 1250.41,580.01 " />
+<polyline fill="none" vector-effect="none" points="1284.45,549.329 1267.44,548.776 " />
+<polyline fill="none" vector-effect="none" points="1267.44,548.776 1256.9,549.179 " />
+<polyline fill="none" vector-effect="none" points="1284.45,549.329 1295.16,530.264 " />
+<polyline fill="none" vector-effect="none" points="1295.16,530.264 1287.43,511.208 " />
+<polyline fill="none" vector-effect="none" points="1287.43,511.208 1270.28,494.429 " />
+<polyline fill="none" vector-effect="none" points="1270.28,494.429 1250.01,494.026 " />
+<polyline fill="none" vector-effect="none" points="1250.01,494.026 1232.56,500.107 " />
+<polyline fill="none" vector-effect="none" points="1232.56,500.107 1232.16,511.471 " />
+<polyline fill="none" vector-effect="none" points="1252.28,458.801 1235.61,436.176 " />
+<polyline fill="none" vector-effect="none" points="1252.28,458.801 1246.34,472.507 " />
+<polyline fill="none" vector-effect="none" points="1287.32,466.043 1292.78,440.935 " />
+<polyline fill="none" vector-effect="none" points="1254.08,420.962 1267.51,398.58 " />
+<polyline fill="none" vector-effect="none" points="1254.08,420.962 1236.17,407.527 " />
+<polyline fill="none" vector-effect="none" points="1332.09,283.723 1333.87,322.433 " />
+<polyline fill="none" vector-effect="none" points="1333.87,322.433 1333.27,354.586 " />
+<polyline fill="none" vector-effect="none" points="1333.27,354.586 1332.09,381.979 " />
+<polyline fill="none" vector-effect="none" points="1332.09,283.723 1339.23,274.795 " />
+<polyline fill="none" vector-effect="none" points="1339.23,274.795 1349.95,263.478 " />
+<polyline fill="none" vector-effect="none" points="1332.09,283.723 1310.65,283.123 " />
+<polyline fill="none" vector-effect="none" points="1383.13,230.716 1377.35,267.319 " />
+<polyline fill="none" vector-effect="none" points="1386.78,203.341 1383.13,230.716 " />
+<polyline fill="none" vector-effect="none" points="1389.21,186.309 1386.78,203.341 " />
+<polyline fill="none" vector-effect="none" points="1393.48,161.97 1389.21,186.309 " />
+<polyline fill="none" vector-effect="none" points="1396.51,143.111 1393.48,161.97 " />
+<polyline fill="none" vector-effect="none" points="1415.05,126.042 1396.51,143.111 " />
+<polyline fill="none" vector-effect="none" points="1396.51,143.111 1358.2,155.281 " />
+<polyline fill="none" vector-effect="none" points="1358.2,155.281 1330.81,166.233 " />
+<polyline fill="none" vector-effect="none" points="1358.2,155.281 1353.47,176.435 " />
+<polyline fill="none" vector-effect="none" points="1353.47,176.435 1343.28,202.32 " />
+<polyline fill="none" vector-effect="none" points="1064.16,705.614 1037.76,687.233 " />
+<polyline fill="none" vector-effect="none" points="1037.76,687.233 987.878,652.344 " />
+<polyline fill="none" vector-effect="none" points="987.878,652.344 947.977,617.213 " />
+<polyline fill="none" vector-effect="none" points="1143.41,603.225 1152.22,594.091 " />
+<polyline fill="none" vector-effect="none" points="1037.76,687.233 1056.01,665.329 " />
+<polyline fill="none" vector-effect="none" points="1224.86,584.47 1198.42,579.092 " />
+<polyline fill="none" vector-effect="none" points="1198.42,579.092 1184.63,572.487 " />
+<polyline fill="none" vector-effect="none" points="1161.39,566.829 1175.62,548.485 " />
+<polyline fill="none" vector-effect="none" points="1175.62,548.485 1166.62,543.689 " />
+<polyline fill="none" vector-effect="none" points="1152.22,594.091 1158.82,587.486 " />
+<polyline fill="none" vector-effect="none" points="1119.72,582.943 1095.99,583.552 " />
+<polyline fill="none" vector-effect="none" points="1140.82,515.48 1119.81,507.686 " />
+<polyline fill="none" vector-effect="none" points="1136.75,554.687 1119.21,543.689 " />
+<polyline fill="none" vector-effect="none" points="1119.21,543.689 1126.42,535.885 " />
+<polyline fill="none" vector-effect="none" points="1126.42,535.885 1133.62,528.081 " />
+<polyline fill="none" vector-effect="none" points="1184.99,457.611 1173.67,424.859 " />
+<polyline fill="none" vector-effect="none" points="1184.99,457.611 1150.45,459.401 " />
+<polyline fill="none" vector-effect="none" points="1150.45,459.401 1124.18,459.785 " />
+<polyline fill="none" vector-effect="none" points="1124.18,459.785 1106.01,458.473 " />
+<polyline fill="none" vector-effect="none" points="1106.01,458.473 1092.21,456.075 " />
+<polyline fill="none" vector-effect="none" points="1092.21,456.075 1080.21,453.676 " />
+<polyline fill="none" vector-effect="none" points="1139.73,487.394 1121.62,481.276 " />
+<polyline fill="none" vector-effect="none" points="1121.62,481.276 1097.01,476.479 " />
+<polyline fill="none" vector-effect="none" points="1173.67,424.859 1153.42,424.868 " />
+<polyline fill="none" vector-effect="none" points="1153.42,424.868 1152.84,435.576 " />
+<polyline fill="none" vector-effect="none" points="1153.42,424.868 1138.42,424.269 " />
+<polyline fill="none" vector-effect="none" points="1138.42,424.269 1121.62,423.669 " />
+<polyline fill="none" vector-effect="none" points="1168.43,402.065 1158.82,378.063 " />
+<polyline fill="none" vector-effect="none" points="1136.75,554.687 1207.03,464.169 " />
+<polyline fill="none" vector-effect="none" points="1207.03,464.169 1193.93,408.783 " />
+<polyline fill="none" vector-effect="none" points="1193.93,408.783 1175.46,353.396 " />
+<polyline fill="none" vector-effect="none" points="1207.03,464.169 1217.74,461.19 " />
+<polyline fill="none" vector-effect="none" points="1310.65,283.123 1288.84,285.775 " />
+<polyline fill="none" vector-effect="none" points="1288.84,285.775 1255.69,290.637 " />
+<polyline fill="none" vector-effect="none" points="1255.69,290.637 1231.66,292.464 " />
+<polyline fill="none" vector-effect="none" points="1231.66,292.464 1189.08,295.508 " />
+<polyline fill="none" vector-effect="none" points="1189.08,295.508 1157.6,299.209 " />
+<polyline fill="none" vector-effect="none" points="1189.08,295.508 1195.12,327.792 " />
+<polyline fill="none" vector-effect="none" points="1255.69,290.637 1257.05,305.158 " />
+<polyline fill="none" vector-effect="none" points="1257.05,305.158 1257.05,322.433 " />
+<polyline fill="none" vector-effect="none" points="1257.05,322.433 1252.03,340.824 " />
+<polyline fill="none" vector-effect="none" points="1288.84,285.775 1288.62,300.399 " />
+<polyline fill="none" vector-effect="none" points="1288.62,300.399 1286.24,318.855 " />
+<polyline fill="none" vector-effect="none" points="1286.24,318.855 1283.26,341.489 " />
+<polyline fill="none" vector-effect="none" points="1286.64,235.25 1287.24,259.252 " />
+<polyline fill="none" vector-effect="none" points="1265.1,192.436 1236.22,205.168 " />
+<polyline fill="none" vector-effect="none" points="1236.22,205.168 1197.89,222.2 " />
+<polyline fill="none" vector-effect="none" points="1197.89,222.2 1172.95,236.187 " />
+<polyline fill="none" vector-effect="none" points="1172.95,236.187 1135.23,255.655 " />
+<polyline fill="none" vector-effect="none" points="1135.23,255.655 1071.97,276.949 " />
+<polyline fill="none" vector-effect="none" points="1071.97,276.949 974.631,307.369 " />
+<polyline fill="none" vector-effect="none" points="1071.97,276.949 1081.38,308.737 " />
+<polyline fill="none" vector-effect="none" points="1033.03,315.885 1081.38,308.737 " />
+<polyline fill="none" vector-effect="none" points="1081.38,308.737 1065.88,356.647 " />
+<polyline fill="none" vector-effect="none" points="1065.88,356.647 1050.4,352.206 " />
+<polyline fill="none" vector-effect="none" points="1065.88,356.647 1056.62,408.614 " />
+<polyline fill="none" vector-effect="none" points="1065.88,356.647 1038.37,411.04 " />
+<polyline fill="none" vector-effect="none" points="1081.38,308.737 1131.39,302.188 " />
+<polyline fill="none" vector-effect="none" points="1131.39,302.188 1120.09,321.834 " />
+<polyline fill="none" vector-effect="none" points="1120.09,321.834 1111.15,345.658 " />
+<polyline fill="none" vector-effect="none" points="1111.15,345.658 1100.43,369.482 " />
+<polyline fill="none" vector-effect="none" points="1100.43,369.482 1096.85,392.107 " />
+<polyline fill="none" vector-effect="none" points="1158.82,378.063 1136.02,387.067 " />
+<polyline fill="none" vector-effect="none" points="974.631,307.369 929.615,325.01 " />
+<polyline fill="none" vector-effect="none" points="1056.62,408.614 1056.62,429.3 " />
+<polyline fill="none" vector-effect="none" points="1056.62,429.3 1054.19,440.851 " />
+<polyline fill="none" vector-effect="none" points="1054.19,440.851 1051.15,453.63 " />
+<polyline fill="none" vector-effect="none" points="1038.37,411.04 1029.25,428.691 " />
+<polyline fill="none" vector-effect="none" points="1029.25,428.691 1011,427.473 " />
+<polyline fill="none" vector-effect="none" points="1119.21,543.689 1104.82,537.684 " />
+<polyline fill="none" vector-effect="none" points="1093.43,524.802 1067.27,520.549 " />
+<polyline fill="none" vector-effect="none" points="1067.27,520.549 1077.92,505.034 " />
+<polyline fill="none" vector-effect="none" points="1077.92,505.034 1086.43,506.552 " />
+<polyline fill="none" vector-effect="none" points="1067.27,520.549 1054.89,539.576 " />
+<polyline fill="none" vector-effect="none" points="1054.89,539.576 1079.51,550.771 " />
+<polyline fill="none" vector-effect="none" points="1079.51,550.771 1068.32,567.55 " />
+<polyline fill="none" vector-effect="none" points="1068.32,567.55 1063.85,587.693 " />
+<polyline fill="none" vector-effect="none" points="1063.85,587.693 1077.27,596.649 " />
+<polyline fill="none" vector-effect="none" points="1067.27,520.549 1031.68,512.033 " />
+<polyline fill="none" vector-effect="none" points="1031.68,512.033 945.907,498.036 " />
+<polyline fill="none" vector-effect="none" points="945.907,498.036 940.745,522.788 " />
+<polyline fill="none" vector-effect="none" points="1054.89,539.576 1026.92,535.098 " />
+<polyline fill="none" vector-effect="none" points="902.119,423.669 924.753,437.965 " />
+<polyline fill="none" vector-effect="none" points="924.753,437.965 943.209,449.873 " />
+<polyline fill="none" vector-effect="none" points="878.997,384.893 855.342,376.742 " />
+<polyline fill="none" vector-effect="none" points="855.342,376.742 841.467,389.793 " />
+<polyline fill="none" vector-effect="none" points="841.467,389.793 851.257,405.288 " />
+<polyline fill="none" vector-effect="none" points="947.977,617.213 933.091,626.15 " />
+<polyline fill="none" vector-effect="none" points="933.091,626.15 919.984,642.226 " />
+<polyline fill="none" vector-effect="none" points="766.444,564.955 710.964,523.715 " />
+<polyline fill="none" vector-effect="none" points="947.977,617.213 868.036,549.141 " />
+<polyline fill="none" vector-effect="none" points="868.036,549.141 833.972,524.193 " />
+<polyline fill="none" vector-effect="none" points="805.989,501.081 781.649,490.738 " />
+<polyline fill="none" vector-effect="none" points="781.649,490.738 752.457,490.738 " />
+<polyline fill="none" vector-effect="none" points="752.457,490.738 718.993,514.459 " />
+<polyline fill="none" vector-effect="none" points="718.993,514.459 710.964,523.715 " />
+<polyline fill="none" vector-effect="none" points="833.972,524.193 805.989,501.081 " />
+<polyline fill="none" vector-effect="none" points="868.036,549.141 879.494,530.863 " />
+<polyline fill="none" vector-effect="none" points="868.036,549.141 897.36,548.129 " />
+<polyline fill="none" vector-effect="none" points="897.135,491.815 945.907,498.036 " />
+<polyline fill="none" vector-effect="none" points="897.135,491.815 853.225,483.955 " />
+<polyline fill="none" vector-effect="none" points="853.225,483.955 824.848,466.408 " />
+<polyline fill="none" vector-effect="none" points="824.848,466.408 806.598,453.63 " />
+<polyline fill="none" vector-effect="none" points="806.598,453.63 785.303,437.207 " />
+<polyline fill="none" vector-effect="none" points="785.303,437.207 765.835,434.771 " />
+<polyline fill="none" vector-effect="none" points="765.835,434.771 758.537,425.646 " />
+<polyline fill="none" vector-effect="none" points="758.537,425.646 747.586,415.303 " />
+<polyline fill="none" vector-effect="none" points="747.586,415.303 736.634,404.96 " />
+<polyline fill="none" vector-effect="none" points="736.634,404.96 715.948,389.755 " />
+<polyline fill="none" vector-effect="none" points="715.948,389.755 694.663,383.666 " />
+<polyline fill="none" vector-effect="none" points="694.663,383.666 706.823,413.476 " />
+<polyline fill="none" vector-effect="none" points="674.633,492.752 645.994,471.27 " />
+<polyline fill="none" vector-effect="none" points="645.994,471.27 677.022,451.803 " />
+<polyline fill="none" vector-effect="none" points="645.994,471.27 613.139,460.319 " />
+<polyline fill="none" vector-effect="none" points="1288.84,285.775 1287.24,259.252 " />
+<polyline fill="none" vector-effect="none" points="674.633,492.752 710.964,523.715 " />
+<polyline fill="none" vector-effect="none" points="710.964,523.715 700.237,534.433 " />
+<polyline fill="none" vector-effect="none" points="1162.37,796.469 1131.39,789.321 " />
+<polyline fill="none" vector-effect="none" points="1482.75,433.797 1482.86,415.275 " />
+<polyline fill="none" vector-effect="none" points="1337.44,811.356 1369.61,633.888 " />
+<polyline fill="none" vector-effect="none" points="1361.13,393.446 1337.64,465.921 " />
+<polyline fill="none" vector-effect="none" points="1304.09,393.896 1329.24,406.272 " />
+<polyline fill="none" vector-effect="none" points="1369.61,633.888 1405.34,618.402 " />
+<polyline fill="none" vector-effect="none" points="1311.56,571.476 1292.78,593.389 " />
+<polyline fill="none" vector-effect="none" points="1311.56,571.476 1327.84,569.668 " />
+<polyline fill="none" vector-effect="none" points="1143.41,603.225 1162.82,631.509 " />
+<polyline fill="none" vector-effect="none" points="1333.27,1096.01 1365.1,1158.78 " />
+<polyline fill="none" vector-effect="none" points="1365.1,1158.78 1393.93,1168.04 " />
+<polyline fill="none" vector-effect="none" points="1292.78,440.935 1254.08,420.962 " />
+<polyline fill="none" vector-effect="none" points="1135.64,701.679 1064.16,705.614 " />
+<polyline fill="none" vector-effect="none" points="1419.25,730.749 1392.36,780.355 " />
+<polyline fill="none" vector-effect="none" points="1482.51,528.802 1482.75,489.773 " />
+<polyline fill="none" vector-effect="none" points="1284.45,549.329 1278.49,571.354 " />
+<polyline fill="none" vector-effect="none" points="1143.41,603.225 1119.72,582.943 " />
+<polyline fill="none" vector-effect="none" points="1173.67,424.859 1168.43,402.065 " />
+<polyline fill="none" vector-effect="none" points="1175.46,353.396 1157.6,299.209 " />
+<polyline fill="none" vector-effect="none" points="1158.82,378.063 1131.39,302.188 " />
+<polyline fill="none" vector-effect="none" points="1329.47,997.667 1288.48,982.752 " />
+<polyline fill="none" vector-effect="none" points="1307.04,367.271 1304.09,393.896 " />
+<polyline fill="none" vector-effect="none" points="1304.09,393.896 1299.84,411.069 " />
+<polyline fill="none" vector-effect="none" points="1299.84,411.069 1296.84,421.87 " />
+<polyline fill="none" vector-effect="none" points="1296.84,421.87 1292.78,440.935 " />
+<polyline fill="none" vector-effect="none" points="1321.39,466.043 1287.32,466.043 " />
+<polyline fill="none" vector-effect="none" points="1287.32,466.043 1290.4,495.132 " />
+<polyline fill="none" vector-effect="none" points="1290.4,495.132 1287.43,511.208 " />
+<polyline fill="none" vector-effect="none" points="929.615,325.01 904.236,351.513 " />
+<polyline fill="none" vector-effect="none" points="878.997,384.893 893.144,398.084 " />
+<polyline fill="none" vector-effect="none" points="904.236,351.513 893.144,398.084 " />
+<polyline fill="none" vector-effect="none" points="893.144,398.084 902.119,423.669 " />
+<polyline fill="none" vector-effect="none" points="1328.75,598.625 1327.84,569.668 " />
+<polyline fill="none" vector-effect="none" points="1294.56,607.085 1274.92,616.622 " />
+<polyline fill="none" vector-effect="none" points="1269.23,679.897 1245.95,680.581 " />
+<polyline fill="none" vector-effect="none" points="1269.23,679.897 1265.63,696.704 " />
+<polyline fill="none" vector-effect="none" points="1265.63,696.704 1245.83,710.504 " />
+<polyline fill="none" vector-effect="none" points="1227.87,730.955 1245.83,710.504 " />
+<polyline fill="none" vector-effect="none" points="1292.78,593.389 1294.56,607.085 " />
+<polyline fill="none" vector-effect="none" points="1337.64,544.888 1369.61,633.888 " />
+<polyline fill="none" vector-effect="none" points="1330.81,166.233 1265.1,192.436 " />
+<polyline fill="none" vector-effect="none" points="1473.25,101 1415.05,126.042 " />
+<polyline fill="none" vector-effect="none" points="1275.59,463.448 1252.28,458.801 " />
+<polyline fill="none" vector-effect="none" points="1482.75,458.211 1482.75,433.797 " />
+<polyline fill="none" vector-effect="none" points="1482.75,458.211 1450.46,458.473 " />
+<polyline fill="none" vector-effect="none" points="1450.46,458.473 1450.6,473.697 " />
+<polyline fill="none" vector-effect="none" points="1414.86,457.611 1415.05,444.074 " />
+<polyline fill="none" vector-effect="none" points="1286.64,235.25 1321.06,186.047 " />
+<polyline fill="none" vector-effect="none" points="1473.25,101 1448.81,172.959 " />
+<polyline fill="none" vector-effect="none" points="1335.24,246.052 1343.28,202.32 " />
+<polyline fill="none" vector-effect="none" points="1135.64,701.679 1152.35,699.187 " />
+<polyline fill="none" vector-effect="none" points="1152.35,699.187 1168.19,697.285 " />
+<polyline fill="none" vector-effect="none" points="1168.19,697.285 1185.31,685.884 " />
+<polyline fill="none" vector-effect="none" points="1254.36,944.201 1245.96,927.141 " />
+<polyline fill="none" vector-effect="none" points="1449.19,1169.06 1449.6,1178.83 " />
+<polyline fill="none" vector-effect="none" points="1449.6,1178.83 1472.42,1183.9 " />
+<polyline fill="none" vector-effect="none" points="1379.72,843.508 1388.66,861.973 " />
+<polyline fill="none" vector-effect="none" points="1388.66,861.973 1406.99,860.578 " />
+<polyline fill="none" vector-effect="none" points="1157.01,495.132 1139.73,487.394 " />
+<polyline fill="none" vector-effect="none" points="1184.99,457.611 1157.01,495.132 " />
+<polyline fill="none" vector-effect="none" points="1157.01,495.132 1140.82,515.48 " />
+<polyline fill="none" vector-effect="none" points="1184.63,572.487 1171.86,570.642 " />
+<polyline fill="none" vector-effect="none" points="1171.86,570.642 1161.39,566.829 " />
+<polyline fill="none" vector-effect="none" points="1448.81,172.959 1430.65,246.652 " />
+<polyline fill="none" vector-effect="none" points="1119.72,582.943 1136.75,554.687 " />
+<polyline fill="none" vector-effect="none" points="853.225,483.955 761.535,287.208 " />
+<polyline fill="none" vector-effect="none" points="833.972,524.193 853.225,483.955 " />
+<polyline fill="none" vector-effect="none" points="1404.77,647.492 1369.61,633.888 " />
+<polyline fill="none" vector-effect="none" points="1382.39,956.642 1379.15,996.908 " />
+<polyline fill="none" vector-effect="none" points="1420.22,1107.32 1449.19,1169.06 " />
+<polyline fill="none" vector-effect="none" points="1104.82,537.684 1093.43,524.802 " />
+<polyline fill="none" vector-effect="none" points="1307.04,367.271 1310.65,283.123 " />
+<polyline fill="none" vector-effect="none" points="1337.64,465.921 1341.65,505.643 " />
+</g>
+
+<g fill="#1f1f1f" fill-opacity="1" stroke="none" transform="matrix(0.5,0,0,0.5,-303.655,-30.875)"
+font-family="Helvetica" font-size="34" font-weight="400" font-style="normal" 
+>
+<circle cx="1349.7" cy="968.559" r="2.82843"/>
+<circle cx="1342.86" cy="944.988" r="2.82843"/>
+<circle cx="1307.13" cy="930.916" r="2.82843"/>
+<circle cx="1351.29" cy="918.4" r="2.82843"/>
+<circle cx="1335.5" cy="920.395" r="2.82843"/>
+<circle cx="1335.76" cy="898.351" r="2.82843"/>
+<circle cx="1345.89" cy="893.789" r="2.82843"/>
+<circle cx="1355.53" cy="893.789" r="2.82843"/>
+<circle cx="1334.49" cy="880.354" r="2.82843"/>
+<circle cx="1334.15" cy="866.489" r="2.82843"/>
+<circle cx="1348.43" cy="865.393" r="2.82843"/>
+<circle cx="1362.12" cy="861.589" r="2.82843"/>
+<circle cx="1374.54" cy="857.795" r="2.82843"/>
+<circle cx="1333.99" cy="854.497" r="2.82843"/>
+<circle cx="1321.06" cy="855.256" r="2.82843"/>
+<circle cx="1333.87" cy="842.918" r="2.82843"/>
+<circle cx="1333.99" cy="831.938" r="2.82843"/>
+<circle cx="1337.44" cy="811.356" r="2.82843"/>
+<circle cx="1373.18" cy="814.335" r="2.82843"/>
+<circle cx="1387.98" cy="816.218" r="2.82843"/>
+<circle cx="1401.85" cy="818.513" r="2.82843"/>
+<circle cx="1417.45" cy="817.314" r="2.82843"/>
+<circle cx="1379.72" cy="843.508" r="2.82843"/>
+<circle cx="1406.99" cy="860.578" r="2.82843"/>
+<circle cx="1418.64" cy="863.116" r="2.82843"/>
+<circle cx="1431.57" cy="858.048" r="2.82843"/>
+<circle cx="1407.12" cy="890.557" r="2.82843"/>
+<circle cx="1393.55" cy="906.455" r="2.82843"/>
+<circle cx="1407.49" cy="903.167" r="2.82843"/>
+<circle cx="1419.41" cy="899.11" r="2.82843"/>
+<circle cx="1435.12" cy="896.318" r="2.82843"/>
+<circle cx="1382.39" cy="956.642" r="2.82843"/>
+<circle cx="1396.6" cy="956.642" r="2.82843"/>
+<circle cx="1425.74" cy="939.919" r="2.82843"/>
+<circle cx="1431.82" cy="955.377" r="2.82843"/>
+<circle cx="1393.8" cy="965.514" r="2.82843"/>
+<circle cx="1379.15" cy="996.908" r="2.82843"/>
+<circle cx="1403.74" cy="992.851" r="2.82843"/>
+<circle cx="1413.37" cy="981.187" r="2.82843"/>
+<circle cx="1425.28" cy="987.024" r="2.82843"/>
+<circle cx="1417.17" cy="1002.99" r="2.82843"/>
+<circle cx="1367.49" cy="996.908" r="2.82843"/>
+<circle cx="1340.11" cy="997.161" r="2.82843"/>
+<circle cx="1329.47" cy="997.667" r="2.82843"/>
+<circle cx="1372.59" cy="798.249" r="2.82843"/>
+<circle cx="1392.36" cy="780.355" r="2.82843"/>
+<circle cx="1404.25" cy="780.711" r="2.82843"/>
+<circle cx="1417.45" cy="783.11" r="2.82843"/>
+<circle cx="1427.65" cy="774.715" r="2.82843"/>
+<circle cx="1430.65" cy="800.516" r="2.82843"/>
+<circle cx="1440.85" cy="808.311" r="2.82843"/>
+<circle cx="1425.61" cy="791.063" r="2.82843"/>
+<circle cx="1419.25" cy="730.749" r="2.82843"/>
+<circle cx="1427.39" cy="730.749" r="2.82843"/>
+<circle cx="1438.74" cy="734.965" r="2.82843"/>
+<circle cx="1456.64" cy="754.658" r="2.82843"/>
+<circle cx="1451.27" cy="739.743" r="2.82843"/>
+<circle cx="1318.99" cy="808.967" r="2.82843"/>
+<circle cx="1302.31" cy="812.545" r="2.82843"/>
+<circle cx="1304.76" cy="797.79" r="2.82843"/>
+<circle cx="1316.11" cy="793.331" r="2.82843"/>
+<circle cx="1285.19" cy="816.218" r="2.82843"/>
+<circle cx="1281.23" cy="786.033" r="2.82843"/>
+<circle cx="1264.79" cy="815.525" r="2.82843"/>
+<circle cx="1266.58" cy="843.508" r="2.82843"/>
+<circle cx="1273.03" cy="857.027" r="2.82843"/>
+<circle cx="1280.12" cy="871.23" r="2.82843"/>
+<circle cx="1246.34" cy="816.115" r="2.82843"/>
+<circle cx="1237.03" cy="789.686" r="2.82843"/>
+<circle cx="1245.55" cy="767.783" r="2.82843"/>
+<circle cx="1232.04" cy="820.883" r="2.82843"/>
+<circle cx="1229.03" cy="848.52" r="2.82843"/>
+<circle cx="1238.63" cy="876.719" r="2.82843"/>
+<circle cx="1247.88" cy="901.209" r="2.82843"/>
+<circle cx="1258.24" cy="920.33" r="2.82843"/>
+<circle cx="1284.43" cy="907.214" r="2.82843"/>
+<circle cx="1298.62" cy="899.616" r="2.82843"/>
+<circle cx="1266.18" cy="939.16" r="2.82843"/>
+<circle cx="1285.44" cy="936.622" r="2.82843"/>
+<circle cx="1288.48" cy="982.752" r="2.82843"/>
+<circle cx="1302.31" cy="1026.33" r="2.82843"/>
+<circle cx="1333.27" cy="1096.01" r="2.82843"/>
+<circle cx="1305.88" cy="1094.23" r="2.82843"/>
+<circle cx="1272.26" cy="1066.91" r="2.82843"/>
+<circle cx="1271.94" cy="1094.82" r="2.82843"/>
+<circle cx="1397.98" cy="1056.27" r="2.82843"/>
+<circle cx="1420.22" cy="1107.32" r="2.82843"/>
+<circle cx="1405.93" cy="1078.14" r="2.82843"/>
+<circle cx="1438.54" cy="1087.7" r="2.82843"/>
+<circle cx="1365.1" cy="1158.78" r="2.82843"/>
+<circle cx="1326.5" cy="1158.92" r="2.82843"/>
+<circle cx="1304.71" cy="1155.38" r="2.82843"/>
+<circle cx="1278.85" cy="1141.17" r="2.82843"/>
+<circle cx="1393.93" cy="1168.04" r="2.82843"/>
+<circle cx="1407.11" cy="1180.21" r="2.82843"/>
+<circle cx="1413.2" cy="1201" r="2.82843"/>
+<circle cx="1423.84" cy="1176.66" r="2.82843"/>
+<circle cx="1449.19" cy="1169.06" r="2.82843"/>
+<circle cx="1472.42" cy="1183.9" r="2.82843"/>
+<circle cx="1277.34" cy="1038.27" r="2.82843"/>
+<circle cx="1257.05" cy="1039.28" r="2.82843"/>
+<circle cx="1235.25" cy="1038.27" r="2.82843"/>
+<circle cx="1248.43" cy="1003.79" r="2.82843"/>
+<circle cx="1215.49" cy="1002.78" r="2.82843"/>
+<circle cx="1274.65" cy="985.572" r="2.82843"/>
+<circle cx="1254.36" cy="944.201" r="2.82843"/>
+<circle cx="1241.85" cy="965.767" r="2.82843"/>
+<circle cx="1206.87" cy="973.374" r="2.82843"/>
+<circle cx="1229.17" cy="935.357" r="2.82843"/>
+<circle cx="1214.47" cy="936.369" r="2.82843"/>
+<circle cx="1186.08" cy="940.425" r="2.82843"/>
+<circle cx="1207.18" cy="885.957" r="2.82843"/>
+<circle cx="1182.11" cy="892.524" r="2.82843"/>
+<circle cx="1163.77" cy="899.363" r="2.82843"/>
+<circle cx="1222.74" cy="877.684" r="2.82843"/>
+<circle cx="1202.45" cy="827.394" r="2.82843"/>
+<circle cx="1183.29" cy="836.248" r="2.82843"/>
+<circle cx="1180.25" cy="847.143" r="2.82843"/>
+<circle cx="1177.71" cy="859.819" r="2.82843"/>
+<circle cx="1154.65" cy="839.283" r="2.82843"/>
+<circle cx="1219.53" cy="823.263" r="2.82843"/>
+<circle cx="1194.52" cy="741.673" r="2.82843"/>
+<circle cx="1227.87" cy="730.955" r="2.82843"/>
+<circle cx="1186.78" cy="787.532" r="2.82843"/>
+<circle cx="1162.37" cy="796.469" r="2.82843"/>
+<circle cx="1131.39" cy="789.321" r="2.82843"/>
+<circle cx="1136.86" cy="808.742" r="2.82843"/>
+<circle cx="1174.27" cy="746.441" r="2.82843"/>
+<circle cx="1178.44" cy="763.117" r="2.82843"/>
+<circle cx="1154.03" cy="766.687" r="2.82843"/>
+<circle cx="1128.41" cy="756.569" r="2.82843"/>
+<circle cx="1161.6" cy="723.985" r="2.82843"/>
+<circle cx="1135.64" cy="711.815" r="2.82843"/>
+<circle cx="1135.64" cy="701.679" r="2.82843"/>
+<circle cx="1064.16" cy="705.614" r="2.82843"/>
+<circle cx="1245.83" cy="710.504" r="2.82843"/>
+<circle cx="1265.63" cy="696.704" r="2.82843"/>
+<circle cx="1269.23" cy="679.897" r="2.82843"/>
+<circle cx="1284.84" cy="667.896" r="2.82843"/>
+<circle cx="1295.64" cy="687.701" r="2.82843"/>
+<circle cx="1301.64" cy="701.501" r="2.82843"/>
+<circle cx="1304.04" cy="723.704" r="2.82843"/>
+<circle cx="1298.04" cy="740.511" r="2.82843"/>
+<circle cx="1369.61" cy="633.888" r="2.82843"/>
+<circle cx="1245.95" cy="680.581" r="2.82843"/>
+<circle cx="1223.64" cy="683.832" r="2.82843"/>
+<circle cx="1418.34" cy="682.792" r="2.82843"/>
+<circle cx="1415.62" cy="664.692" r="2.82843"/>
+<circle cx="1404.77" cy="647.492" r="2.82843"/>
+<circle cx="1427.37" cy="706.541" r="2.82843"/>
+<circle cx="1294.56" cy="607.085" r="2.82843"/>
+<circle cx="1302.9" cy="666.641" r="2.82843"/>
+<circle cx="1274.92" cy="616.622" r="2.82843"/>
+<circle cx="1254.07" cy="627.34" r="2.82843"/>
+<circle cx="1311.56" cy="571.476" r="2.82843"/>
+<circle cx="1327.84" cy="569.668" r="2.82843"/>
+<circle cx="1364.64" cy="567.691" r="2.82843"/>
+<circle cx="1339.32" cy="598.738" r="2.82843"/>
+<circle cx="1328.75" cy="598.625" r="2.82843"/>
+<circle cx="1328.75" cy="614.009" r="2.82843"/>
+<circle cx="1318.79" cy="633.017" r="2.82843"/>
+<circle cx="1318.79" cy="647.492" r="2.82843"/>
+<circle cx="1340.52" cy="628.492" r="2.82843"/>
+<circle cx="1343.23" cy="641.158" r="2.82843"/>
+<circle cx="1342.65" cy="654.621" r="2.82843"/>
+<circle cx="1332.69" cy="673.63" r="2.82843"/>
+<circle cx="1376.65" cy="567.691" r="2.82843"/>
+<circle cx="1376.65" cy="580.891" r="2.82843"/>
+<circle cx="1376.65" cy="593.492" r="2.82843"/>
+<circle cx="1389.85" cy="585.688" r="2.82843"/>
+<circle cx="1374.24" cy="544.888" r="2.82843"/>
+<circle cx="1377.47" cy="555.54" r="2.82843"/>
+<circle cx="1397.63" cy="558.913" r="2.82843"/>
+<circle cx="1410" cy="558.913" r="2.82843"/>
+<circle cx="1412.44" cy="571.288" r="2.82843"/>
+<circle cx="1413.05" cy="587.917" r="2.82843"/>
+<circle cx="1427.2" cy="559.222" r="2.82843"/>
+<circle cx="1443.85" cy="558.688" r="2.82843"/>
+<circle cx="1467.86" cy="550.443" r="2.82843"/>
+<circle cx="1469.77" cy="566.36" r="2.82843"/>
+<circle cx="1469.77" cy="581.64" r="2.82843"/>
+<circle cx="1482.51" cy="528.802" r="2.82843"/>
+<circle cx="1374.24" cy="533.486" r="2.82843"/>
+<circle cx="1374.24" cy="520.286" r="2.82843"/>
+<circle cx="1387.01" cy="520.521" r="2.82843"/>
+<circle cx="1401.66" cy="520.521" r="2.82843"/>
+<circle cx="1415.66" cy="528.165" r="2.82843"/>
+<circle cx="1436.04" cy="503.339" r="2.82843"/>
+<circle cx="1455.77" cy="503.339" r="2.82843"/>
+<circle cx="1456.4" cy="490.607" r="2.82843"/>
+<circle cx="1469.14" cy="490.607" r="2.82843"/>
+<circle cx="1482.75" cy="489.773" r="2.82843"/>
+<circle cx="1387.65" cy="479.14" r="2.82843"/>
+<circle cx="1395.25" cy="487.881" r="2.82843"/>
+<circle cx="1374.24" cy="478.278" r="2.82843"/>
+<circle cx="1360.44" cy="478.278" r="2.82843"/>
+<circle cx="1482.75" cy="458.211" r="2.82843"/>
+<circle cx="1482.75" cy="433.797" r="2.82843"/>
+<circle cx="1460.92" cy="450.632" r="2.82843"/>
+<circle cx="1450.46" cy="450.678" r="2.82843"/>
+<circle cx="1450.46" cy="458.473" r="2.82843"/>
+<circle cx="1450.6" cy="473.697" r="2.82843"/>
+<circle cx="1414.87" cy="457.611" r="2.82843"/>
+<circle cx="1374.28" cy="437.769" r="2.82843"/>
+<circle cx="1401.85" cy="413.467" r="2.82843"/>
+<circle cx="1401.85" cy="444.074" r="2.82843"/>
+<circle cx="1415.05" cy="444.074" r="2.82843"/>
+<circle cx="1415.65" cy="413.467" r="2.82843"/>
+<circle cx="1431.85" cy="413.467" r="2.82843"/>
+<circle cx="1482.86" cy="415.275" r="2.82843"/>
+<circle cx="1476.26" cy="400.267" r="2.82843"/>
+<circle cx="1455.25" cy="400.267" r="2.82843"/>
+<circle cx="1476.26" cy="381.071" r="2.82843"/>
+<circle cx="1475.61" cy="360.544" r="2.82843"/>
+<circle cx="1476.26" cy="339.062" r="2.82843"/>
+<circle cx="1387.65" cy="317.449" r="2.82843"/>
+<circle cx="1381.29" cy="334.631" r="2.82843"/>
+<circle cx="1401.85" cy="316.26" r="2.82843"/>
+<circle cx="1412.49" cy="296.23" r="2.82843"/>
+<circle cx="1446.86" cy="296.455" r="2.82843"/>
+<circle cx="1475.61" cy="296.23" r="2.82843"/>
+<circle cx="1476.26" cy="317.459" r="2.82843"/>
+<circle cx="1399.98" cy="250.971" r="2.82843"/>
+<circle cx="1337.64" cy="465.921" r="2.82843"/>
+<circle cx="1361.13" cy="393.446" r="2.82843"/>
+<circle cx="1376.65" cy="413.467" r="2.82843"/>
+<circle cx="1366.45" cy="413.467" r="2.82843"/>
+<circle cx="1362.35" cy="298.141" r="2.82843"/>
+<circle cx="1377.35" cy="267.319" r="2.82843"/>
+<circle cx="1413.08" cy="251.561" r="2.82843"/>
+<circle cx="1430.65" cy="246.652" r="2.82843"/>
+<circle cx="1299.32" cy="553.666" r="2.82843"/>
+<circle cx="1309.54" cy="544.907" r="2.82843"/>
+<circle cx="1320.25" cy="546.368" r="2.82843"/>
+<circle cx="1327.99" cy="542.021" r="2.82843"/>
+<circle cx="1362.84" cy="520.286" r="2.82843"/>
+<circle cx="1290.4" cy="495.132" r="2.82843"/>
+<circle cx="1314.73" cy="494.195" r="2.82843"/>
+<circle cx="1322.98" cy="488.171" r="2.82843"/>
+<circle cx="1321.39" cy="466.043" r="2.82843"/>
+<circle cx="1287.32" cy="466.043" r="2.82843"/>
+<circle cx="1275.59" cy="463.448" r="2.82843"/>
+<circle cx="1252.28" cy="458.801" r="2.82843"/>
+<circle cx="1258.52" cy="444.139" r="2.82843"/>
+<circle cx="1136.04" cy="659.905" r="2.82843"/>
+<circle cx="1146.19" cy="652.597" r="2.82843"/>
+<circle cx="1146.59" cy="631.106" r="2.82843"/>
+<circle cx="1162.82" cy="631.509" r="2.82843"/>
+<circle cx="1178.23" cy="625.026" r="2.82843"/>
+<circle cx="1177.81" cy="650.977" r="2.82843"/>
+<circle cx="1193.64" cy="620.154" r="2.82843"/>
+<circle cx="1209.85" cy="614.074" r="2.82843"/>
+<circle cx="1227.06" cy="618.187" r="2.82843"/>
+<circle cx="1220.38" cy="598.176" r="2.82843"/>
+<circle cx="1224.86" cy="584.47" r="2.82843"/>
+<circle cx="1219.19" cy="568.646" r="2.82843"/>
+<circle cx="1198.9" cy="556.889" r="2.82843"/>
+<circle cx="1238.24" cy="587.711" r="2.82843"/>
+<circle cx="1253.66" cy="590.953" r="2.82843"/>
+<circle cx="1271.34" cy="591.609" r="2.82843"/>
+<circle cx="1278.49" cy="571.354" r="2.82843"/>
+<circle cx="1250.41" cy="580.01" r="2.82843"/>
+<circle cx="1284.45" cy="549.329" r="2.82843"/>
+<circle cx="1267.44" cy="548.776" r="2.82843"/>
+<circle cx="1256.9" cy="549.179" r="2.82843"/>
+<circle cx="1295.16" cy="530.264" r="2.82843"/>
+<circle cx="1287.43" cy="511.208" r="2.82843"/>
+<circle cx="1270.28" cy="494.429" r="2.82843"/>
+<circle cx="1250.01" cy="494.026" r="2.82843"/>
+<circle cx="1232.56" cy="500.107" r="2.82843"/>
+<circle cx="1232.16" cy="511.471" r="2.82843"/>
+<circle cx="1235.61" cy="436.176" r="2.82843"/>
+<circle cx="1246.34" cy="472.507" r="2.82843"/>
+<circle cx="1296.84" cy="421.87" r="2.82843"/>
+<circle cx="1299.84" cy="411.069" r="2.82843"/>
+<circle cx="1304.09" cy="393.896" r="2.82843"/>
+<circle cx="1329.24" cy="406.272" r="2.82843"/>
+<circle cx="1292.78" cy="440.935" r="2.82843"/>
+<circle cx="1267.51" cy="398.58" r="2.82843"/>
+<circle cx="1254.08" cy="420.962" r="2.82843"/>
+<circle cx="1236.17" cy="407.527" r="2.82843"/>
+<circle cx="1332.09" cy="283.723" r="2.82843"/>
+<circle cx="1333.87" cy="322.433" r="2.82843"/>
+<circle cx="1333.27" cy="354.586" r="2.82843"/>
+<circle cx="1332.09" cy="381.979" r="2.82843"/>
+<circle cx="1339.23" cy="274.795" r="2.82843"/>
+<circle cx="1349.95" cy="263.478" r="2.82843"/>
+<circle cx="1310.65" cy="283.123" r="2.82843"/>
+<circle cx="1335.24" cy="246.052" r="2.82843"/>
+<circle cx="1383.13" cy="230.716" r="2.82843"/>
+<circle cx="1386.78" cy="203.341" r="2.82843"/>
+<circle cx="1389.21" cy="186.309" r="2.82843"/>
+<circle cx="1393.48" cy="161.97" r="2.82843"/>
+<circle cx="1396.51" cy="143.111" r="2.82843"/>
+<circle cx="1415.05" cy="126.042" r="2.82843"/>
+<circle cx="1358.2" cy="155.281" r="2.82843"/>
+<circle cx="1353.47" cy="176.435" r="2.82843"/>
+<circle cx="1343.28" cy="202.32" r="2.82843"/>
+<circle cx="1330.81" cy="166.233" r="2.82843"/>
+<circle cx="1037.76" cy="687.233" r="2.82843"/>
+<circle cx="1143.41" cy="603.225" r="2.82843"/>
+<circle cx="1152.22" cy="594.091" r="2.82843"/>
+<circle cx="1056.01" cy="665.329" r="2.82843"/>
+<circle cx="987.878" cy="652.344" r="2.82843"/>
+<circle cx="947.977" cy="617.213" r="2.82843"/>
+<circle cx="1198.42" cy="579.092" r="2.82843"/>
+<circle cx="1184.63" cy="572.487" r="2.82843"/>
+<circle cx="1161.39" cy="566.829" r="2.82843"/>
+<circle cx="1175.62" cy="548.485" r="2.82843"/>
+<circle cx="1166.62" cy="543.689" r="2.82843"/>
+<circle cx="1158.82" cy="587.486" r="2.82843"/>
+<circle cx="933.091" cy="626.15" r="2.82843"/>
+<circle cx="1119.72" cy="582.943" r="2.82843"/>
+<circle cx="1095.99" cy="583.552" r="2.82843"/>
+<circle cx="1140.82" cy="515.48" r="2.82843"/>
+<circle cx="1119.81" cy="507.686" r="2.82843"/>
+<circle cx="1136.75" cy="554.687" r="2.82843"/>
+<circle cx="1119.21" cy="543.689" r="2.82843"/>
+<circle cx="1126.42" cy="535.885" r="2.82843"/>
+<circle cx="1133.62" cy="528.081" r="2.82843"/>
+<circle cx="1173.67" cy="424.859" r="2.82843"/>
+<circle cx="1184.99" cy="457.611" r="2.82843"/>
+<circle cx="1150.45" cy="459.401" r="2.82843"/>
+<circle cx="1106.01" cy="458.473" r="2.82843"/>
+<circle cx="1092.21" cy="456.075" r="2.82843"/>
+<circle cx="1080.21" cy="453.676" r="2.82843"/>
+<circle cx="1124.18" cy="459.785" r="2.82843"/>
+<circle cx="1139.73" cy="487.394" r="2.82843"/>
+<circle cx="1121.62" cy="481.276" r="2.82843"/>
+<circle cx="1097.01" cy="476.479" r="2.82843"/>
+<circle cx="1152.84" cy="435.576" r="2.82843"/>
+<circle cx="1153.42" cy="424.868" r="2.82843"/>
+<circle cx="1138.42" cy="424.269" r="2.82843"/>
+<circle cx="1121.62" cy="423.669" r="2.82843"/>
+<circle cx="1168.43" cy="402.065" r="2.82843"/>
+<circle cx="1158.82" cy="378.063" r="2.82843"/>
+<circle cx="1175.46" cy="353.396" r="2.82843"/>
+<circle cx="1207.03" cy="464.169" r="2.82843"/>
+<circle cx="1217.74" cy="461.19" r="2.82843"/>
+<circle cx="1193.93" cy="408.783" r="2.82843"/>
+<circle cx="1157.6" cy="299.209" r="2.82843"/>
+<circle cx="1189.08" cy="295.508" r="2.82843"/>
+<circle cx="1231.66" cy="292.464" r="2.82843"/>
+<circle cx="1255.69" cy="290.637" r="2.82843"/>
+<circle cx="1288.84" cy="285.775" r="2.82843"/>
+<circle cx="1288.62" cy="300.399" r="2.82843"/>
+<circle cx="1283.26" cy="341.489" r="2.82843"/>
+<circle cx="1286.24" cy="318.855" r="2.82843"/>
+<circle cx="1257.05" cy="305.158" r="2.82843"/>
+<circle cx="1257.05" cy="322.433" r="2.82843"/>
+<circle cx="1252.03" cy="340.824" r="2.82843"/>
+<circle cx="1195.12" cy="327.792" r="2.82843"/>
+<circle cx="1287.24" cy="259.252" r="2.82843"/>
+<circle cx="1286.64" cy="235.25" r="2.82843"/>
+<circle cx="1265.1" cy="192.436" r="2.82843"/>
+<circle cx="1236.22" cy="205.168" r="2.82843"/>
+<circle cx="1197.89" cy="222.2" r="2.82843"/>
+<circle cx="1172.95" cy="236.187" r="2.82843"/>
+<circle cx="1135.23" cy="255.655" r="2.82843"/>
+<circle cx="1071.97" cy="276.949" r="2.82843"/>
+<circle cx="1033.03" cy="315.885" r="2.82843"/>
+<circle cx="1131.39" cy="302.188" r="2.82843"/>
+<circle cx="1120.09" cy="321.834" r="2.82843"/>
+<circle cx="1111.15" cy="345.658" r="2.82843"/>
+<circle cx="1100.43" cy="369.482" r="2.82843"/>
+<circle cx="1096.85" cy="392.107" r="2.82843"/>
+<circle cx="1081.38" cy="308.737" r="2.82843"/>
+<circle cx="1065.88" cy="356.647" r="2.82843"/>
+<circle cx="1050.4" cy="352.206" r="2.82843"/>
+<circle cx="1038.37" cy="411.04" r="2.82843"/>
+<circle cx="1056.62" cy="408.614" r="2.82843"/>
+<circle cx="1136.02" cy="387.067" r="2.82843"/>
+<circle cx="974.631" cy="307.369" r="2.82843"/>
+<circle cx="929.615" cy="325.01" r="2.82843"/>
+<circle cx="904.236" cy="351.513" r="2.82843"/>
+<circle cx="1056.62" cy="429.3" r="2.82843"/>
+<circle cx="1054.19" cy="440.851" r="2.82843"/>
+<circle cx="1051.15" cy="453.63" r="2.82843"/>
+<circle cx="1029.25" cy="428.691" r="2.82843"/>
+<circle cx="1011" cy="427.473" r="2.82843"/>
+<circle cx="1104.82" cy="537.684" r="2.82843"/>
+<circle cx="1093.43" cy="524.802" r="2.82843"/>
+<circle cx="1067.27" cy="520.549" r="2.82843"/>
+<circle cx="1077.92" cy="505.034" r="2.82843"/>
+<circle cx="1086.43" cy="506.552" r="2.82843"/>
+<circle cx="1054.89" cy="539.576" r="2.82843"/>
+<circle cx="1079.51" cy="550.771" r="2.82843"/>
+<circle cx="1068.32" cy="567.55" r="2.82843"/>
+<circle cx="1063.85" cy="587.693" r="2.82843"/>
+<circle cx="1077.27" cy="596.649" r="2.82843"/>
+<circle cx="1031.68" cy="512.033" r="2.82843"/>
+<circle cx="1026.92" cy="535.098" r="2.82843"/>
+<circle cx="940.745" cy="522.788" r="2.82843"/>
+<circle cx="945.907" cy="498.036" r="2.82843"/>
+<circle cx="902.119" cy="423.669" r="2.82843"/>
+<circle cx="924.753" cy="437.965" r="2.82843"/>
+<circle cx="943.209" cy="449.873" r="2.82843"/>
+<circle cx="878.997" cy="384.893" r="2.82843"/>
+<circle cx="855.342" cy="376.742" r="2.82843"/>
+<circle cx="841.467" cy="389.793" r="2.82843"/>
+<circle cx="851.257" cy="405.288" r="2.82843"/>
+<circle cx="919.984" cy="642.226" r="2.82843"/>
+<circle cx="766.444" cy="564.955" r="2.82843"/>
+<circle cx="710.964" cy="523.715" r="2.82843"/>
+<circle cx="645.994" cy="471.27" r="2.82843"/>
+<circle cx="613.139" cy="460.319" r="2.82843"/>
+<circle cx="677.022" cy="451.803" r="2.82843"/>
+<circle cx="853.225" cy="483.955" r="2.82843"/>
+<circle cx="897.36" cy="548.129" r="2.82843"/>
+<circle cx="879.494" cy="530.863" r="2.82843"/>
+<circle cx="868.036" cy="549.141" r="2.82843"/>
+<circle cx="833.972" cy="524.193" r="2.82843"/>
+<circle cx="805.989" cy="501.081" r="2.82843"/>
+<circle cx="781.649" cy="490.738" r="2.82843"/>
+<circle cx="752.457" cy="490.738" r="2.82843"/>
+<circle cx="718.993" cy="514.459" r="2.82843"/>
+<circle cx="897.135" cy="491.815" r="2.82843"/>
+<circle cx="824.848" cy="466.408" r="2.82843"/>
+<circle cx="806.598" cy="453.63" r="2.82843"/>
+<circle cx="785.303" cy="437.207" r="2.82843"/>
+<circle cx="765.835" cy="434.771" r="2.82843"/>
+<circle cx="758.537" cy="425.646" r="2.82843"/>
+<circle cx="747.586" cy="415.303" r="2.82843"/>
+<circle cx="736.634" cy="404.96" r="2.82843"/>
+<circle cx="715.948" cy="389.755" r="2.82843"/>
+<circle cx="694.663" cy="383.666" r="2.82843"/>
+<circle cx="706.823" cy="413.476" r="2.82843"/>
+<circle cx="674.633" cy="492.752" r="2.82843"/>
+<circle cx="700.237" cy="534.433" r="2.82843"/>
+<circle cx="1405.34" cy="618.402" r="2.82843"/>
+<circle cx="1292.78" cy="593.389" r="2.82843"/>
+<circle cx="1307.04" cy="367.271" r="2.82843"/>
+<circle cx="893.144" cy="398.084" r="2.82843"/>
+<circle cx="1152.35" cy="699.187" r="2.82843"/>
+<circle cx="1168.19" cy="697.285" r="2.82843"/>
+<circle cx="1185.31" cy="685.884" r="2.82843"/>
+<circle cx="1245.96" cy="927.141" r="2.82843"/>
+<circle cx="1449.6" cy="1178.83" r="2.82843"/>
+<circle cx="1388.66" cy="861.973" r="2.82843"/>
+<circle cx="1337.64" cy="544.888" r="2.82843"/>
+<circle cx="1157.01" cy="495.132" r="2.82843"/>
+<circle cx="1171.86" cy="570.642" r="2.82843"/>
+<circle cx="1448.81" cy="172.959" r="2.82843"/>
+<circle cx="1341.65" cy="505.643" r="2.82843"/>
+<circle cx="1473.25" cy="101" r="2.82843"/>
+<circle cx="1321.06" cy="186.047" r="2.82843"/>
+<circle cx="761.535" cy="287.208" r="2.82843"/>
+</g>
+
+<g fill="#1a52cc" fill-opacity="1" stroke="none" transform="matrix(5e-05,0,0,5e-05,-303.655,-30.875)"
+font-family="Helvetica" font-size="34" font-weight="400" font-style="normal" 
+>
+<path vector-effect="none" fill-rule="evenodd" d="M1.33459e+07,4.9858e+06 L1.33459e+07,5.12707e+06 L1.34871e+07,5.12707e+06 L1.34871e+07,4.9858e+06 L1.33459e+07,4.9858e+06"/>
+</g>
+
+<g fill="none" stroke="#000000" stroke-opacity="1" stroke-width="2" stroke-linecap="butt" stroke-linejoin="miter" stroke-miterlimit="5" transform="matrix(0.5,0,0,0.5,-303.655,-30.875)"
+font-family="Helvetica" font-size="34" font-weight="400" font-style="normal" 
+>
+<path vector-effect="none" fill-rule="evenodd" d="M1334.59,498.58 L1334.59,512.707 L1348.71,512.707 L1348.71,498.58 L1334.59,498.58"/>
+</g>
+
+<g fill="#1a52cc" fill-opacity="1" stroke="none" transform="matrix(5e-05,0,0,5e-05,-303.655,-30.875)"
+font-family="Helvetica" font-size="34" font-weight="400" font-style="normal" 
+>
+<path vector-effect="none" fill-rule="evenodd" d="M1.46619e+07,939367 L1.46619e+07,1.08063e+06 L1.48031e+07,1.08063e+06 L1.48031e+07,939367 L1.46619e+07,939367"/>
+</g>
+
+<g fill="none" stroke="#000000" stroke-opacity="1" stroke-width="2" stroke-linecap="butt" stroke-linejoin="miter" stroke-miterlimit="5" transform="matrix(0.5,0,0,0.5,-303.655,-30.875)"
+font-family="Helvetica" font-size="34" font-weight="400" font-style="normal" 
+>
+<path vector-effect="none" fill-rule="evenodd" d="M1466.19,93.9368 L1466.19,108.063 L1480.31,108.063 L1480.31,93.9368 L1466.19,93.9368"/>
+</g>
+
+<g fill="#1a52cc" fill-opacity="1" stroke="none" transform="matrix(5e-05,0,0,5e-05,-303.655,-30.875)"
+font-family="Helvetica" font-size="34" font-weight="400" font-style="normal" 
+>
+<path vector-effect="none" fill-rule="evenodd" d="M1.314e+07,1.78984e+06 L1.314e+07,1.9311e+06 L1.32812e+07,1.9311e+06 L1.32812e+07,1.78984e+06 L1.314e+07,1.78984e+06"/>
+</g>
+
+<g fill="none" stroke="#000000" stroke-opacity="1" stroke-width="2" stroke-linecap="butt" stroke-linejoin="miter" stroke-miterlimit="5" transform="matrix(0.5,0,0,0.5,-303.655,-30.875)"
+font-family="Helvetica" font-size="34" font-weight="400" font-style="normal" 
+>
+<path vector-effect="none" fill-rule="evenodd" d="M1314,178.984 L1314,193.11 L1328.12,193.11 L1328.12,178.984 L1314,178.984"/>
+</g>
+
+<g fill="#1a52cc" fill-opacity="1" stroke="none" transform="matrix(5e-05,0,0,5e-05,-303.655,-30.875)"
+font-family="Helvetica" font-size="34" font-weight="400" font-style="normal" 
+>
+<path vector-effect="none" fill-rule="evenodd" d="M7.54472e+06,2.80145e+06 L7.54472e+06,2.94271e+06 L7.68599e+06,2.94271e+06 L7.68599e+06,2.80145e+06 L7.54472e+06,2.80145e+06"/>
+</g>
+
+<g fill="none" stroke="#000000" stroke-opacity="1" stroke-width="2" stroke-linecap="butt" stroke-linejoin="miter" stroke-miterlimit="5" transform="matrix(0.5,0,0,0.5,-303.655,-30.875)"
+font-family="Helvetica" font-size="34" font-weight="400" font-style="normal" 
+>
+<path vector-effect="none" fill-rule="evenodd" d="M754.472,280.145 L754.472,294.271 L768.599,294.271 L768.599,280.145 L754.472,280.145"/>
+</g>
+</g>
+</svg>

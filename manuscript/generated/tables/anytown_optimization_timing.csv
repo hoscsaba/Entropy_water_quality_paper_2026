@@ -1,0 +1,6 @@
+objective,cpu_time_seconds,normalized_cpu_time,elapsed_time_seconds,function_evaluations,generations
+cost,17.59,1,16.3660632916667,9606,100
+hydraulic_entropy,23.01,1.30812961910176,21.87183475,9606,100
+chlorine_concentration,195.83,11.1330301307561,193.909960541667,9606,100
+chlorine_entropy,213.45,12.134735645253,213.645798916667,9606,100
+todini,30.97,1.76065946560546,30.96099575,8181,85
