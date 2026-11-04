@@ -56,6 +56,17 @@ for name = string(cfg.objectives)
     candidate_x(end + 1, :) = proposed; %#ok<AGROW>
     candidate_names(end + 1, 1) = "saved " + name; %#ok<AGROW>
 end
+% Optional numeric warm starts are supplied in memory by the calling script.
+% They are loaded before GA begins; no candidate evaluation reads a file.
+if isfield(cfg.ga, 'additional_seed_designs') && ...
+        ~isempty(cfg.ga.additional_seed_designs)
+    extra = double(cfg.ga.additional_seed_designs);
+    assert(size(extra, 2) == nvars, 'Additional STACI seed width mismatch');
+    for seed_index = 1:size(extra, 1)
+        candidate_x(end + 1, :) = min(max(extra(seed_index, :), lb), ub); %#ok<AGROW>
+        candidate_names(end + 1, 1) = "additional in-memory seed"; %#ok<AGROW>
+    end
+end
 if strcmp(cfg.id, 'anytown') && ...
         isfield(cfg.ga, 'feasible_interpolation_to_upper')
     proposed = x0 + cfg.ga.feasible_interpolation_to_upper * (ub - x0);

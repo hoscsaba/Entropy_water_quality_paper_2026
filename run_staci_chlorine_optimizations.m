@@ -17,6 +17,17 @@ for network = string(networks)
     addpath(network_dir);
     cfg = network_config(network_dir);
     cfg.ga.display = 'final';
+    if network == "anytown"
+        % Preserved 100-generation STACI designs seeded the published
+        % 200-generation continuation. Load once before any MEX solve;
+        % candidate evaluation remains entirely in memory.
+        seed_file = fullfile(network_dir, 'seeds', ...
+            'staci_chlorine_100_generation_seeds.mat');
+        seeds = load(seed_file, 'design_link_ids', 'seed_designs');
+        assert(isequal(string(seeds.design_link_ids(:)), ...
+            string(cfg.design_link_ids(:))), 'Anytown seed link order mismatch');
+        cfg.ga.additional_seed_designs = seeds.seed_designs;
+    end
     input_file = fullfile(network_dir, 'input', ...
         'network_staci_fixed_load.inp');
     result_dir = fullfile(network_dir, 'results_staci_constrained');

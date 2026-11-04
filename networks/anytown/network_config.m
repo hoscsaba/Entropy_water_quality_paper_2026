@@ -69,10 +69,10 @@ cfg.objectives = {'cost','hydraulic_entropy','chlorine_concentration', ...
     'chlorine_entropy','todini'};
 cfg.ga.random_seed = 1993;
 cfg.ga.population_size = 100;
-% The 38-variable Anytown case uses a network-specific stopping budget. Each
-% chlorine fitness evaluation contains a complete 48 h EPANET quality run.
-cfg.ga.max_generations = 100;
-cfg.ga.max_stall_generations = 30;
+% The five full-network designs in the paper use the audited 200-generation
+% Anytown rerun. The earlier ranking trajectories retain their own budget.
+cfg.ga.max_generations = 200;
+cfg.ga.max_stall_generations = 100;
 cfg.ga.function_tolerance = 1e-6;
 % EPANET hydraulic heads are returned at single-precision resolution by the
 % toolkit; 5e-5 is still negligible relative to the 0.5-ft anchor band.
@@ -129,8 +129,8 @@ cfg.ranking.maximum_rank = 38;
 cfg.ranking.k_values = [0:10, 15, 20, 25, 30, 35, 38];
 cfg.ranking.random_seed = 202609;
 cfg.ranking.population_size = cfg.ga.population_size;
-cfg.ranking.max_generations = cfg.ga.max_generations;
-cfg.ranking.max_stall_generations = cfg.ga.max_stall_generations;
+cfg.ranking.max_generations = 100;
+cfg.ranking.max_stall_generations = 30;
 cfg.ranking.function_tolerance = cfg.ga.function_tolerance;
 cfg.ranking.display = 'off';
 % New objective-specific cache entries are stored independently. This makes

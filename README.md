@@ -187,12 +187,22 @@ searches without overwriting their validated production results. It writes
 process CPU time, elapsed wall-clock time, function evaluations, generations,
 and CPU time normalized to the shortest run to `optimization_timing.csv`.
 
-Anytown uses a population of 100, at most 100 generations, and 30 stall
-generations. A feasible 215-ft pressure-anchor design and all compatible saved
+The five full-network Anytown designs now use a population of 100, at most
+200 generations, and 100 stall generations. The saved Figure 9 and chlorine
+ranking trajectories retain their original 100-generation, 30-stall budgets
+in `cfg.ranking`; their endpoints are a separate continuation experiment.
+A feasible 215-ft pressure-anchor design and all compatible saved
 single-objective optima warm-start the population. The hybrid pattern search is
 intentionally disabled for this 38-variable case
 because every chlorine-objective mesh evaluation entails another complete 48 h
 EPANET quality simulation.
+
+For an isolated reproduction of the published five 200-generation runs,
+including their preserved 100-generation warm starts, run
+`rerun_anytown_200_generation('/path/to/empty/output')`. The routine writes
+all five result MAT files and both cross-evaluation CSVs to that output
+directory. The compact starting vectors are in
+`networks/anytown/seeds/epanet_100_generation_seeds.mat`.
 
 `run_anytown_stress_test` closes each of the 38 physical design pipes in turn
 for every saved optimum. It evaluates pressure and final 48 h chlorine at the
@@ -309,6 +319,17 @@ target-head bands remain nonlinear constraints. Feasible archived designs are
 warm starts; the Balerma concentration result is the retained saved cost
 incumbent after a fresh GA did not improve it.
 
+The Anytown steady STACI chlorine searches also use the 200-generation cap.
+Their previous 100-generation diameter vectors are preserved in
+`networks/anytown/seeds/staci_chlorine_100_generation_seeds.mat` and loaded
+once before the search. The MATLAB fitness and constraint callbacks keep one
+`StaciModel` resident: they change diameters with `setLinkProperty`, solve
+hydraulics and stationary chlorine in MEX memory, and read node/link arrays
+directly. Candidate evaluation does not read or write files. The INP and
+starting vectors are read during setup, and the final MAT file is saved after
+the search. The STACI MEX quiet mode also avoids deleting old sidecars and
+writing failure logs; a 40-trial file-set and content check passed.
+
 The independent comparison script requires Python 3, NumPy, the STACI CLI,
 and an EPANET 2.2 shared library. For example:
 
@@ -319,7 +340,7 @@ python3 supplementary/compare_steady_chlorine.py \
   --max-days 14
 ```
 
-Use `--design-source results_staci_constrained --designs chlorine_concentration,chlorine_entropy`
+Use `--design-source results_staci_constrained --designs chlorine_concentration chlorine_entropy`
 and a separate output directory for the new GA designs. The script compares
 every node after a 14-day EPANET EPS, identifies a stable tail within
 `1e-4 mg/L`, and writes both the time histories and the all-node differences.
@@ -333,6 +354,24 @@ plot_new_chlorine_designs('supplementary/results')
 benchmark_staci_epanet_matlab('supplementary/results', ...
     '/path/to/staci', '/path/to/staci/build/matlab')
 ```
+
+For the 21 final single-objective designs, run:
+
+```matlab
+validate_optimized_networks('/path/to/Entropy_water_quality_paper_2026', ...
+    '/path/to/staci', '/path/to/staci/build/Matlab', ...
+    '/path/to/output/validation_21')
+audit_optimization_stopping('/path/to/output/optimization_stopping_21.csv')
+```
+
+The validation script writes a 15-design replay of the archived 48 h EPANET
+results and a 21-design fixed-load comparison of STACI with independent
+EPANET extended-period simulations. It reports maximum and arithmetic mean
+absolute node-head, link-flow, and node-chlorine differences. For Anytown it
+also records pressure-anchor heads and virtual-connector flows. The checked
+CSV outputs are in `supplementary/results/validation_21/`; input files are
+copied into the chosen output directory so a validation run does not change
+the curated network INPs.
 
 The CPU benchmark times in-memory hydraulic-plus-quality evaluations, after
 one input load per design. It excludes startup and parsing and uses each

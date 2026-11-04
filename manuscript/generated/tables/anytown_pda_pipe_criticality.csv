@@ -1,23 +1,23 @@
 Network,Design,FailedLinkID,WaterCriticalityRank,JointCriticalityRank,WaterDeficitPercent,JointDeficitPercent,ChlorineOnlyLossPercent
-anytown,Cost,2,1,1,9.4729839052473,9.4729839052473,0
-anytown,Cost,4,2,2,6.45484140941071,6.45484140941071,0
-anytown,Cost,6,3,3,1.351330280304,1.351330280304,0
-anytown,Cost,8,5,5,0,0,0
-anytown,Cost,10,6,6,0,0,0
-anytown,Cost,12,7,7,0,0,0
-anytown,Cost,14,8,8,0,0,0
-anytown,Cost,16,9,9,0,0,0
-anytown,Cost,18,10,10,0,0,0
-anytown,Cost,20,11,11,0,0,0
-anytown,Cost,22,12,12,0,0,0
-anytown,Cost,24,13,13,0,0,0
-anytown,Cost,26,14,14,0,0,0
-anytown,Cost,28,15,15,0,0,0
-anytown,Cost,30,16,16,0,0,0
-anytown,Cost,32,17,17,0,0,0
-anytown,Cost,34,18,18,0,0,0
-anytown,Cost,36,19,19,0,0,0
-anytown,Cost,38,20,20,0,0,0
+anytown,Cost,2,1,1,9.5751595497131,9.5751595497131,0
+anytown,Cost,4,2,2,6.5248773779188,6.5248773779188,0
+anytown,Cost,6,4,4,1.4564745766776,1.4564745766776,0
+anytown,Cost,8,6,6,0,0,0
+anytown,Cost,10,7,7,0,0,0
+anytown,Cost,12,8,8,0,0,0
+anytown,Cost,14,9,9,0,0,0
+anytown,Cost,16,10,10,0,0,0
+anytown,Cost,18,11,11,0,0,0
+anytown,Cost,20,12,12,0,0,0
+anytown,Cost,22,13,13,0,0,0
+anytown,Cost,24,14,14,0,0,0
+anytown,Cost,26,15,15,0,0,0
+anytown,Cost,28,16,16,0,0,0
+anytown,Cost,30,17,17,0,0,0
+anytown,Cost,32,18,18,0,0,0
+anytown,Cost,34,19,19,0,0,0
+anytown,Cost,36,20,20,0,0,0
+anytown,Cost,38,5,5,0.978992666516998,0.978992666516998,0
 anytown,Cost,40,21,21,0,0,0
 anytown,Cost,42,22,22,0,0,0
 anytown,Cost,44,23,23,0,0,0
@@ -28,7 +28,7 @@ anytown,Cost,52,27,27,0,0,0
 anytown,Cost,54,28,28,0,0,0
 anytown,Cost,56,29,29,0,0,0
 anytown,Cost,58,30,30,0,0,0
-anytown,Cost,60,4,4,0.061635971069296,0.061635971069296,0
+anytown,Cost,60,3,3,3.0486511439085,3.0486511439085,0
 anytown,Cost,62,31,31,0,0,0
 anytown,Cost,64,32,32,0,0,0
 anytown,Cost,66,33,33,0,0,0
@@ -37,9 +37,9 @@ anytown,Cost,70,35,35,0,0,0
 anytown,Cost,72,36,36,0,0,0
 anytown,Cost,74,37,37,0,0,0
 anytown,Cost,76,38,38,0,0,0
-anytown,Hydraulic entropy,2,1,1,15.5180990695953,15.5180990695953,0
-anytown,Hydraulic entropy,4,2,2,4.5860821860177,4.5860821860177,0
-anytown,Hydraulic entropy,6,3,3,0.301740850721099,0.301740850721099,0
+anytown,Hydraulic entropy,2,1,1,16.7863087994712,16.7863087994712,0
+anytown,Hydraulic entropy,4,2,2,4.899822303227,4.899822303227,0
+anytown,Hydraulic entropy,6,3,3,0,0,0
 anytown,Hydraulic entropy,8,4,4,0,0,0
 anytown,Hydraulic entropy,10,5,5,0,0,0
 anytown,Hydraulic entropy,12,6,6,0,0,0
@@ -75,36 +75,36 @@ anytown,Hydraulic entropy,70,35,35,0,0,0
 anytown,Hydraulic entropy,72,36,36,0,0,0
 anytown,Hydraulic entropy,74,37,37,0,0,0
 anytown,Hydraulic entropy,76,38,38,0,0,0
-anytown,Chlorine concentration,2,1,1,7.7807285104479,7.7807285104479,0
-anytown,Chlorine concentration,4,2,2,7.4094905172076,7.4094905172076,0
-anytown,Chlorine concentration,6,3,3,1.74247946058,1.74247946058,0
-anytown,Chlorine concentration,8,4,4,0,0,0
-anytown,Chlorine concentration,10,5,5,0,0,0
-anytown,Chlorine concentration,12,6,6,0,0,0
-anytown,Chlorine concentration,14,7,7,0,0,0
-anytown,Chlorine concentration,16,8,8,0,0,0
-anytown,Chlorine concentration,18,9,9,0,0,0
-anytown,Chlorine concentration,20,10,10,0,0,0
-anytown,Chlorine concentration,22,11,11,0,0,0
-anytown,Chlorine concentration,24,12,12,0,0,0
-anytown,Chlorine concentration,26,13,13,0,0,0
-anytown,Chlorine concentration,28,14,14,0,0,0
-anytown,Chlorine concentration,30,15,15,0,0,0
-anytown,Chlorine concentration,32,16,16,0,0,0
-anytown,Chlorine concentration,34,17,17,0,0,0
-anytown,Chlorine concentration,36,18,18,0,0,0
-anytown,Chlorine concentration,38,19,19,0,0,0
-anytown,Chlorine concentration,40,20,20,0,0,0
-anytown,Chlorine concentration,42,21,21,0,0,0
-anytown,Chlorine concentration,44,22,22,0,0,0
-anytown,Chlorine concentration,46,23,23,0,0,0
-anytown,Chlorine concentration,48,24,24,0,0,0
-anytown,Chlorine concentration,50,25,25,0,0,0
-anytown,Chlorine concentration,52,26,26,0,0,0
-anytown,Chlorine concentration,54,27,27,0,0,0
-anytown,Chlorine concentration,56,28,28,0,0,0
-anytown,Chlorine concentration,58,29,29,0,0,0
-anytown,Chlorine concentration,60,30,30,0,0,0
+anytown,Chlorine concentration,2,2,2,5.3946048872811,5.3946048872811,0
+anytown,Chlorine concentration,4,1,1,10.1349868093218,10.1349868093218,0
+anytown,Chlorine concentration,6,4,4,2.1233873707908,2.1233873707908,0
+anytown,Chlorine concentration,8,5,5,0,0,0
+anytown,Chlorine concentration,10,6,6,0,0,0
+anytown,Chlorine concentration,12,7,7,0,0,0
+anytown,Chlorine concentration,14,8,8,0,0,0
+anytown,Chlorine concentration,16,9,9,0,0,0
+anytown,Chlorine concentration,18,10,10,0,0,0
+anytown,Chlorine concentration,20,11,11,0,0,0
+anytown,Chlorine concentration,22,12,12,0,0,0
+anytown,Chlorine concentration,24,13,13,0,0,0
+anytown,Chlorine concentration,26,14,14,0,0,0
+anytown,Chlorine concentration,28,15,15,0,0,0
+anytown,Chlorine concentration,30,16,16,0,0,0
+anytown,Chlorine concentration,32,17,17,0,0,0
+anytown,Chlorine concentration,34,18,18,0,0,0
+anytown,Chlorine concentration,36,19,19,0,0,0
+anytown,Chlorine concentration,38,20,20,0,0,0
+anytown,Chlorine concentration,40,21,21,0,0,0
+anytown,Chlorine concentration,42,22,22,0,0,0
+anytown,Chlorine concentration,44,23,23,0,0,0
+anytown,Chlorine concentration,46,24,24,0,0,0
+anytown,Chlorine concentration,48,25,25,0,0,0
+anytown,Chlorine concentration,50,26,26,0,0,0
+anytown,Chlorine concentration,52,27,27,0,0,0
+anytown,Chlorine concentration,54,28,28,0,0,0
+anytown,Chlorine concentration,56,29,29,0,0,0
+anytown,Chlorine concentration,58,30,30,0,0,0
+anytown,Chlorine concentration,60,3,3,3.0534322559834,3.0534322559834,0
 anytown,Chlorine concentration,62,31,31,0,0,0
 anytown,Chlorine concentration,64,32,32,0,0,0
 anytown,Chlorine concentration,66,33,33,0,0,0
@@ -113,8 +113,8 @@ anytown,Chlorine concentration,70,35,35,0,0,0
 anytown,Chlorine concentration,72,36,36,0,0,0
 anytown,Chlorine concentration,74,37,37,0,0,0
 anytown,Chlorine concentration,76,38,38,0,0,0
-anytown,Chlorine entropy,2,1,1,16.2663893188749,16.2663893188749,0
-anytown,Chlorine entropy,4,2,2,4.7375287328448,4.7375287328448,0
+anytown,Chlorine entropy,2,1,1,18.8976295505251,18.8976295505251,0
+anytown,Chlorine entropy,4,2,2,5.197171824319,5.197171824319,0
 anytown,Chlorine entropy,6,3,3,0,0,0
 anytown,Chlorine entropy,8,4,4,0,0,0
 anytown,Chlorine entropy,10,5,5,0,0,0
@@ -151,41 +151,41 @@ anytown,Chlorine entropy,70,35,35,0,0,0
 anytown,Chlorine entropy,72,36,36,0,0,0
 anytown,Chlorine entropy,74,37,37,0,0,0
 anytown,Chlorine entropy,76,38,38,0,0,0
-anytown,Todini,2,1,1,11.2610409940992,13.0109734194619,1.7499324253627
-anytown,Todini,4,2,2,5.0065321581704,5.0065321581704,0
-anytown,Todini,6,3,3,1.6080457823617,4.7330457823617,3.125
-anytown,Todini,8,4,33,0,0,0
-anytown,Todini,10,5,4,0,3.125,3.125
-anytown,Todini,12,6,5,0,3.125,3.125
-anytown,Todini,14,7,6,0,3.125,3.125
-anytown,Todini,16,8,7,0,3.125,3.125
-anytown,Todini,18,9,8,0,3.125,3.125
-anytown,Todini,20,10,9,0,3.125,3.125
-anytown,Todini,22,11,10,0,3.125,3.125
-anytown,Todini,24,12,11,0,3.125,3.125
-anytown,Todini,26,13,12,0,3.125,3.125
-anytown,Todini,28,14,34,0,0,0
-anytown,Todini,30,15,13,0,3.125,3.125
-anytown,Todini,32,16,14,0,3.125,3.125
-anytown,Todini,34,17,15,0,3.125,3.125
-anytown,Todini,36,18,16,0,3.125,3.125
-anytown,Todini,38,19,17,0,3.125,3.125
-anytown,Todini,40,20,18,0,3.125,3.125
-anytown,Todini,42,21,19,0,3.125,3.125
-anytown,Todini,44,22,35,0,0,0
-anytown,Todini,46,23,20,0,3.125,3.125
-anytown,Todini,48,24,21,0,3.125,3.125
-anytown,Todini,50,25,22,0,3.125,3.125
-anytown,Todini,52,26,23,0,3.125,3.125
-anytown,Todini,54,27,24,0,3.125,3.125
-anytown,Todini,56,28,25,0,3.125,3.125
-anytown,Todini,58,29,26,0,3.125,3.125
-anytown,Todini,60,30,27,0,3.125,3.125
-anytown,Todini,62,31,28,0,3.125,3.125
-anytown,Todini,64,32,29,0,3.125,3.125
-anytown,Todini,66,33,30,0,3.125,3.125
-anytown,Todini,68,34,31,0,3.125,3.125
-anytown,Todini,70,35,36,0,0,0
-anytown,Todini,72,36,32,0,3.125,3.125
+anytown,Todini,2,1,1,9.2854406152453,13.2435384818486,3.95809786660331
+anytown,Todini,4,2,5,5.212995835713,5.212995835713,0
+anytown,Todini,6,3,2,1.743483202798,7.55747999463759,5.81399679183959
+anytown,Todini,8,4,3,0,6.25,6.25
+anytown,Todini,10,5,6,0,3.125,3.125
+anytown,Todini,12,6,7,0,3.125,3.125
+anytown,Todini,14,7,8,0,3.125,3.125
+anytown,Todini,16,8,9,0,3.125,3.125
+anytown,Todini,18,9,10,0,3.125,3.125
+anytown,Todini,20,10,11,0,3.125,3.125
+anytown,Todini,22,11,12,0,3.125,3.125
+anytown,Todini,24,12,13,0,3.125,3.125
+anytown,Todini,26,13,14,0,3.125,3.125
+anytown,Todini,28,14,35,0,0,0
+anytown,Todini,30,15,15,0,3.125,3.125
+anytown,Todini,32,16,16,0,3.125,3.125
+anytown,Todini,34,17,17,0,3.125,3.125
+anytown,Todini,36,18,18,0,3.125,3.125
+anytown,Todini,38,19,19,0,3.125,3.125
+anytown,Todini,40,20,20,0,3.125,3.125
+anytown,Todini,42,21,21,0,3.125,3.125
+anytown,Todini,44,22,36,0,0,0
+anytown,Todini,46,23,22,0,3.125,3.125
+anytown,Todini,48,24,23,0,3.125,3.125
+anytown,Todini,50,25,24,0,3.125,3.125
+anytown,Todini,52,26,25,0,3.125,3.125
+anytown,Todini,54,27,26,0,3.125,3.125
+anytown,Todini,56,28,27,0,3.125,3.125
+anytown,Todini,58,29,28,0,3.125,3.125
+anytown,Todini,60,30,4,0,6.25,6.25
+anytown,Todini,62,31,29,0,3.125,3.125
+anytown,Todini,64,32,30,0,3.125,3.125
+anytown,Todini,66,33,31,0,3.125,3.125
+anytown,Todini,68,34,32,0,3.125,3.125
+anytown,Todini,70,35,33,0,3.125,3.125
+anytown,Todini,72,36,34,0,3.125,3.125
 anytown,Todini,74,37,37,0,0,0
 anytown,Todini,76,38,38,0,0,0

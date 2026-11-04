@@ -1,34 +1,34 @@
 Network,Design,ServiceMetric,RankingCriterion,PipeFailureCount,TopPipeCount,SpearmanRho,TopTenPercentCapturedDeficitPercent,TopTenPercentCriticalPipeOverlap
-anytown,Cost,Water deficit,flow_rate,38,4,0.388996460907877,99.6445607985391,3
-anytown,Cost,Water deficit,pressure_sensitivity,38,4,0.374619611771894,99.6445607985391,3
-anytown,Cost,Water deficit,nodal_entropy,38,4,0.30273536609198,99.6445607985391,3
-anytown,Cost,Water deficit,entropy_sensitivity,38,4,0.344633612145416,99.6445607985391,3
-anytown,Cost,Water deficit,volume,38,4,0.295546941523989,99.6445607985391,3
-anytown,Cost,Joint deficit,flow_rate,38,4,0.388996460907877,99.6445607985391,3
-anytown,Cost,Joint deficit,pressure_sensitivity,38,4,0.374619611771894,99.6445607985391,3
-anytown,Cost,Joint deficit,nodal_entropy,38,4,0.30273536609198,99.6445607985391,3
-anytown,Cost,Joint deficit,entropy_sensitivity,38,4,0.344633612145416,99.6445607985391,3
-anytown,Cost,Joint deficit,volume,38,4,0.295546941523989,99.6445607985391,3
-anytown,Hydraulic entropy,Water deficit,flow_rate,38,4,0.467688895467307,100,3
-anytown,Hydraulic entropy,Water deficit,pressure_sensitivity,38,4,0.467688895467307,100,3
-anytown,Hydraulic entropy,Water deficit,nodal_entropy,38,4,0.467688895467307,100,4
-anytown,Hydraulic entropy,Water deficit,entropy_sensitivity,38,4,0.466285126896619,100,3
-anytown,Hydraulic entropy,Water deficit,volume,38,4,0.467688895467307,100,4
-anytown,Hydraulic entropy,Joint deficit,flow_rate,38,4,0.467688895467307,100,3
-anytown,Hydraulic entropy,Joint deficit,pressure_sensitivity,38,4,0.467688895467307,100,3
-anytown,Hydraulic entropy,Joint deficit,nodal_entropy,38,4,0.467688895467307,100,4
-anytown,Hydraulic entropy,Joint deficit,entropy_sensitivity,38,4,0.466285126896619,100,3
-anytown,Hydraulic entropy,Joint deficit,volume,38,4,0.467688895467307,100,4
-anytown,Chlorine concentration,Water deficit,flow_rate,38,4,0.467688895467307,100,3
-anytown,Chlorine concentration,Water deficit,pressure_sensitivity,38,4,0.467688895467307,100,3
-anytown,Chlorine concentration,Water deficit,nodal_entropy,38,4,0.467688895467307,100,4
-anytown,Chlorine concentration,Water deficit,entropy_sensitivity,38,4,0.466285126896619,100,3
-anytown,Chlorine concentration,Water deficit,volume,38,4,0.467688895467307,100,4
-anytown,Chlorine concentration,Joint deficit,flow_rate,38,4,0.467688895467307,100,3
-anytown,Chlorine concentration,Joint deficit,pressure_sensitivity,38,4,0.467688895467307,100,3
-anytown,Chlorine concentration,Joint deficit,nodal_entropy,38,4,0.467688895467307,100,4
-anytown,Chlorine concentration,Joint deficit,entropy_sensitivity,38,4,0.466285126896619,100,3
-anytown,Chlorine concentration,Joint deficit,volume,38,4,0.467688895467307,100,4
+anytown,Cost,Water deficit,flow_rate,38,4,0.426654242769183,81.3398126927121,3
+anytown,Cost,Water deficit,pressure_sensitivity,38,4,0.406168879737926,81.3398126927121,3
+anytown,Cost,Water deficit,nodal_entropy,38,4,0.310073904064029,81.3398126927121,3
+anytown,Cost,Water deficit,entropy_sensitivity,38,4,0.350672168980521,81.3398126927121,3
+anytown,Cost,Water deficit,volume,38,4,0.214351389536155,81.3398126927121,3
+anytown,Cost,Joint deficit,flow_rate,38,4,0.426654242769183,81.3398126927121,3
+anytown,Cost,Joint deficit,pressure_sensitivity,38,4,0.406168879737926,81.3398126927121,3
+anytown,Cost,Joint deficit,nodal_entropy,38,4,0.310073904064029,81.3398126927121,3
+anytown,Cost,Joint deficit,entropy_sensitivity,38,4,0.350672168980521,81.3398126927121,3
+anytown,Cost,Joint deficit,volume,38,4,0.214351389536155,81.3398126927121,3
+anytown,Hydraulic entropy,Water deficit,flow_rate,38,4,0.387036911482875,100,3
+anytown,Hydraulic entropy,Water deficit,pressure_sensitivity,38,4,0.387036911482875,100,3
+anytown,Hydraulic entropy,Water deficit,nodal_entropy,38,4,0.387036911482875,100,4
+anytown,Hydraulic entropy,Water deficit,entropy_sensitivity,38,4,0.36555056723693,100,3
+anytown,Hydraulic entropy,Water deficit,volume,38,4,0.387036911482875,100,4
+anytown,Hydraulic entropy,Joint deficit,flow_rate,38,4,0.387036911482875,100,3
+anytown,Hydraulic entropy,Joint deficit,pressure_sensitivity,38,4,0.387036911482875,100,3
+anytown,Hydraulic entropy,Joint deficit,nodal_entropy,38,4,0.387036911482875,100,4
+anytown,Hydraulic entropy,Joint deficit,entropy_sensitivity,38,4,0.36555056723693,100,3
+anytown,Hydraulic entropy,Joint deficit,volume,38,4,0.387036911482875,100,4
+anytown,Chlorine concentration,Water deficit,flow_rate,38,4,0.379959584308117,85.2536868494632,3
+anytown,Chlorine concentration,Water deficit,pressure_sensitivity,38,4,0.364761200935792,85.2536868494632,3
+anytown,Chlorine concentration,Water deficit,nodal_entropy,38,4,0.288769284074169,85.2536868494632,3
+anytown,Chlorine concentration,Water deficit,entropy_sensitivity,38,4,0.332310598600288,85.2536868494632,3
+anytown,Chlorine concentration,Water deficit,volume,38,4,0.281170092388006,85.2536868494632,3
+anytown,Chlorine concentration,Joint deficit,flow_rate,38,4,0.379959584308117,85.2536868494632,3
+anytown,Chlorine concentration,Joint deficit,pressure_sensitivity,38,4,0.364761200935792,85.2536868494632,3
+anytown,Chlorine concentration,Joint deficit,nodal_entropy,38,4,0.288769284074169,85.2536868494632,3
+anytown,Chlorine concentration,Joint deficit,entropy_sensitivity,38,4,0.332310598600288,85.2536868494632,3
+anytown,Chlorine concentration,Joint deficit,volume,38,4,0.281170092388006,85.2536868494632,3
 anytown,Chlorine entropy,Water deficit,flow_rate,38,4,0.387036911482875,100,3
 anytown,Chlorine entropy,Water deficit,pressure_sensitivity,38,4,0.387036911482875,100,3
 anytown,Chlorine entropy,Water deficit,nodal_entropy,38,4,0.387036911482875,100,4
@@ -44,8 +44,8 @@ anytown,Todini,Water deficit,pressure_sensitivity,38,4,0.467688895467307,100,3
 anytown,Todini,Water deficit,nodal_entropy,38,4,0.467688895467307,100,4
 anytown,Todini,Water deficit,entropy_sensitivity,38,4,0.466285126896619,100,3
 anytown,Todini,Water deficit,volume,38,4,0.467688895467307,100,4
-anytown,Todini,Joint deficit,flow_rate,38,4,0.428456606400191,22.8228670552023,4
-anytown,Todini,Joint deficit,pressure_sensitivity,38,4,0.356286191434191,22.8228670552023,4
-anytown,Todini,Joint deficit,nodal_entropy,38,4,0.39752642855762,20.0665408786023,3
-anytown,Todini,Joint deficit,entropy_sensitivity,38,4,0.453348035235403,22.8228670552023,4
-anytown,Todini,Joint deficit,volume,38,4,0.0624495019297631,20.0665408786023,3
+anytown,Todini,Joint deficit,flow_rate,38,4,0.19498593308923,22.5640674643484,2
+anytown,Todini,Joint deficit,pressure_sensitivity,38,4,0.131949787425869,22.5640674643484,2
+anytown,Todini,Joint deficit,nodal_entropy,38,4,0.422885844333689,24.9839403560875,3
+anytown,Todini,Joint deficit,entropy_sensitivity,38,4,0.176177945571957,22.5640674643484,2
+anytown,Todini,Joint deficit,volume,38,4,0.224079538780012,24.9839403560875,3
