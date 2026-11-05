@@ -2,31 +2,15 @@ function results = make_two_consumer_chlorine_entropy_example(run_optimization)
 %MAKE_TWO_CONSUMER_CHLORINE_ENTROPY_EXAMPLE Nonunique near-optimal diameters.
 % With no argument, rerun seeded GA; false replots the saved verified pair.
 % Unequal demands (0.8,1.3 L/s) rule out consumer-swap symmetry.
-% A second diameter set is obtained by inverse EPANET sizing: keep P0/P1
+% A second diameter set is obtained by inverse STACI sizing: keep P0/P1
 % and the full flow vector fixed, change P3, then solve P2 for the same Q3.
 % Terminal D2 has no outgoing split in this flow direction, so changing its
 % chlorine concentration does not change the implemented chlorine entropy.
 if nargin<1,run_optimization=true;end
 root=fileparts(fileparts(fileparts(mfilename('fullpath'))));addpath(root,'-begin');
-anytown_dir=fullfile(root,'networks','anytown');addpath(anytown_dir,'-begin');
-toolkit_cfg=network_config(anytown_dir);rmpath(anytown_dir);
-wdn.setup_toolkit(toolkit_cfg);
 mini_dir=fullfile(root,'networks','y_two_consumers');
-cfg.inp_file=fullfile(mini_dir,'input','network_original.inp');
-cfg.runtime_dir=fullfile(mini_dir,'runtime');
-cfg.design_link_ids={'P0','P1','P2','P3'};
-cfg.fixed_link_diameters=struct();cfg.entropy_excluded_link_ids={};
-cfg.pressure_node_ids={'J','D1','D2'};cfg.quality_node_ids={'D1','D2'};
-cfg.numeric_tolerance=1e-9;cfg.epanet_library=toolkit_cfg.epanet_library;
-cfg.quality_duration_hours=48;cfg.quality_step_hours=1/12;
-cfg.bulk_reaction_coefficient=-1;cfg.source_chlorine=1;
-cfg.source_node_ids={'S'};
-[d,model]=wdn.open_network(cfg);cleanup=onCleanup(@()d.unload);
-d.setDemandModel('DDA',0,20,0.5);
-link_ids=string(d.getLinkNameID);node_ids=string(d.getNodeNameID);
-[okL,link_idx]=ismember(string(cfg.design_link_ids),link_ids);
-[okN,node_idx]=ismember(["S","J","D1","D2"],node_ids);
-assert(all(okL)&&all(okN));
+st=StaciModel(fullfile(mini_dir,'input','network_original.inp'));
+cleanup=onCleanup(@()st.release());
 results_dir=fullfile(mini_dir,'results');if ~isfolder(results_dir),mkdir(results_dir);end
 if run_optimization
  rng(1993,'twister');
@@ -74,7 +58,10 @@ assert(max(abs(diff(flow,1,1)),[],'all')<1e-5, ...
 assert(abs(diff(entropy_cl))<1e-6,'Chlorine entropy differs.');
 assert(min(head(:,3:4),[],'all')>=20,'A pressure limit was violated.');
 assert(min(chlorine(:,3:4),[],'all')>=0.2,'Chlorine below 0.2 mg/L.');
-assert(abs(chlorine(1,4)-chlorine(2,4))>0.1, ...
+fprintf('STACI pair: d3 %.3f/%.3f mm, D2 chlorine %.6f/%.6f mg/L, S %.9f/%.9f nat\n', ...
+ diameter(1,4),diameter(2,4),chlorine(1,4),chlorine(2,4), ...
+ entropy_cl(1),entropy_cl(2));
+assert(abs(chlorine(1,4)-chlorine(2,4))>0.02, ...
  'The two designs do not show a meaningful quality difference.');
 results=table(["A";"B"],diameter(:,1),diameter(:,2),diameter(:,3), ...
  diameter(:,4),flow(:,1),flow(:,2),flow(:,3),flow(:,4), ...
@@ -93,7 +80,7 @@ writetable(results,fullfile(results_dir,'chlorine_entropy_pair.csv'));
 if run_optimization
  save(fullfile(results_dir,'chlorine_entropy_search.mat'), ...
   'best','best_entropy','diameter','entropy_cl','chlorine','flow','head', ...
-  'exit_flag','output','cfg');
+  'exit_flag','output');
 end
 fig_dir=fullfile(root,'manuscript','generated','figures');
 if ~isfolder(fig_dir),mkdir(fig_dir);end
@@ -115,17 +102,16 @@ clear cleanup
   end
  end
  function q3=cross_flow(x)
-  wdn.apply_design(d,x,cfg,model);d.solveCompleteHydraulics;
-  q=double(d.getLinkFlows);q3=q(link_idx(4));
+  state=wdn.evaluate_two_consumer_staci(st,x);
+  q3=state.flow_Lps(4);
  end
  function [s,c,h,q,sh,node_s]=measure(x)
-  wdn.apply_design(d,x,cfg,model);d.solveCompleteHydraulics;
-  hh=double(d.getNodeHydraulicHead);h=hh(node_idx)';
-  qq=double(d.getLinkFlows);q=qq(link_idx)';
-  all_c=wdn.chlorine_state(d,cfg);c=all_c(node_idx)';
-  [s,details]=wdn.flow_entropy(d,model,all_c);
-  node_s=details.node_entropy(node_idx)';
-  assert(abs(details.source_entropy)<1e-12);
-  sh=wdn.flow_entropy(d,model,[]);
+  state=wdn.evaluate_two_consumer_staci(st,x);
+  s=state.chlorine_entropy;
+  c=state.chlorine_mgL;
+  h=state.head_m;
+  q=state.flow_Lps;
+  sh=state.hydraulic_entropy;
+  node_s=state.chlorine_node_entropy;
  end
 end

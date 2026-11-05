@@ -8,8 +8,8 @@ project_root = fileparts(fileparts(network_dir));
 
 cfg.id = 'tanyimboh_templeman';
 cfg.inp_file = fullfile(network_dir, 'input', 'network_original.inp');
-cfg.results_dir = fullfile(network_dir, 'results');
-cfg.figures_dir = fullfile(network_dir, 'figures');
+cfg.results_dir = fullfile(network_dir, 'results_staci');
+cfg.figures_dir = fullfile(network_dir, 'figures_staci');
 cfg.runtime_dir = fullfile(network_dir, 'runtime');
 cfg.toolkit_dir = fullfile(project_root, 'third_party', ...
     'epanet_matlab_toolkit');
@@ -52,8 +52,8 @@ cfg.objectives = {'cost','hydraulic_entropy','chlorine_concentration', ...
     'chlorine_entropy','todini'};
 cfg.ga.random_seed = 1993;
 cfg.ga.population_size = 100;
-cfg.ga.max_generations = 500;
-cfg.ga.max_stall_generations = 100;
+cfg.ga.max_generations = 10000;
+cfg.ga.max_stall_generations = 150;
 cfg.ga.function_tolerance = 1e-6;
 cfg.ga.constraint_tolerance = 1e-5;
 cfg.ga.use_hybrid_patternsearch = true;

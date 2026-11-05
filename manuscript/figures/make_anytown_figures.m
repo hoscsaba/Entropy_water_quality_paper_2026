@@ -6,6 +6,8 @@ addpath(root);
 network_dir = fullfile(root, 'networks', 'anytown');
 addpath(network_dir);
 cfg = network_config(network_dir);
+cfg.results_dir = fullfile(network_dir,'results_staci');
+cfg.figures_dir = fullfile(network_dir,'figures_staci');
 wdn.setup_toolkit(cfg);
 
 if ~exist(cfg.figures_dir, 'dir')

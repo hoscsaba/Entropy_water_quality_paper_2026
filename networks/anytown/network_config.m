@@ -8,8 +8,8 @@ project_root = fileparts(fileparts(network_dir));
 
 cfg.id = 'anytown';
 cfg.inp_file = fullfile(network_dir, 'input', 'network_original.inp');
-cfg.results_dir = fullfile(network_dir, 'results');
-cfg.figures_dir = fullfile(network_dir, 'figures');
+cfg.results_dir = fullfile(network_dir, 'results_staci');
+cfg.figures_dir = fullfile(network_dir, 'figures_staci');
 cfg.runtime_dir = fullfile(network_dir, 'runtime');
 cfg.toolkit_dir = fullfile(project_root, 'third_party', ...
     'epanet_matlab_toolkit');
@@ -69,20 +69,17 @@ cfg.objectives = {'cost','hydraulic_entropy','chlorine_concentration', ...
     'chlorine_entropy','todini'};
 cfg.ga.random_seed = 1993;
 cfg.ga.population_size = 100;
-% The five full-network designs in the paper use the audited 200-generation
-% Anytown rerun. The earlier ranking trajectories retain their own budget.
-cfg.ga.max_generations = 200;
-cfg.ga.max_stall_generations = 100;
+% Let MATLAB stop on convergence; retain a high safety ceiling.
+cfg.ga.max_generations = 10000;
+cfg.ga.max_stall_generations = 150;
 cfg.ga.function_tolerance = 1e-6;
-% EPANET hydraulic heads are returned at single-precision resolution by the
-% toolkit; 5e-5 is still negligible relative to the 0.5-ft anchor band.
+% This numerical tolerance is negligible relative to the 0.5-ft anchor band.
 cfg.ga.constraint_tolerance = 5e-5;
 % A 1.5% interpolation from the original diameters toward the 64-in upper
 % bound satisfies both 215-ft pressure-anchor targets and seeds the narrow
 % feasible band introduced by the two-sided head constraints.
 cfg.ga.feasible_interpolation_to_upper = 0.015;
-% A 38-dimensional pattern search would require a new 48 h quality simulation
-% for every mesh direction, so the production Anytown runs use GA only.
+% A 38-dimensional pattern search is omitted; the production search uses GA.
 cfg.ga.use_hybrid_patternsearch = false;
 cfg.ga.display = 'final';
 cfg.ga.seed_designs = anytown_seed_designs();

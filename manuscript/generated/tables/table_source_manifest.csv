@@ -1,21 +1,21 @@
 description,source,exported
-Tanyimboh objective cross-evaluation,networks/tanyimboh_templeman/results/cross_evaluation.csv,manuscript/generated/tables/tanyimboh_cross_evaluation.csv
-Anytown objective cross-evaluation,networks/anytown/results/cross_evaluation.csv,manuscript/generated/tables/anytown_cross_evaluation.csv
-Anytown optimization CPU time,networks/anytown/results/optimization_timing.csv,manuscript/generated/tables/anytown_optimization_timing.csv
-Anytown single-pipe stress test,networks/anytown/results/stress_test.csv,manuscript/generated/tables/anytown_stress_test.csv
-Anytown pressure-driven N-1 service,networks/anytown/results/pda_service_summary.csv,manuscript/generated/tables/anytown_pda_service_summary.csv
-Anytown pressure-driven N-1 scenarios,networks/anytown/results/pda_service_scenarios.csv,manuscript/generated/tables/anytown_pda_service_scenarios.csv
-Anytown conditional outage vulnerability,networks/anytown/results/pda_vulnerability_summary.csv,manuscript/generated/tables/anytown_pda_vulnerability_summary.csv
-Anytown pipe failure criticality,networks/anytown/results/pda_pipe_criticality.csv,manuscript/generated/tables/anytown_pda_pipe_criticality.csv
-Anytown ranking versus failure impact,networks/anytown/results/pda_ranking_validation.csv,manuscript/generated/tables/anytown_pda_ranking_validation.csv
-Anytown top-20 rankings,networks/anytown/results/pipe_rankings_top20.csv,manuscript/generated/tables/anytown_pipe_rankings_top20.csv
-Balerma objective cross-evaluation,networks/balerma/results/cross_evaluation.csv,manuscript/generated/tables/balerma_cross_evaluation.csv
-Balerma single-pipe stress test,networks/balerma/results/stress_test.csv,manuscript/generated/tables/balerma_stress_test.csv
-Balerma pressure-driven N-1 service,networks/balerma/results/pda_service_summary.csv,manuscript/generated/tables/balerma_pda_service_summary.csv
-Balerma pressure-driven N-1 scenarios,networks/balerma/results/pda_service_scenarios.csv,manuscript/generated/tables/balerma_pda_service_scenarios.csv
-Balerma conditional outage vulnerability,networks/balerma/results/pda_vulnerability_summary.csv,manuscript/generated/tables/balerma_pda_vulnerability_summary.csv
-Balerma pipe failure criticality,networks/balerma/results/pda_pipe_criticality.csv,manuscript/generated/tables/balerma_pda_pipe_criticality.csv
-Balerma ranking versus failure impact,networks/balerma/results/pda_ranking_validation.csv,manuscript/generated/tables/balerma_pda_ranking_validation.csv
-Balerma top-45 rankings,networks/balerma/results/pipe_rankings_top45.csv,manuscript/generated/tables/balerma_pipe_rankings_top45.csv
-Full-optimum cross-effects,results/objective_relationships/full_optimum_cross_effects.csv,manuscript/generated/tables/full_optimum_cross_effects.csv
-Ranking-trajectory correlations,results/objective_relationships/ranking_trajectory_correlations.csv,manuscript/generated/tables/ranking_trajectory_correlations.csv
+Tanyimboh objective cross-evaluation,networks/tanyimboh_templeman/results_staci/cross_evaluation.csv,manuscript/generated/tables/tanyimboh_cross_evaluation.csv
+Anytown objective cross-evaluation,networks/anytown/results_staci/cross_evaluation.csv,manuscript/generated/tables/anytown_cross_evaluation.csv
+STACI single-objective stopping and CPU time,supplementary/results/staci_single_objective_summary.csv,manuscript/generated/tables/staci_single_objective_summary.csv
+Anytown single-pipe stress test,networks/anytown/results_staci/stress_test.csv,manuscript/generated/tables/anytown_stress_test.csv
+Anytown pressure-driven N-1 service,networks/anytown/results_staci/pda_service_summary.csv,manuscript/generated/tables/anytown_pda_service_summary.csv
+Anytown pressure-driven N-1 scenarios,networks/anytown/results_staci/pda_service_scenarios.csv,manuscript/generated/tables/anytown_pda_service_scenarios.csv
+Anytown conditional outage vulnerability,networks/anytown/results_staci/pda_vulnerability_summary.csv,manuscript/generated/tables/anytown_pda_vulnerability_summary.csv
+Anytown pipe failure criticality,networks/anytown/results_staci/pda_pipe_criticality.csv,manuscript/generated/tables/anytown_pda_pipe_criticality.csv
+Anytown ranking versus failure impact,networks/anytown/results_staci/pda_ranking_validation.csv,manuscript/generated/tables/anytown_pda_ranking_validation.csv
+Anytown top-20 rankings,networks/anytown/results_staci/pipe_rankings_top20.csv,manuscript/generated/tables/anytown_pipe_rankings_top20.csv
+Balerma objective cross-evaluation,networks/balerma/results_staci/cross_evaluation.csv,manuscript/generated/tables/balerma_cross_evaluation.csv
+Balerma single-pipe stress test,networks/balerma/results_staci/stress_test.csv,manuscript/generated/tables/balerma_stress_test.csv
+Balerma pressure-driven N-1 service,networks/balerma/results_staci/pda_service_summary.csv,manuscript/generated/tables/balerma_pda_service_summary.csv
+Balerma pressure-driven N-1 scenarios,networks/balerma/results_staci/pda_service_scenarios.csv,manuscript/generated/tables/balerma_pda_service_scenarios.csv
+Balerma conditional outage vulnerability,networks/balerma/results_staci/pda_vulnerability_summary.csv,manuscript/generated/tables/balerma_pda_vulnerability_summary.csv
+Balerma pipe failure criticality,networks/balerma/results_staci/pda_pipe_criticality.csv,manuscript/generated/tables/balerma_pda_pipe_criticality.csv
+Balerma ranking versus failure impact,networks/balerma/results_staci/pda_ranking_validation.csv,manuscript/generated/tables/balerma_pda_ranking_validation.csv
+Balerma top-45 rankings,networks/balerma/results_staci/pipe_rankings_top45.csv,manuscript/generated/tables/balerma_pipe_rankings_top45.csv
+Full-optimum cross-effects,results_staci/objective_relationships/full_optimum_cross_effects.csv,manuscript/generated/tables/full_optimum_cross_effects.csv
+Ranking-trajectory correlations,results_staci/objective_relationships/ranking_trajectory_correlations.csv,manuscript/generated/tables/ranking_trajectory_correlations.csv

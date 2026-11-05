@@ -4,16 +4,9 @@ function results = make_two_consumer_entropy_example
 % P0--P3 are S--J, J--D1, J--D2, D1--D2; all are 3 km long.
 root=fileparts(fileparts(fileparts(mfilename('fullpath'))));
 addpath(root,'-begin');
-anytown_dir=fullfile(root,'networks','anytown');
-addpath(anytown_dir,'-begin');toolkit_cfg=network_config(anytown_dir);
-rmpath(anytown_dir);wdn.setup_toolkit(toolkit_cfg);
 mini_dir=fullfile(root,'networks','y_two_consumers');
-cfg.inp_file=fullfile(mini_dir,'input','network_original.inp');
-cfg.runtime_dir=fullfile(mini_dir,'runtime');
-cfg.design_link_ids={'P0','P1','P2','P3'};
-cfg.fixed_link_diameters=struct();cfg.entropy_excluded_link_ids={};
-cfg.pressure_node_ids={'J','D1','D2'};cfg.quality_node_ids=cfg.pressure_node_ids;
-cfg.numeric_tolerance=1e-9;cfg.epanet_library=toolkit_cfg.epanet_library;
+st=StaciModel(fullfile(mini_dir,'input','network_original.inp'));
+cleanup=onCleanup(@()st.release());
 
 D1=0.8;D2=1.3;Q=D1+D2;
 % For x=Q3>=0, continuity gives (Q,Q1,Q2,Q3)=(Q,D1+x,D2-x,x).
@@ -21,25 +14,18 @@ D1=0.8;D2=1.3;Q=D1+D2;
 x_opt=fminbnd(@(x)-loop_entropy(x,D1,D2),0,D2);
 assert(abs(x_opt-D2/2)<1e-5);
 S_opt=loop_entropy(x_opt,D1,D2);
-[d,model]=wdn.open_network(cfg);cleanup=onCleanup(@()d.unload);
-d.setDemandModel('DDA',0,20,0.5);
-link_ids=string(d.getLinkNameID);node_ids=string(d.getNodeNameID);
-[okL,link_idx]=ismember(string(cfg.design_link_ids),link_ids);
-[okN,node_idx]=ismember(["S","J","D1","D2"],node_ids);
-assert(all(okL)&&all(okN));
-% Inverse EPANET solve makes the hydraulic cross flow equal D2/2.
+% Inverse STACI solve makes the hydraulic cross flow equal D2/2.
 base=[100 80 NaN 60];
 base(3)=fzero(@(d2)cross_flow([base(1:2),d2,base(4)])-x_opt,[40,70]);
 diameter=[base;2*base];
 flow=zeros(2,4);head=zeros(2,4);entropy=zeros(2,1);
 node_entropy=zeros(2,4);
 for k=1:2
- wdn.apply_design(d,diameter(k,:),cfg,model);d.solveCompleteHydraulics;
- q=double(d.getLinkFlows);flow(k,:)=q(link_idx)';
- h=double(d.getNodeHydraulicHead);head(k,:)=h(node_idx)';
- [entropy(k),details]=wdn.flow_entropy(d,model,[]);
- node_entropy(k,:)=details.node_entropy(node_idx)';
- assert(abs(details.source_entropy)<1e-12);
+ state=wdn.evaluate_two_consumer_staci(st,diameter(k,:));
+ flow(k,:)=state.flow_Lps;
+ head(k,:)=state.head_m;
+ entropy(k)=state.hydraulic_entropy;
+ node_entropy(k,:)=state.hydraulic_node_entropy;
 end
 expected=[Q,D1+x_opt,D2-x_opt,x_opt];
 assert(max(abs(flow-expected),[],'all')<1e-4);
@@ -66,8 +52,8 @@ plot_two_consumer_pair(diameter,flow,head,[],[D1 D2],entropy,'S_{\mathrm{flow}}'
  fullfile(fig_dir,'entropy_loop_two_consumers'));
 clear cleanup
  function v=cross_flow(x)
-  wdn.apply_design(d,x,cfg,model);d.solveCompleteHydraulics;
-  qq=double(d.getLinkFlows);v=qq(link_idx(4));
+  state=wdn.evaluate_two_consumer_staci(st,x);
+  v=state.flow_Lps(4);
  end
 end
 function S=loop_entropy(x,D1,D2)

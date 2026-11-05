@@ -19,13 +19,10 @@ diameters{1} = model.original_full_diameters;
 metric_sets = cell(1, numel(names));
 
 baseline_file = fullfile(cfg.results_dir, 'baseline.mat');
-if isfile(baseline_file)
-    loaded_baseline = load(baseline_file, 'baseline');
-    metric_sets{1} = loaded_baseline.baseline.metrics;
-else
-    original_design = model.original_full_diameters(model.design_link_indices);
-    metric_sets{1} = wdn.evaluate_design(d, original_design, cfg, model);
-end
+assert(isfile(baseline_file), ...
+    'Missing STACI reference state: %s', baseline_file);
+loaded_baseline = load(baseline_file, 'baseline');
+metric_sets{1} = loaded_baseline.baseline.metrics;
 
 for k = 2:numel(names)
     result_file = fullfile(cfg.results_dir, names(k) + ".mat");
@@ -56,10 +53,16 @@ node_y = cell2mat(coords(:,2));
 links = double(d.getLinkNodesIndex);
 
 node_values = cell(1, numel(names));
+node_order = cell(1,numel(names));
+for k = 1:numel(names)
+    [found,node_order{k}] = ismember( ...
+        string(model.node_ids(:)),string(metric_sets{k}.node_ids(:)));
+    assert(all(found),'Saved STACI result has a node-ID mismatch');
+end
 switch string(color_metric)
     case "pressure"
         for k = 1:numel(names)
-            node_values{k} = metric_sets{k}.pressures;
+            node_values{k} = metric_sets{k}.pressures(node_order{k});
         end
         original_assessment_pressure = node_values{1}(model.pressure_node_indices);
         color_limits = [cfg.minimum_pressure, max(original_assessment_pressure)];
@@ -69,7 +72,7 @@ switch string(color_metric)
         colorbar_label = cfg.plot.pressure_label;
     case "chlorine"
         for k = 1:numel(names)
-            node_values{k} = metric_sets{k}.chlorine;
+            node_values{k} = metric_sets{k}.chlorine(node_order{k});
         end
         all_values = cell2mat(cellfun(@(x) x(:), node_values, 'UniformOutput', false));
         color_limits = [min(all_values, [], 'all'), max(all_values, [], 'all')];

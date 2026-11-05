@@ -1,4 +1,4 @@
-function value = staci_flow_entropy(staci, cfg, node_multiplier)
+function [value, details] = staci_flow_entropy(staci, cfg, node_multiplier)
 %STACI_FLOW_ENTROPY Paper flow entropy on the physical service graph.
 % Virtual EPANET boundary links, source adapters and pressure-anchor stubs
 % are excluded from service branching. Their supply is transferred to the
@@ -54,14 +54,48 @@ total_supply = sum(supply);
 assert(total_supply > 0, 'STACI entropy has no physical external supply');
 shares = supply(supply > 0) / total_supply;
 value = -sum(shares .* log(shares) .* node_multiplier(supply > 0));
-for i = physical_nodes(:)'
-    outgoing = find(physical & oriented_from == i);
-    withdraw = max(demands(i), 0);
-    throughflow = sum(magnitude(outgoing)) + withdraw;
-    if throughflow <= eps, continue; end
-    probabilities = [magnitude(outgoing); withdraw] / throughflow;
-    probabilities = probabilities(probabilities > 0);
-    value = value - throughflow / total_supply * node_multiplier(i) * ...
-        sum(probabilities .* log(probabilities));
+% Equivalent to the nodal sum of p*log(p), but linear in the number of
+% links. The former per-node find() rescanned every link on every iteration
+% and dominated the 454-pipe Balerma genetic search.
+physical_from = oriented_from(physical);
+physical_flow = magnitude(physical);
+withdraw = zeros(n, 1);
+withdraw(physical_nodes) = max(demands(physical_nodes), 0);
+throughflow = accumarray(physical_from, physical_flow, [n, 1]) + withdraw;
+active_link = physical_flow > 0 & throughflow(physical_from) > eps;
+if any(active_link)
+    source = physical_from(active_link);
+    q = physical_flow(active_link);
+    value = value - sum(q .* log(q ./ throughflow(source)) .* ...
+        node_multiplier(source)) / total_supply;
+end
+active_demand = withdraw > 0 & throughflow > eps;
+if any(active_demand)
+    q = withdraw(active_demand);
+    value = value - sum(q .* log(q ./ throughflow(active_demand)) .* ...
+        node_multiplier(active_demand)) / total_supply;
+end
+if nargout > 1
+    node_entropy = zeros(n, 1);
+    if any(active_link)
+        source = physical_from(active_link);
+        q = physical_flow(active_link);
+        node_entropy = node_entropy + accumarray(source, ...
+            -q .* log(q ./ throughflow(source)) .* ...
+            node_multiplier(source) / total_supply, [n, 1]);
+    end
+    if any(active_demand)
+        demand_nodes = find(active_demand);
+        q = withdraw(active_demand);
+        node_entropy(demand_nodes) = node_entropy(demand_nodes) - ...
+            q .* log(q ./ throughflow(active_demand)) .* ...
+            node_multiplier(active_demand) / total_supply;
+    end
+    details.total_supply = total_supply;
+    details.external_supply = supply;
+    details.throughflow = throughflow;
+    details.source_entropy = -sum(shares .* log(shares) .* ...
+        node_multiplier(supply > 0));
+    details.node_entropy = node_entropy;
 end
 end

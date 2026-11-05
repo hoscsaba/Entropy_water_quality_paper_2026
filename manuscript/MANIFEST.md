@@ -1,35 +1,20 @@
-# Manuscript reproduction manifest
+# Manuscript figure and table provenance
 
-All paths in this file are relative to the repository root. Generated files
-are written below `manuscript/generated`; no script requires the LaTeX project
-to be present next to the repository.
+All paths are relative to this repository. Reported network outputs come from `results_staci/`; the numerical solver is STACI. EPANET is used only for the independent 15-design comparison in `supplementary/` and for input/figure compatibility.
 
-## Active figures
-
-| Manuscript content | MATLAB entry point | Primary saved input |
+| Manuscript item | Reproduction code | Numerical input |
 |---|---|---|
-| Pressure-anchor minimum example (`pressure_anchor_mwe.png/.svg`) | `manuscript/figures/make_pressure_anchor_mwe_figure.m` | analytical expression in the script; no INP file |
-| Active-loop two-consumer entropy example (`entropy_loop_two_consumers.png/.svg`) | `manuscript/figures/make_two_consumer_entropy_example.m` | `networks/y_two_consumers/input/network_original.inp`; checked designs in `networks/y_two_consumers/results/two_designs.csv` |
-| Tanyimboh-Templeman reference schematic (`tanyimboh_schemtic.*`, retaining the manuscript filename) | `manuscript/figures/make_tanyimboh_reference_schematic.m` | published Case-A flows encoded in the script |
-| Tanyimboh-Templeman six-panel objective matrix | `manuscript/figures/make_figure3.m` | `networks/tanyimboh_templeman/results/*.mat` |
-| Anytown equipment schematic | `manuscript/figures/make_anytown_schematic.m` | `networks/anytown/input/network_original.inp` |
-| Anytown pressure and chlorine objective matrices | `manuscript/figures/make_anytown_figures.m` | `networks/anytown/results/*.mat` |
-| Anytown cost-entropy Pareto front | `manuscript/figures/reproduce_all_figures.m` | `networks/anytown/results/multiobjective_cost_entropy.mat` |
-| Balerma equipment schematic (`balerma.*`) | `manuscript/figures/make_balerma_schematic.m` | `networks/balerma/input/network_original.inp` |
-| Balerma six-panel objective matrix | `manuscript/figures/make_balerma_figures.m` | `networks/balerma/results/*.mat` |
-| Anytown hydraulic ranked-subset matrix | `manuscript/figures/regenerate_anytown_ranking_figure.m` | `networks/anytown/results/ranking_dual_study.mat` |
-| Anytown chlorine ranked-subset matrix | `manuscript/figures/reproduce_all_figures.m` | `networks/anytown/results/ranking_chlorine_dual_study.mat` |
-| Balerma hydraulic ranked-subset matrix | `manuscript/figures/reproduce_all_figures.m` | `networks/balerma/results/ranking_dual_study.mat` |
-| Balerma chlorine ranked-subset matrix | `manuscript/figures/reproduce_all_figures.m` | `networks/balerma/results/ranking_chlorine_dual_study.mat` |
-| Objective cross-effect heat map | `manuscript/tables/make_objective_relationship_summary.m` | full-network and ranking result MAT files |
+| Pressure-boundary minimum example | `manuscript/figures/make_pressure_anchor_mwe_figure.m` | Analytic equations in script |
+| Four-pipe flow-entropy and chlorine-entropy pairs | `manuscript/figures/make_two_consumer_entropy_example.m`; `make_two_consumer_chlorine_entropy_example.m` | `networks/y_two_consumers/input/network_original.inp`; saved pair CSVs |
+| Tanyimboh–Templeman reference schematic | `manuscript/figures/make_tanyimboh_reference_schematic.m` | Published Case A values |
+| Tanyimboh–Templeman six-panel matrix | `manuscript/figures/make_figure3.m` | `networks/tanyimboh_templeman/results_staci/*.mat` |
+| Anytown schematic and pressure/chlorine matrices | `manuscript/figures/make_anytown_schematic.m`; `make_anytown_figures.m` | Anytown fixed-load INP and `results_staci/*.mat` |
+| Anytown cost–hydraulic-entropy archive | `run_staci_cost_entropy_front.m`; `wdn.plot_cost_entropy_front` | `networks/anytown/results_staci/multiobjective_cost_entropy.mat` |
+| Anytown hydraulic/chlorine ranked-subset matrices | `run_staci_ranking_studies.m`; `manuscript/figures/reproduce_all_figures.m` | Anytown `results_staci/ranking_*_study.mat` |
+| Balerma schematic and six-panel matrix | `manuscript/figures/make_balerma_schematic.m`; `make_balerma_figures.m` | Balerma fixed-load INP and `results_staci/*.mat` |
+| Balerma hydraulic/chlorine ranked-subset matrices | `run_staci_ranking_studies.m`; `manuscript/figures/reproduce_all_figures.m` | Balerma `results_staci/ranking_*_study.mat` |
+| Cross-effect heat map and trajectory-correlation table | `manuscript/tables/make_objective_relationship_summary.m` | Anytown and Balerma STACI final/ranking MAT files |
+| Cross-evaluation, N−1 stress, PDA service and vulnerability tables | `finalize_staci_single_objectives.m`; `run_staci_outage_studies.m`; `run_pda_vulnerability_analysis.m` | Network `results_staci/*.csv` |
+| Supplementary EPANET verification | `supplementary/validate_staci_final_designs.m` | 15 STACI final designs plus fixed-load INPs |
 
-Run `reproduce_all_figures` after `startup` to regenerate all active
-computational figures without launching an optimization.
-
-## Numerical tables
-
-Run `export_manuscript_tables`. It collects the cross-evaluation, CPU-time,
-stress-test, pipe-ranking, cross-effect and ranking-correlation CSV files into
-`manuscript/generated/tables` and writes a source manifest. The pressure-driven service tables come from `run_pda_service_study` and the two `pda_service_summary.csv` files. The ranking-definition table is descriptive and is maintained directly in LaTeX.
-
-The N--1 conditional-vulnerability tables and pipe-ranking validation are generated by `run_pda_vulnerability_analysis` from the saved PDA scenario CSVs and `pipe_rankings.mat`; the six resulting CSVs are exported by `export_manuscript_tables`.
+`manuscript/figures/reproduce_all_figures.m` replots saved results without a new network GA. The four-pipe chlorine script accepts `false` to replot its saved pair without a new small GA. Each `run_staci_ranking_studies.m` point is cached separately so a longer pipe-count range can resume without repeating completed points.

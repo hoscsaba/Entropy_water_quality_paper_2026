@@ -18,10 +18,23 @@ Two-consumer loop example: fixed-head source, fixed demands
  P2  J      D2     3000       51.58         120             0          OPEN
  P3  D1     D2     3000       60            120             0          OPEN
 
+[QUALITY]
+ S   1
+
+[SOURCES]
+ S   CONCEN   1
+
+[REACTIONS]
+ ORDER BULK 1
+ ORDER WALL 1
+ GLOBAL BULK -1
+ GLOBAL WALL 0
+
 [OPTIONS]
  Units               LPS
  Headloss            H-W
  Demand Model        DDA
+ Quality             Chlorine mg/L
 
 [COORDINATES]
  S   0     0

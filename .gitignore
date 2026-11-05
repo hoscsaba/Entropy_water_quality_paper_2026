@@ -2,6 +2,15 @@
 /en??????
 networks/*/runtime/*
 !networks/*/runtime/README.md
+networks/*/results_staci/runtime/
+supplementary/results/validation_staci_15/cases/
+supplementary/results/anytown/
+supplementary/results/balerma/
+supplementary/results/tanyimboh_templeman/
+supplementary/results/validation_anytown_latest/
+supplementary/results/validation_21/
+supplementary/results/staci_ga/
+networks/*/results_staci_smoke/
 *.ros
 **/__pycache__/
 *.pyc

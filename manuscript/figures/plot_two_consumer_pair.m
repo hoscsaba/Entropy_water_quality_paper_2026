@@ -1,7 +1,7 @@
 function plot_two_consumer_pair(diameter, flow, head, chlorine, demands, metric, metric_name, node_entropy, output_prefix)
 %PLOT_TWO_CONSUMER_PAIR Two wide panels with data placed beside each node.
 % Rows A/B; pipe columns P0--P3; node columns S,J,D1,D2. Local entropy
-% contributions come directly from wdn.flow_entropy. Pass [] for chlorine
+% contributions come directly from the STACI-based example calculation. Pass [] for chlorine
 % in the hydraulic-only figure. Each export is produced as PNG and SVG.
 assert(isequal(size(node_entropy),[2 4]));
 fig=figure('Visible','off','Color','w','Units','centimeters', ...

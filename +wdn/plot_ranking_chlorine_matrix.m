@@ -29,8 +29,6 @@ for row = 1:5
     left_handles = plot_panel(ax_left, x_percent, left_values, ...
         labels.(left_order{row}), colors, markers);
     if row == 1
-        title(ax_left, 'Chlorine-concentration-optimized ranked subsets', ...
-            'FontSize',19,'FontWeight','bold');
         first_axis = ax_left;
         first_handles = left_handles;
     end
@@ -39,10 +37,6 @@ for row = 1:5
     right_values = relative_metric(entropy_study, right_order{row});
     plot_panel(ax_right, x_percent, right_values, labels.(right_order{row}), ...
         colors, markers);
-    if row == 1
-        title(ax_right, 'Chlorine-entropy-optimized ranked subsets', ...
-            'FontSize',19,'FontWeight','bold');
-    end
 end
 
 lgd = legend(first_axis, first_handles, concentration_study.criterion_labels, ...

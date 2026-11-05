@@ -7,6 +7,8 @@ addpath(root);
 network_dir = fullfile(root, 'networks', 'balerma');
 addpath(network_dir);
 cfg = network_config(network_dir);
+cfg.results_dir = fullfile(network_dir,'results_staci');
+cfg.figures_dir = fullfile(network_dir,'figures_staci');
 wdn.setup_toolkit(cfg);
 
 result_names = {'baseline','cost','hydraulic_entropy', ...
@@ -21,6 +23,7 @@ geometry.node_x = cell2mat(coordinates(:, 1));
 geometry.node_y = cell2mat(coordinates(:, 2));
 geometry.link_nodes = d.getLinkNodesIndex;
 geometry.node_types = d.getNodeTypeIndex;
+geometry.node_ids = string(d.getNodeNameID);
 
 data = cell(size(result_names));
 all_pressure = [];
@@ -36,12 +39,15 @@ for index = 1:numel(result_names)
                 result_names{index});
         end
     end
-    if ~isequal(record.full_link_ids, cellstr(model.link_ids))
+    if ~isequal(string(record.full_link_ids(:)), string(model.link_ids(:)))
         error('balerma:LinkOrderMismatch', ...
             '%s link order does not match the INP file.', result_names{index});
     end
     item.diameters = double(record.full_diameters(:));
-    item.pressure = double(record.metrics.pressures(:));
+    [found_nodes,node_order] = ismember( ...
+        geometry.node_ids,string(record.metrics.node_ids(:)));
+    assert(all(found_nodes),'Balerma STACI node ID mismatch');
+    item.pressure = double(record.metrics.pressures(node_order));
     all_pressure = [all_pressure; item.pressure(isfinite(item.pressure))]; %#ok<AGROW>
     data{index} = item;
 end

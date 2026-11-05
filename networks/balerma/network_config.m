@@ -8,8 +8,8 @@ project_root = fileparts(fileparts(network_dir));
 
 cfg.id = 'balerma';
 cfg.inp_file = fullfile(network_dir, 'input', 'network_original.inp');
-cfg.results_dir = fullfile(network_dir, 'results');
-cfg.figures_dir = fullfile(network_dir, 'figures');
+cfg.results_dir = fullfile(network_dir, 'results_staci');
+cfg.figures_dir = fullfile(network_dir, 'figures_staci');
 cfg.runtime_dir = fullfile(network_dir, 'runtime');
 cfg.toolkit_dir = fullfile(project_root, 'third_party', ...
     'epanet_matlab_toolkit');
@@ -60,21 +60,24 @@ cfg.stress.minimum_chlorine = 0.2;
 cfg.objectives = {'cost','hydraulic_entropy','chlorine_concentration', ...
     'chlorine_entropy','todini'};
 
-% Identical MATLAB GA configuration to the last validated Anytown runs.
+% The same 100-member GA framework; Balerma has its own wall-time ceiling.
 cfg.ga.random_seed = 1993;
 cfg.ga.population_size = 100;
-cfg.ga.max_generations = 100;
-cfg.ga.max_stall_generations = 30;
+cfg.ga.max_generations = 10000;
+cfg.ga.max_stall_generations = 150;
 cfg.ga.function_tolerance = 1e-6;
 cfg.ga.constraint_tolerance = 5e-5;
 cfg.ga.use_hybrid_patternsearch = false;
 cfg.ga.display = 'iter';
 
-% Nested ranked-subset study. K=45 corresponds to 9.91% of the 454 pipes.
+% Nested ranked-subset study. Four points retain the 0--9.91% span while
+% keeping each of the four objectives within a practical two-hour budget.
 % Each point has an independent cache file, so adding larger K values later
 % does not repeat completed calculations.
 cfg.ranking.perturbation_fraction = 0.10;
-cfg.ranking.k_values = [0, 5:5:45];
+cfg.ranking.k_values = [0, 5, 20, 45];
+cfg.ranking.max_generations = 100;
+cfg.ranking.max_stall_generations = 30;
 cfg.ranking.cache_dir = fullfile(cfg.results_dir, 'ranking_cache');
 cfg.ranking.display = 'final';
 cfg.ranking.figure_basename = 'figure14_balerma_ranking_objectives';

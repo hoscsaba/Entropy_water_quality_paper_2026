@@ -1,9 +1,10 @@
-function reproduce_all_figures
+function reproduce_all_figures(staci_root, mex_dir)
 %REPRODUCE_ALL_FIGURES Rebuild every active computational manuscript figure.
-% This routine uses saved validated results and does not launch a GA.
+% This routine uses saved STACI results and does not launch a GA.
 
 root = fileparts(fileparts(fileparts(mfilename('fullpath'))));
 addpath(root, '-begin');
+addpath(fullfile(staci_root,'matlab'),mex_dir,'-begin');
 addpath(fullfile(root, 'manuscript', 'figures'), '-begin');
 addpath(fullfile(root, 'manuscript', 'tables'), '-begin');
 generated_dir = fullfile(root, 'manuscript', 'generated', 'figures');
@@ -24,7 +25,7 @@ replot_cost_entropy(root, generated_dir);
 replot_chlorine_rankings(root, 'anytown', generated_dir);
 replot_hydraulic_rankings(root, 'balerma', generated_dir);
 replot_chlorine_rankings(root, 'balerma', generated_dir);
-make_objective_relationship_summary;
+make_objective_relationship_summary(staci_root,mex_dir);
 
 fprintf('All active computational manuscript figures are in %s\n', ...
     generated_dir);
@@ -34,6 +35,7 @@ function replot_cost_entropy(root, generated_dir)
 network_dir = fullfile(root, 'networks', 'anytown');
 addpath(network_dir, '-begin');
 cfg = network_config(network_dir);
+cfg.results_dir = fullfile(network_dir,'results_staci');
 saved = load(fullfile(cfg.results_dir, ...
     'multiobjective_cost_entropy.mat'), 'result');
 output_file = fullfile(cfg.figures_dir, 'figure7_cost_entropy.png');
@@ -43,20 +45,32 @@ end
 
 function replot_hydraulic_rankings(root, network_id, generated_dir)
 network_dir = fullfile(root, 'networks', network_id);
-saved = load(fullfile(network_dir, 'results', 'ranking_dual_study.mat'), ...
-    'cost_study', 'entropy_study', 'normalizers', 'cfg');
-files = wdn.plot_ranking_objective_matrix(saved.cfg, saved.cost_study, ...
-    saved.entropy_study, saved.normalizers);
+cost=load(fullfile(network_dir,'results_staci','ranking_cost_study.mat'), ...
+    'cost_study');
+entropy=load(fullfile(network_dir,'results_staci', ...
+    'ranking_entropy_study.mat'),'entropy_study');
+addpath(network_dir, '-begin');
+cfg = network_config(network_dir);
+cfg.results_dir = fullfile(network_dir, 'results_staci');
+cfg.figures_dir = fullfile(network_dir, 'figures_staci');
+files = wdn.plot_ranking_objective_matrix(cfg, cost.cost_study, ...
+    entropy.entropy_study, struct());
 copy_files(files, generated_dir);
 end
 
 function replot_chlorine_rankings(root, network_id, generated_dir)
 network_dir = fullfile(root, 'networks', network_id);
-saved = load(fullfile(network_dir, 'results', ...
-    'ranking_chlorine_dual_study.mat'), 'concentration_study', ...
-    'entropy_study', 'cfg');
-files = wdn.plot_ranking_chlorine_matrix(saved.cfg, ...
-    saved.concentration_study, saved.entropy_study);
+concentration=load(fullfile(network_dir,'results_staci', ...
+    'ranking_chlorine_concentration_study.mat'), ...
+    'concentration_study');
+entropy=load(fullfile(network_dir,'results_staci', ...
+    'ranking_chlorine_entropy_study.mat'),'entropy_study');
+addpath(network_dir, '-begin');
+cfg = network_config(network_dir);
+cfg.results_dir = fullfile(network_dir, 'results_staci');
+cfg.figures_dir = fullfile(network_dir, 'figures_staci');
+files = wdn.plot_ranking_chlorine_matrix(cfg, ...
+    concentration.concentration_study, entropy.entropy_study);
 copy_files(files, generated_dir);
 end
 

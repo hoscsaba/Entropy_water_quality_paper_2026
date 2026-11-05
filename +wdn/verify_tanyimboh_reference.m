@@ -1,0 +1,49 @@
+function comparison = verify_tanyimboh_reference()
+%VERIFY_TANYIMBOH_REFERENCE Independently maximize the published flow model.
+% This analytic reference check has no pipe diameters or hydraulic INP.
+% The network optimizations reported elsewhere use STACI.
+reference = [14.242 5.758 24.924 10.076 15.833 8.333 6.667 3.333; ...
+             24.924 10.076 14.242 5.758 15.833 8.333 6.667 3.333];
+source = [20 35; 35 20];
+A = [1 1 0 0 0 0 0 0; ...
+     0 0 1 1 0 0 0 0; ...
+     1 0 1 0 -1 -1 0 0; ...
+     0 1 0 1 1 0 -1 0; ...
+     0 0 0 0 0 1 0 -1; ...
+     0 0 0 0 0 0 1 1];
+options = optimoptions('fmincon','Display','off', ...
+    'Algorithm','sqp','OptimalityTolerance',1e-12, ...
+    'ConstraintTolerance',1e-11,'StepTolerance',1e-12, ...
+    'MaxIterations',2000,'MaxFunctionEvaluations',50000);
+flows = zeros(2,8);
+entropy = zeros(2,1);
+for k = 1:2
+    b = [source(k,:) 15 25 5 10]';
+    x0 = reference(k,:);
+    [flows(k,:),~,exitflag] = fmincon( ...
+        @(q)-flow_entropy(q,source(k,:)),x0,[],[],A,b, ...
+        zeros(1,8),[],[],options);
+    assert(exitflag > 0, 'Reference flow optimization did not converge');
+    assert(max(abs(A*flows(k,:)'-b)) < 1e-7, ...
+        'Reference flow continuity failed');
+    entropy(k) = flow_entropy(flows(k,:),source(k,:));
+end
+comparison = struct('reference_flows',reference, ...
+    'optimized_flows',flows,'entropy',entropy, ...
+    'reference_entropy',[2.41098;2.41098]);
+end
+
+function s = flow_entropy(q,source)
+q = q(:)';
+total_supply = sum(source);
+shares = source/total_supply;
+s = -sum(shares.*log(shares));
+branches = {q(1:2),q(3:4),[q(5:6) 15], ...
+    [q(7) 25],[q(8) 5],10};
+for k = 1:numel(branches)
+    flow = branches{k};
+    total = sum(flow);
+    positive = flow > 0;
+    s = s-sum(flow(positive).*log(flow(positive)/total))/total_supply;
+end
+end

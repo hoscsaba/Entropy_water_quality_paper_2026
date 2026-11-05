@@ -1,4 +1,4 @@
-function make_objective_relationship_summary
+function make_objective_relationship_summary(staci_root, mex_dir)
 %MAKE_OBJECTIVE_RELATIONSHIP_SUMMARY Cross-effects and rank associations.
 % This post-processing script uses saved optimization results only. It does
 % not run a genetic algorithm. The Anytown reference is the documented
@@ -8,9 +8,10 @@ close all;
 
 project_root = fileparts(fileparts(fileparts(mfilename('fullpath'))));
 addpath(project_root, '-begin');
+addpath(fullfile(staci_root,'matlab'),mex_dir);
 paper_dir = fullfile(project_root, 'manuscript', 'generated');
 paper_figure_dir = fullfile(paper_dir, 'figures');
-output_dir = fullfile(project_root, 'results', 'objective_relationships');
+output_dir = fullfile(project_root, 'results_staci', 'objective_relationships');
 if ~isfolder(output_dir), mkdir(output_dir); end
 if ~isfolder(paper_figure_dir), mkdir(paper_figure_dir); end
 table_dir = fullfile(paper_dir, 'tables');
@@ -30,14 +31,20 @@ reference_metrics = cell(1, numel(network_ids));
 for n = 1:numel(network_ids)
     network_dir = fullfile(project_root, 'networks', network_ids{n});
     cfg = local_network_config(network_dir);
-    wdn.setup_toolkit(cfg);
+    cfg.results_dir = fullfile(network_dir,'results_staci');
 
     if strcmp(network_ids{n}, 'anytown')
-        [d, model] = wdn.open_network(cfg);
-        cleanup_network = onCleanup(@() d.unload);
-        x_ref = wdn.pressure_anchor_reference(cfg, model);
-        reference = wdn.evaluate_design(d, x_ref, cfg, model, true);
-        clear cleanup_network d model
+        baseline = load(fullfile(cfg.results_dir,'baseline.mat'),'baseline');
+        st = StaciModel(fullfile(network_dir,'input', ...
+            'network_staci_fixed_load.inp'));
+        cleanup_network = onCleanup(@() st.release());
+        x0 = double(baseline.baseline.design_diameters(:));
+        x_ref = x0 + cfg.ga.feasible_interpolation_to_upper * ...
+            (cfg.maximum_diameter - x0);
+        reference = wdn.evaluate_staci_design(st,cfg,x_ref, ...
+            string(baseline.baseline.full_link_ids(:)), ...
+            baseline.baseline.full_diameters);
+        clear cleanup_network st
     else
         baseline = load(fullfile(cfg.results_dir, 'baseline.mat'));
         reference = local_result_struct(baseline).metrics;
@@ -140,17 +147,9 @@ cfg = network_config(network_dir);
 clear path_cleanup
 end
 
-function result = local_load_full_result(cfg, network_id, objective)
-if strcmp(network_id, 'anytown') && strcmp(objective, 'cost')
-    loaded = load(fullfile(cfg.results_dir, 'ranking_full_cost.mat'));
-    result = loaded.ranking_cost_endpoint;
-elseif strcmp(network_id, 'anytown') && strcmp(objective, 'hydraulic_entropy')
-    loaded = load(fullfile(cfg.results_dir, 'ranking_full_hydraulic_entropy.mat'));
-    result = loaded.ranking_entropy_endpoint;
-else
-    loaded = load(fullfile(cfg.results_dir, [objective '.mat']));
-    result = local_result_struct(loaded);
-end
+function result = local_load_full_result(cfg, ~, objective)
+loaded = load(fullfile(cfg.results_dir, [objective '.mat']));
+result = local_result_struct(loaded);
 end
 
 function result = local_result_struct(loaded)
@@ -191,7 +190,7 @@ study_files = {'ranking_cost_study.mat','ranking_entropy_study.mat', ...
 
 stats = cell(numel(network_ids), size(pairs, 1));
 for n = 1:numel(network_ids)
-    result_dir = fullfile(project_root, 'networks', network_ids{n}, 'results');
+    result_dir = fullfile(project_root, 'networks', network_ids{n}, 'results_staci');
     rho_by_pair = cell(size(pairs, 1), 1);
     for s = 1:numel(study_files)
         loaded = load(fullfile(result_dir, study_files{s}));

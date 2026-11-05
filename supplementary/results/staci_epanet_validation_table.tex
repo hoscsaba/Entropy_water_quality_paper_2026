@@ -1,0 +1,27 @@
+\begin{table}[H]
+\centering\scriptsize
+\caption{Independent EPANET 2.2 replay of all 15 final STACI designs. Each entry is the maximum or arithmetic mean absolute STACI--EPANET difference across all corresponding nodes or links. $H$: total head (m); $Q$: signed link flow (L/s); $c$: stationary chlorine (mg/L).}
+\label{tab:final-differences}
+\resizebox{\textwidth}{!}{%
+\begin{tabular}{llrrrrrr}
+\toprule
+Network & Objective & $H_{\max}$ & $H_{\rm mean}$ & $Q_{\max}$ & $Q_{\rm mean}$ & $c_{\max}$ & $c_{\rm mean}$ \\
+\midrule
+TT & Cost & 0.0216 & 0.00418 & $3.03\times10^{-7}$ & $1.02\times10^{-7}$ & $2.64\times10^{-6}$ & $7.45\times10^{-7}$ \\
+TT & Hyd. entropy & 0.000289 & $8.15\times10^{-5}$ & $3.37\times10^{-7}$ & $1.24\times10^{-7}$ & $2.89\times10^{-6}$ & $1.78\times10^{-6}$ \\
+TT & Cl conc. & 0.0207 & 0.00397 & $2.49\times10^{-7}$ & $7.71\times10^{-8}$ & $2.62\times10^{-6}$ & $7.12\times10^{-7}$ \\
+TT & Cl entropy & 0.000319 & 0.000124 & $2.08\times10^{-7}$ & $9.32\times10^{-8}$ & $1.23\times10^{-5}$ & $2.81\times10^{-6}$ \\
+TT & Todini & $1.12\times10^{-5}$ & $6.42\times10^{-6}$ & $5.71\times10^{-6}$ & $2.14\times10^{-6}$ & $1.67\times10^{-5}$ & $5.67\times10^{-6}$ \\
+AT & Cost & $3.1\times10^{-5}$ & $1.33\times10^{-5}$ & $1.31\times10^{-5}$ & $1.44\times10^{-6}$ & 0.000599 & 0.000131 \\
+AT & Hyd. entropy & $1.89\times10^{-5}$ & $1.51\times10^{-5}$ & $4.89\times10^{-5}$ & $1.28\times10^{-5}$ & 0.000595 & 0.000315 \\
+AT & Cl conc. & $1.96\times10^{-5}$ & $1.03\times10^{-5}$ & $4.92\times10^{-6}$ & $1.14\times10^{-6}$ & 0.000269 & 0.000105 \\
+AT & Cl entropy & $1.76\times10^{-5}$ & $1.45\times10^{-5}$ & $1.61\times10^{-5}$ & $1.56\times10^{-6}$ & 0.000588 & 0.000189 \\
+AT & Todini & $1.48\times10^{-5}$ & $1.04\times10^{-5}$ & $8.62\times10^{-6}$ & $1.09\times10^{-6}$ & 0.000458 & 0.000209 \\
+BA & Cost & 0.000997 & 0.000399 & $1.2\times10^{-5}$ & $1.07\times10^{-6}$ & $8.12\times10^{-5}$ & $3.03\times10^{-5}$ \\
+BA & Hyd. entropy & 0.000513 & 0.000265 & 0.0319 & 0.000775 & 0.000365 & 0.000112 \\
+BA & Cl conc. & 0.000997 & 0.000399 & $1.2\times10^{-5}$ & $1.07\times10^{-6}$ & $8.12\times10^{-5}$ & $3.03\times10^{-5}$ \\
+BA & Cl entropy & 0.000513 & 0.000265 & 0.0319 & 0.000775 & 0.000365 & 0.000112 \\
+BA & Todini & 0.000457 & 0.000175 & 0.000137 & $1.04\times10^{-5}$ & 0.000425 & 0.000125 \\
+\bottomrule
+\end{tabular}}
+\end{table}
