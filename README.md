@@ -15,6 +15,7 @@ startup
 staci_root = '/path/to/staci';
 mex_dir = '/path/to/staci/matlab'; % directory containing staci_mex
 addpath(fullfile(staci_root,'matlab'), mex_dir)
+validate_environment(staci_root,mex_dir)
 ```
 
 Check `exist('staci_mex','file') == 3` before long runs. The STACI checkout and this paper repository can be in unrelated directories.
@@ -94,6 +95,6 @@ Pass `false` to the chlorine script to replot its saved pair without rerunning t
 - `manuscript/figures/` and `manuscript/tables/`: paper-specific plotting and table procedures; `manuscript/generated/`: graphics and numerical tables supplied to LaTeX.
 - `supplementary/`: EPANET verification script and comparison CSVs, plus earlier independent steady-state parity and timing studies.
 - `third_party/`: EPANET 2.2 and MATLAB Toolkit for verification.
-- `results/` and network-specific historical files: archived EPANET-era calculations. The reproduction scripts do not read them; only `results_staci/` supplies the reported designs.
+The earlier EPANET-era optimization outputs and scripts have been removed from this checkout. Git history retains them; `results_staci/` supplies every reported network design. The versioned per-case files under `supplementary/results/<network>/` remain because the stationary-chlorine trajectory figure and CPU benchmark read them.
 
 Each INP and saved result has stable link IDs. The final design MAT files contain full-precision diameters, objective values, constraint violation, GA status, and operating-state arrays. Do not round the diameter vector before cross-engine verification; rounding can matter at active pressure-anchor limits.

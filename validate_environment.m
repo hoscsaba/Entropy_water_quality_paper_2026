@@ -1,17 +1,27 @@
-function report = validate_environment
-%VALIDATE_ENVIRONMENT Check a checkout without launching an optimization.
+function report = validate_environment(staci_root, mex_dir)
+%VALIDATE_ENVIRONMENT Check the STACI checkout and archived final designs.
+% This is a read-only preflight. The separate supplementary validator runs
+% all 15 saved designs independently in EPANET.
 
 root = fileparts(mfilename('fullpath'));
 addpath(root);
+if nargin >= 1 && ~isempty(staci_root)
+    addpath(fullfile(staci_root, 'matlab'));
+end
+if nargin >= 2 && ~isempty(mex_dir)
+    addpath(mex_dir);
+end
 
 report.matlab_release = string(version('-release'));
 report.matlab_version = string(version);
 report.has_global_optimization_toolbox = license('test', 'GADS_Toolbox');
 report.has_optimization_toolbox = license('test', 'Optimization_Toolbox');
-if ~report.has_global_optimization_toolbox
-    error('release:MissingToolbox', ...
-        'Global Optimization Toolbox is required for article production runs.');
-end
+report.has_staci_mex = exist('staci_mex', 'file') == 3;
+assert(report.has_global_optimization_toolbox && ...
+       report.has_optimization_toolbox, ...
+       'Both MATLAB optimization toolboxes are required.');
+assert(report.has_staci_mex, ...
+       'The STACI MATLAB MEX binary was not found on the path.');
 if report.matlab_release ~= "2026a"
     warning('release:MatlabVersion', ...
         'Article results used R2026a; this checkout is running %s.', ...
@@ -25,27 +35,36 @@ report.networks = table('Size', [numel(network_ids), 4], ...
 for index = 1:numel(network_ids)
     network_dir = fullfile(root, 'networks', char(network_ids(index)));
     addpath(network_dir);
+    path_cleanup = onCleanup(@() rmpath(network_dir));
     clear network_config;
     cfg = network_config(network_dir);
-    path_cleanup = onCleanup(@() rmpath(network_dir));
-    result_files = cellfun(@(name) isfile(fullfile(cfg.results_dir, ...
-        [name '.mat'])), cfg.objectives);
+    input_file = fullfile(network_dir, 'input', ...
+        'network_staci_fixed_load.inp');
+    objective_names = string(cfg.objectives);
+    results_complete = true;
+    for name = objective_names
+        result_file = fullfile(network_dir, 'results_staci', name + ".mat");
+        if ~isfile(result_file)
+            results_complete = false;
+            break;
+        end
+        saved = load(result_file, 'result');
+        result = saved.result;
+        valid = strcmp(string(result.network_id), string(cfg.id)) && ...
+            numel(result.design_diameters) == numel(cfg.design_link_ids) && ...
+            all(isfinite(result.design_diameters)) && ...
+            result.max_constraint_violation <= cfg.ga.constraint_tolerance;
+        results_complete = results_complete && valid;
+    end
     report.networks(index, :) = {network_ids(index), ...
-        numel(cfg.design_link_ids), isfile(cfg.inp_file), all(result_files)};
-    toolkit_override = string(getenv('WDS_EPANET_TOOLKIT'));
-    toolkit_is_portable = startsWith(cfg.toolkit_dir, root) || ...
-        (strlength(toolkit_override) > 0 && string(cfg.toolkit_dir) == toolkit_override);
-    if ~toolkit_is_portable || ~startsWith(cfg.inp_file, root)
-        error('release:NonPortablePath', ...
-            'Configuration contains a machine-specific path: %s', network_ids(index));
-    end
-    if all(result_files)
-        wdn.write_cross_evaluation(cfg);
-    end
+        numel(cfg.design_link_ids), isfile(input_file), results_complete};
     clear path_cleanup;
 end
 
-fprintf('MATLAB %s (%s)\n', report.matlab_version, report.matlab_release);
+assert(all(report.networks.InputFound) && ...
+       all(report.networks.ResultsComplete), ...
+       'A STACI input or final saved design is missing or invalid.');
+fprintf('MATLAB %s (%s); STACI MEX ready.\n', ...
+    report.matlab_version, report.matlab_release);
 disp(report.networks);
-fprintf('Environment and stored cross-evaluations passed validation.\n');
 end

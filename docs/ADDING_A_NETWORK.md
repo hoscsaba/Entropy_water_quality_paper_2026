@@ -4,7 +4,7 @@
 2. Copy the closest `network_config.m` and change every physical/model setting
    explicitly. In particular, list design pipes, fixed hydraulic equipment,
    entropy-excluded adapters, assessment nodes, source nodes, unit conversions,
-   pressure limits, and water-quality steps.
+   pressure limits, chlorine source and reaction settings, and the fixed load.
 3. Do not infer physical pipes from all EPANET links when pumps, valves, virtual
    pressure anchors, or compatibility connectors are present.
 4. Add a small network-specific driver that calls the shared `+wdn` functions;
@@ -16,10 +16,11 @@
    it must not be hidden by rounding the table.
 7. Validate nominal feasibility and then run the independent pipe-failure test.
 
-For reservoirs or tanks used only to impose head, use the article's pressure-
-anchor treatment: exclude artificial supply adapters from the physical entropy
-graph and collapse their flow onto the adjacent physical node. Never exclude a
-true physical source simply because it is represented as an EPANET reservoir.
+For a boundary used only to prescribe head, use the article's pressure-anchor
+treatment: model it as a zero-demand junction with no supply or withdrawal,
+and constrain its head in the optimizer. Exclude its fixed compatibility link
+from the physical entropy graph and outage set. Keep a true water source as a
+reservoir; a real storage tank needs a time-dependent model.
 
 Keep runtime files, absolute paths, user-specific toolbox locations, and dated
 external seeds out of the release. Store compact warm starts by link ID inside
