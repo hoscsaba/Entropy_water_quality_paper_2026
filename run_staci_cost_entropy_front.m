@@ -1,5 +1,5 @@
 function result = run_staci_cost_entropy_front(staci_root, mex_dir)
-%RUN_STACI_COST_ENTROPY_FRONT Recompute the Anytown STACI Pareto archive.
+%RUN_STACI_COST_ENTROPY_FRONT Recompute cost--branching-hop Pareto archive.
 root=fileparts(mfilename('fullpath'));
 network_dir=fullfile(root,'networks','anytown');
 addpath(root,network_dir,fullfile(staci_root,'matlab'),mex_dir);

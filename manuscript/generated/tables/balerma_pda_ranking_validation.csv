@@ -1,51 +1,61 @@
 Network,Design,ServiceMetric,RankingCriterion,PipeFailureCount,TopPipeCount,SpearmanRho,TopTenPercentCapturedDeficitPercent,TopTenPercentCriticalPipeOverlap
-balerma,Cost,Water deficit,flow_rate,454,46,0.952927494454877,59.001507974424,46
-balerma,Cost,Water deficit,pressure_sensitivity,454,46,0.870832758553986,47.0145465246643,30
-balerma,Cost,Water deficit,nodal_entropy,454,46,0.722538904400767,42.4328186801687,25
-balerma,Cost,Water deficit,entropy_sensitivity,454,46,0.428682819923252,29.3268880846191,13
-balerma,Cost,Water deficit,volume,454,46,0.527369965362632,53.9954499620236,35
-balerma,Cost,Joint deficit,flow_rate,454,46,0.952927494454877,59.0203843780658,46
-balerma,Cost,Joint deficit,pressure_sensitivity,454,46,0.870832758553986,47.0256011507385,30
-balerma,Cost,Joint deficit,nodal_entropy,454,46,0.722538904400767,42.4459828115679,25
-balerma,Cost,Joint deficit,entropy_sensitivity,454,46,0.428682819923252,29.3327456308935,13
-balerma,Cost,Joint deficit,volume,454,46,0.527369965362632,54.0166312399919,35
-balerma,Hydraulic entropy,Water deficit,flow_rate,454,46,0.513450849992759,55.9636127814743,28
-balerma,Hydraulic entropy,Water deficit,pressure_sensitivity,454,46,0.459009836502732,46.3175477933479,22
-balerma,Hydraulic entropy,Water deficit,nodal_entropy,454,46,0.460704630841808,42.0780334790576,19
-balerma,Hydraulic entropy,Water deficit,entropy_sensitivity,454,46,-0.0250373268906069,29.7857212026813,10
-balerma,Hydraulic entropy,Water deficit,volume,454,46,0.278731072705368,53.8046673849165,28
-balerma,Hydraulic entropy,Joint deficit,flow_rate,454,46,0.513450849992759,55.9365881445495,28
-balerma,Hydraulic entropy,Joint deficit,pressure_sensitivity,454,46,0.459009836502732,46.3477370994842,22
-balerma,Hydraulic entropy,Joint deficit,nodal_entropy,454,46,0.460704630841808,42.053977936782,19
-balerma,Hydraulic entropy,Joint deficit,entropy_sensitivity,454,46,-0.0250373268906069,29.770334091664,10
-balerma,Hydraulic entropy,Joint deficit,volume,454,46,0.278731072705368,53.7896134965274,28
-balerma,Chlorine concentration,Water deficit,flow_rate,454,46,0.952927494454877,59.001507974424,46
-balerma,Chlorine concentration,Water deficit,pressure_sensitivity,454,46,0.870832758553986,47.0145465246643,30
-balerma,Chlorine concentration,Water deficit,nodal_entropy,454,46,0.722538904400767,42.4328186801687,25
-balerma,Chlorine concentration,Water deficit,entropy_sensitivity,454,46,0.428682819923252,29.3268880846191,13
-balerma,Chlorine concentration,Water deficit,volume,454,46,0.527369965362632,53.9954499620236,35
-balerma,Chlorine concentration,Joint deficit,flow_rate,454,46,0.952927494454877,59.0203843780658,46
-balerma,Chlorine concentration,Joint deficit,pressure_sensitivity,454,46,0.870832758553986,47.0256011507385,30
-balerma,Chlorine concentration,Joint deficit,nodal_entropy,454,46,0.722538904400767,42.4459828115679,25
-balerma,Chlorine concentration,Joint deficit,entropy_sensitivity,454,46,0.428682819923252,29.3327456308935,13
-balerma,Chlorine concentration,Joint deficit,volume,454,46,0.527369965362632,54.0166312399919,35
-balerma,Chlorine entropy,Water deficit,flow_rate,454,46,0.513450849992759,55.9636127814743,28
-balerma,Chlorine entropy,Water deficit,pressure_sensitivity,454,46,0.459009836502732,46.3175477933479,22
-balerma,Chlorine entropy,Water deficit,nodal_entropy,454,46,0.460704630841808,42.0780334790576,19
-balerma,Chlorine entropy,Water deficit,entropy_sensitivity,454,46,-0.0250373268906069,29.7857212026813,10
-balerma,Chlorine entropy,Water deficit,volume,454,46,0.278731072705368,53.8046673849165,28
-balerma,Chlorine entropy,Joint deficit,flow_rate,454,46,0.513450849992759,55.9365881445495,28
-balerma,Chlorine entropy,Joint deficit,pressure_sensitivity,454,46,0.459009836502732,46.3477370994842,22
-balerma,Chlorine entropy,Joint deficit,nodal_entropy,454,46,0.460704630841808,42.053977936782,19
-balerma,Chlorine entropy,Joint deficit,entropy_sensitivity,454,46,-0.0250373268906069,29.770334091664,10
-balerma,Chlorine entropy,Joint deficit,volume,454,46,0.278731072705368,53.7896134965274,28
-balerma,Todini,Water deficit,flow_rate,454,46,0.405943213506269,60.9805658558349,30
-balerma,Todini,Water deficit,pressure_sensitivity,454,46,0.337047799524863,50.2313809599723,26
-balerma,Todini,Water deficit,nodal_entropy,454,46,0.386551693048357,43.2924776367604,21
-balerma,Todini,Water deficit,entropy_sensitivity,454,46,-0.191303354757971,28.9258920756735,13
-balerma,Todini,Water deficit,volume,454,46,0.163101644140898,57.3130130622236,29
-balerma,Todini,Joint deficit,flow_rate,454,46,0.405934371458733,60.9612542782393,30
-balerma,Todini,Joint deficit,pressure_sensitivity,454,46,0.337038957477327,50.2906324842064,26
-balerma,Todini,Joint deficit,nodal_entropy,454,46,0.386543241091153,43.2392740160377,21
-balerma,Todini,Joint deficit,entropy_sensitivity,454,46,-0.19131726797983,28.8673882002757,13
-balerma,Todini,Joint deficit,volume,454,46,0.163092151942808,57.2481760422415,29
+balerma,Cost,Water deficit,flow_rate,454,46,0.952927494454877,59.0015023138953,46
+balerma,Cost,Water deficit,pressure_sensitivity,454,46,0.870832758553986,47.0145437696064,30
+balerma,Cost,Water deficit,nodal_entropy,454,46,0.722538904400767,42.4328147907851,25
+balerma,Cost,Water deficit,entropy_sensitivity,454,46,0.428682819923252,29.3268877999984,13
+balerma,Cost,Water deficit,volume,454,46,0.527369965362632,53.9954442595502,35
+balerma,Cost,Joint deficit,flow_rate,454,46,0.952927494454877,59.0203787159253,46
+balerma,Cost,Joint deficit,pressure_sensitivity,454,46,0.870832758553986,47.0255983944341,30
+balerma,Cost,Joint deficit,nodal_entropy,454,46,0.722538904400767,42.4459789209885,25
+balerma,Cost,Joint deficit,entropy_sensitivity,454,46,0.428682819923252,29.3327453450052,13
+balerma,Cost,Joint deficit,volume,454,46,0.527369965362632,54.016625535411,35
+balerma,Hydraulic entropy,Water deficit,flow_rate,454,46,0.493024715754133,56.2493219402115,28
+balerma,Hydraulic entropy,Water deficit,pressure_sensitivity,454,46,0.442597378733656,46.6710603835835,22
+balerma,Hydraulic entropy,Water deficit,nodal_entropy,454,46,0.446873576659101,42.3270824316042,19
+balerma,Hydraulic entropy,Water deficit,entropy_sensitivity,454,46,-0.0383520123546529,30.1958374738896,10
+balerma,Hydraulic entropy,Water deficit,volume,454,46,0.263518654633603,54.0262250050477,28
+balerma,Hydraulic entropy,Joint deficit,flow_rate,454,46,0.493027050064882,56.227832950418,28
+balerma,Hydraulic entropy,Joint deficit,pressure_sensitivity,454,46,0.442600102096197,46.7205194567764,22
+balerma,Hydraulic entropy,Joint deficit,nodal_entropy,454,46,0.446938418624368,42.3074990532502,19
+balerma,Hydraulic entropy,Joint deficit,entropy_sensitivity,454,46,-0.0382565649817795,30.1712900696858,10
+balerma,Hydraulic entropy,Joint deficit,volume,454,46,0.263558597284207,53.9697867818357,28
+balerma,Chlorine concentration,Water deficit,flow_rate,454,46,0.952930569441625,58.9990111528859,46
+balerma,Chlorine concentration,Water deficit,pressure_sensitivity,454,46,0.870849500769036,47.0108010873731,30
+balerma,Chlorine concentration,Water deficit,nodal_entropy,454,46,0.722547530564766,42.4315460704659,25
+balerma,Chlorine concentration,Water deficit,entropy_sensitivity,454,46,0.428673788393374,29.3273054074718,13
+balerma,Chlorine concentration,Water deficit,volume,454,46,0.527315316003961,53.9937478294168,35
+balerma,Chlorine concentration,Joint deficit,flow_rate,454,46,0.952930569441625,59.0178882656365,46
+balerma,Chlorine concentration,Joint deficit,pressure_sensitivity,454,46,0.870849500769036,47.0218567451818,30
+balerma,Chlorine concentration,Joint deficit,nodal_entropy,454,46,0.722547530564766,42.4447100458727,25
+balerma,Chlorine concentration,Joint deficit,entropy_sensitivity,454,46,0.428673788393374,29.3331617554324,13
+balerma,Chlorine concentration,Joint deficit,volume,454,46,0.527315316003961,54.0149293968345,35
+balerma,Chlorine entropy,Water deficit,flow_rate,454,46,0.530510192986261,56.0330539807434,28
+balerma,Chlorine entropy,Water deficit,pressure_sensitivity,454,46,0.484759118294611,46.661453739763,22
+balerma,Chlorine entropy,Water deficit,nodal_entropy,454,46,0.475873479604967,42.3080509813708,19
+balerma,Chlorine entropy,Water deficit,entropy_sensitivity,454,46,0.00464833434318878,30.4651535176015,10
+balerma,Chlorine entropy,Water deficit,volume,454,46,0.285332744871441,53.7507574895165,28
+balerma,Chlorine entropy,Joint deficit,flow_rate,454,46,0.530607828818292,56.0136225444762,28
+balerma,Chlorine entropy,Joint deficit,pressure_sensitivity,454,46,0.484820707962891,46.6954625319801,22
+balerma,Chlorine entropy,Joint deficit,nodal_entropy,454,46,0.475985767294926,42.2885311264876,19
+balerma,Chlorine entropy,Joint deficit,entropy_sensitivity,454,46,0.0047040892007899,30.4363591673544,10
+balerma,Chlorine entropy,Joint deficit,volume,454,46,0.285323409174354,53.6972973402883,28
+balerma,Todini,Water deficit,flow_rate,454,46,0.363034891895327,60.9329257197423,31
+balerma,Todini,Water deficit,pressure_sensitivity,454,46,0.304831188369792,50.6742569262766,26
+balerma,Todini,Water deficit,nodal_entropy,454,46,0.349964865829742,42.9645236347711,22
+balerma,Todini,Water deficit,entropy_sensitivity,454,46,-0.216854521604971,28.552346110819,12
+balerma,Todini,Water deficit,volume,454,46,0.116316950068138,57.1604822062059,30
+balerma,Todini,Joint deficit,flow_rate,454,46,0.363034891895327,60.8941761779652,31
+balerma,Todini,Joint deficit,pressure_sensitivity,454,46,0.304831188369792,50.7162762017808,26
+balerma,Todini,Joint deficit,nodal_entropy,454,46,0.349964865829742,42.9144943869566,22
+balerma,Todini,Joint deficit,entropy_sensitivity,454,46,-0.216854521604971,28.5054727126724,12
+balerma,Todini,Joint deficit,volume,454,46,0.116316950068138,57.0868701600068,30
+balerma,Branch-hop entropy,Water deficit,flow_rate,454,46,0.839540816237697,62.9431755225854,45
+balerma,Branch-hop entropy,Water deficit,pressure_sensitivity,454,46,0.696330500198751,49.3992583161544,30
+balerma,Branch-hop entropy,Water deficit,nodal_entropy,454,46,0.656870709702708,44.1956246259098,26
+balerma,Branch-hop entropy,Water deficit,entropy_sensitivity,454,46,0.181325197236357,27.360195015606,13
+balerma,Branch-hop entropy,Water deficit,volume,454,46,0.441495758820773,57.7052288228481,36
+balerma,Branch-hop entropy,Joint deficit,flow_rate,454,46,0.839540816237697,62.9432841756488,45
+balerma,Branch-hop entropy,Joint deficit,pressure_sensitivity,454,46,0.696330500198751,49.3993339268361,30
+balerma,Branch-hop entropy,Joint deficit,nodal_entropy,454,46,0.656870709702708,44.1957154939901,26
+balerma,Branch-hop entropy,Joint deficit,entropy_sensitivity,454,46,0.181325197236357,27.3603352462808,13
+balerma,Branch-hop entropy,Joint deficit,volume,454,46,0.441495758820773,57.7052800798742,36

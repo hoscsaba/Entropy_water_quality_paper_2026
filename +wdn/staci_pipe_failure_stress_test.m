@@ -1,6 +1,20 @@
-function [summary, scenarios] = staci_pipe_failure_stress_test(cfg, diameters, label, input_file)
+function [summary, scenarios] = staci_pipe_failure_stress_test(cfg, diameters, label, input_file, outage_input_file)
 %STACI_PIPE_FAILURE_STRESS_TEST DDA N-1 replay in one resident STACI model.
-st = StaciModel(input_file);
+% Anytown's default outage input uses real 215-ft reservoirs at 65 and 165,
+% while nominal optimization keeps them as zero-flow pressure anchors. A
+% prebuilt outage INP can instead have exactly one connector closed.
+if strcmp(cfg.id,'anytown')
+    if nargin>=5 && strlength(string(outage_input_file))>0
+        outage_file=outage_input_file;
+        assert(isfile(outage_file),'Requested outage INP is missing');
+    else
+        outage_file=fullfile(cfg.runtime_dir,'network_dda_reservoir_outage.inp');
+        wdn.write_staci_anytown_outage_input(cfg,input_file,outage_file);
+    end
+else
+    outage_file=input_file;
+end
+st = StaciModel(outage_file);
 cleanup = onCleanup(@() st.release());
 if strcmp(cfg.id, 'anytown'), scale = 0.0254; else, scale = 0.001; end
 st.setLinkProperty(string(cfg.design_link_ids(:)), 'diameter_m', ...

@@ -1,0 +1,4 @@
+function make_anytown_anchor_replay_figures
+%MAKE_ANYTOWN_ANCHOR_REPLAY_FIGURES Six nominal pressure/chlorine panels.
+make_anytown_physical_reservoir_figures('anchor_replay');
+end

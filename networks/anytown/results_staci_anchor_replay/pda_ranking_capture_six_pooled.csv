@@ -1,0 +1,6 @@
+Criterion,cost,hydraulic_entropy,branch_hop_weighted_entropy,chlorine_concentration,chlorine_entropy,todini
+flow_rate,12.9833414514651,0,NaN,14.5583067116292,0,100
+pressure_sensitivity,12.9833414514651,0,NaN,14.5583067116292,0,100
+nodal_entropy,1.21771970620152,0,NaN,0.714121486113455,0,100
+entropy_sensitivity,12.9833414514651,0,NaN,14.5583067116292,0,100
+volume,1.21771970620152,0,NaN,0.714121486113455,0,100

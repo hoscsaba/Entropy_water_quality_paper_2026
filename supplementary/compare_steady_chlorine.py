@@ -104,7 +104,10 @@ def design_ids(network, source):
 
 
 def write_case(epanet, network, design, out, max_days, design_source):
-    source = ROOT / "networks" / network / "input" / "network_staci_fixed_load.inp"
+    input_name = ("network_physical_reservoirs.inp" if
+                  network == "anytown" and design_source == "results_staci_physical_reservoirs"
+                  else "network_staci_fixed_load.inp")
+    source = ROOT / "networks" / network / "input" / input_name
     raw = out / "original_fixed_load.inp"
     static_input(source, raw, network)
     epanet.call("ENopen", str(raw).encode(), str(out / "setup.rpt").encode(),
@@ -122,7 +125,9 @@ def write_case(epanet, network, design, out, max_days, design_source):
                 epanet.call("ENsetlinkvalue", index.value, 0, ct.c_float(float(diameter)))
         epanet.call("ENsetqualtype", 1, b"Chlorine", b"mg/L", b"")
         ids = epanet.node_ids()
-        sources = ({"10"} if network == "anytown" else
+        sources = ({"10", "65", "165"} if network == "anytown" and
+                   design_source == "results_staci_physical_reservoirs" else
+                   {"10"} if network == "anytown" else
                    {"8", "2"} if network == "tanyimboh_templeman" else
                    set(_section_ids(source, "RESERVOIRS")))
         for index, node_id in enumerate(ids, 1):
@@ -280,14 +285,19 @@ def main():
     parser.add_argument("--output", type=Path, default=ROOT / "supplementary/results")
     parser.add_argument("--max-days", type=int, default=14)
     parser.add_argument("--designs", nargs="*", default=list(DESIGNS))
-    parser.add_argument("--design-source", choices=("results_staci",),
+    parser.add_argument("--networks", nargs="*", choices=NETWORKS,
+                        default=list(NETWORKS))
+    parser.add_argument("--design-source", choices=("results_staci", "results_staci_physical_reservoirs"),
                         default="results_staci")
     args = parser.parse_args()
     args.output.mkdir(parents=True, exist_ok=True)
     epanet = Epanet(args.epanet)
     summaries = []
-    for network in NETWORKS:
-        source = ROOT / "networks" / network / "input" / "network_staci_fixed_load.inp"
+    for network in args.networks:
+        input_name = ("network_physical_reservoirs.inp" if
+                      network == "anytown" and args.design_source == "results_staci_physical_reservoirs"
+                      else "network_staci_fixed_load.inp")
+        source = ROOT / "networks" / network / "input" / input_name
         candidates = material_consumers(source, network)
         sample = [candidates[i] for i in sorted(set((0, len(candidates)//2, len(candidates)-1)))]
         for design in args.designs:

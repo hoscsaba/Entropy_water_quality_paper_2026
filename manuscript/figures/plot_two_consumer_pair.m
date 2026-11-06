@@ -4,6 +4,7 @@ function plot_two_consumer_pair(diameter, flow, head, chlorine, demands, metric,
 % contributions come directly from the STACI-based example calculation. Pass [] for chlorine
 % in the hydraulic-only figure. Each export is produced as PNG and SVG.
 assert(isequal(size(node_entropy),[2 4]));
+changed_diameter=abs(diameter(1,:)-diameter(2,:))>0.005;
 fig=figure('Visible','off','Color','w','Units','centimeters', ...
     'Position',[2 2 35 12.5]);
 t=tiledlayout(fig,1,2,'TileSpacing','compact','Padding','compact');
@@ -35,10 +36,10 @@ for k=1:2
  text(ax,6.3,-2.14,'$D_2$','Interpreter','latex','FontSize',16, ...
      'HorizontalAlignment','center');
  % Diameter and flow labels have a 0.42-unit vertical separation.
- label_pipe(ax,1.35,1.03,0.61,0,diameter(k,1),flow(k,1),'center');
- label_pipe(ax,4.33,2.55,2.13,1,diameter(k,2),flow(k,2),'center');
- label_pipe(ax,4.25,-2.48,-2.90,2,diameter(k,3),flow(k,3),'center');
- label_pipe(ax,6.55,0.32,-0.10,3,diameter(k,4),abs(flow(k,4)),'left');
+ label_pipe(ax,1.35,1.03,0.61,0,diameter(k,1),flow(k,1),'center',changed_diameter(1));
+ label_pipe(ax,4.33,2.55,2.13,1,diameter(k,2),flow(k,2),'center',changed_diameter(2));
+ label_pipe(ax,4.25,-2.48,-2.90,2,diameter(k,3),flow(k,3),'center',changed_diameter(3));
+ label_pipe(ax,6.55,0.32,-0.10,3,diameter(k,4),abs(flow(k,4)),'left',changed_diameter(4));
  % The two non-consuming nodes have no withdrawal line. All values remain
  % beside their own node, with no detached legend or inset boxes.
  node_data(ax,-0.10,-0.64,head(k,1),[],node_entropy(k,1),chlorine,k,1);
@@ -70,8 +71,13 @@ text(ax,x,y,lines,'Interpreter','latex','FontSize',15, ...
     'Color',[0.08 0.08 0.08]);
 end
 
-function label_pipe(ax,x,yd,yq,j,d,q,alignment)
-text(ax,x,yd,sprintf('$d_%d=%s$ mm',j,fmt_num(d,1)), ...
+function label_pipe(ax,x,yd,yq,j,d,q,alignment,changed)
+if changed
+ diameter_label=sprintf('$d_%d=\\mathbf{%s}$ mm',j,fmt_num(d,3));
+else
+ diameter_label=sprintf('$d_%d=%s$ mm',j,fmt_num(d,1));
+end
+text(ax,x,yd,diameter_label, ...
     'Interpreter','latex','FontSize',16,'HorizontalAlignment',alignment);
 text(ax,x,yq,sprintf('$Q_%d=%s$ L/s',j,fmt_num(q,2)), ...
     'Interpreter','latex','FontSize',16,'HorizontalAlignment',alignment);

@@ -1,6 +1,9 @@
 function [metrics, violation] = evaluate_staci_design(staci, cfg, x, link_order, original_diameters)
-%EVALUATE_STACI_DESIGN All five paper metrics from one resident STACI model.
-% x is in the network's published diameter unit (inches or millimetres).
+%EVALUATE_STACI_DESIGN Score one complete diameter vector in resident STACI.
+% x follows cfg.design_link_ids and uses published units: inches for
+% Anytown, millimetres elsewhere. STACI properties use SI units. The
+% chlorine floor is evaluated only at material-demand consumers; source
+% and zero-demand junctions do not enter that minimum. No INP is rewritten.
 if strcmp(cfg.id, 'anytown')
     diameter_scale = 0.0254;
     length_scale = 1 / 0.3048;
@@ -42,8 +45,15 @@ end
 lengths = staci.getLinkProperty(design_ids, 'length_m');
 metrics.cost = wdn.pipe_cost(x, double(lengths(:)) * length_scale, cfg);
 metrics.hydraulic_entropy = wdn.staci_flow_entropy(staci, cfg, []);
+if isfield(cfg,'branch_hop_weighting')
+    [found,wi]=ismember(node_ids,string(cfg.branch_hop_weighting.node_ids(:)));
+    assert(all(found),'Branch-hop weight node mismatch');
+    metrics.branch_hop_weighted_entropy = ...
+        wdn.source_distance_weighted_entropy(staci,cfg, ...
+        cfg.branch_hop_weighting.weights(wi));
+end
 metrics.chlorine_concentration = sum(chlorine(ai).^2);
-metrics.chlorine_entropy = wdn.staci_flow_entropy(staci, cfg, chlorine);
+metrics.chlorine_entropy = wdn.staci_chlorine_entropy(staci, cfg, chlorine);
 metrics.todini = wdn.staci_todini_index(staci, cfg);
 metrics.node_ids = cellstr(node_ids);
 metrics.link_ids = cellstr(link_ids);
@@ -60,9 +70,15 @@ full_diameters = double(original_diameters(:)');
 assert(all(found_design), 'Design link missing from output link order');
 full_diameters(di) = x;
 metrics.full_diameters = full_diameters;
-constraints = cfg.minimum_pressure - pressure(pidx);
+lower_pressure=cfg.minimum_pressure;
+upper_pressure=cfg.maximum_pressure;
+if isfield(cfg.ga,'pressure_numerical_guard_psi')
+    lower_pressure=lower_pressure+cfg.ga.pressure_numerical_guard_psi;
+    upper_pressure=upper_pressure-cfg.ga.pressure_numerical_guard_psi;
+end
+constraints = lower_pressure - pressure(pidx);
 if isfinite(cfg.maximum_pressure)
-    constraints = [constraints; pressure(pidx) - cfg.maximum_pressure];
+    constraints = [constraints; pressure(pidx) - upper_pressure];
 end
 if isfield(cfg, 'pressure_anchor_node_ids') && ...
         ~isempty(cfg.pressure_anchor_node_ids)
@@ -70,9 +86,12 @@ if isfield(cfg, 'pressure_anchor_node_ids') && ...
         string(cfg.pressure_anchor_node_ids(:)), node_ids);
     assert(all(found_anchor), 'Pressure anchor node missing');
     anchor_ft = double(nodes.total_head_m(anchor_index)) / 0.3048;
+    anchor_limit=cfg.pressure_anchor_head_tolerance;
+    if isfield(cfg.ga,'anchor_numerical_guard_ft')
+        anchor_limit=anchor_limit-cfg.ga.anchor_numerical_guard_ft;
+    end
     constraints = [constraints; abs(anchor_ft(:) - ...
-        cfg.pressure_anchor_target_heads(:)) - ...
-        cfg.pressure_anchor_head_tolerance];
+        cfg.pressure_anchor_target_heads(:)) - anchor_limit];
 end
 violation = max([0; constraints(:)]);
 end

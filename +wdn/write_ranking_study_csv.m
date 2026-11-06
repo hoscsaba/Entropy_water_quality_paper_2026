@@ -31,5 +31,9 @@ rows = table(criterion, k_value, metric_values(:, 1), metric_values(:, 2), ...
     'VariableNames', {'Criterion','K','Cost','HydraulicEntropy', ...
     'ChlorineConcentration','ChlorineEntropy','Todini','IsFeasible', ...
     'MaxConstraintViolation','ElapsedSeconds'});
+if numel(study.metric_names)>5
+    rows.BranchHopEntropy=metric_values(:,6);
+    rows=movevars(rows,'BranchHopEntropy','After','HydraulicEntropy');
+end
 writetable(rows, fullfile(cfg.results_dir, filename));
 end

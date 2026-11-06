@@ -108,15 +108,14 @@ cfg.plot.equipment_label_font_size = 9.5;
 cfg.plot.equipment_label_offset = [95, 95];
 cfg.plot.pump_symbol_radius = 82;
 
-% Reproducible two-objective search used for Fig. 7. Both objectives are
-% maximized physically and therefore negated for MATLAB's gamultiobj.
+% Reproducible cost--branching-hop search used for Fig. 7.
 cfg.multiobjective.random_seed = 202607;
 cfg.multiobjective.cost_entropy_random_seed = 202608;
-cfg.multiobjective.population_size = 120;
-cfg.multiobjective.max_generations = 120;
-cfg.multiobjective.max_stall_generations = 35;
+cfg.multiobjective.population_size = 320;
+cfg.multiobjective.max_generations = 500;
+cfg.multiobjective.max_stall_generations = 150;
 cfg.multiobjective.function_tolerance = 1e-5;
-cfg.multiobjective.pareto_fraction = 0.70;
+cfg.multiobjective.pareto_fraction = 0.90;
 cfg.multiobjective.display = 'iter';
 
 % Pipe-ranking study used for Fig. 9. Rankings and all reduced searches are

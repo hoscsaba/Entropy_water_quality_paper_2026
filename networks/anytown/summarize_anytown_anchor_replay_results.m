@@ -1,0 +1,6 @@
+function [normalized,raw]=summarize_anytown_anchor_replay_results( ...
+        paper_root,staci_root,mex_dir)
+%SUMMARIZE_ANYTOWN_ANCHOR_REPLAY_RESULTS Cross-evaluate six nominal designs.
+[normalized,raw]=summarize_anytown_physical_reservoir_results( ...
+    paper_root,staci_root,mex_dir,'anchor_replay');
+end

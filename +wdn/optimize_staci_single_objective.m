@@ -1,7 +1,10 @@
 function result = optimize_staci_single_objective(cfg, objective_name, input_file, output_file)
-%OPTIMIZE_STACI_SINGLE_OBJECTIVE Five-objective, in-memory STACI GA.
+%OPTIMIZE_STACI_SINGLE_OBJECTIVE In-memory STACI GA for paper objectives.
 % Chlorine objectives constrain concentration at material-demand consumers.
 % No candidate evaluation writes an INP, RPT, BIN or other sidecar file.
+% For chlorine-directed searches, 0.2 mg/L is required only at junctions
+% above the demand of a 10 mm pipe carrying water at 1 cm/s. The other
+% searches report chlorine as a metric without imposing this floor.
 
 assert(ismember(string(objective_name), string(cfg.objectives)));
 chlorine_objective = ismember(string(objective_name), ...
@@ -30,6 +33,21 @@ initial_status = staci.solveHydraulics();
 assert(initial_status.converged, 'Original STACI hydraulics failed');
 node_state = staci.nodeResults();
 node_ids = string(node_state.id(:));
+nodal_split_weights = [];
+weighting_field = '';
+if strcmp(objective_name,'source_distance_weighted_entropy')
+    weighting_field = 'source_distance_weighting';
+elseif strcmp(objective_name,'branch_hop_weighted_entropy')
+    weighting_field = 'branch_hop_weighting';
+end
+if ~isempty(weighting_field)
+    assert(isfield(cfg,weighting_field), ...
+        'Weighted-entropy objective requires fixed reference weights');
+    weighting=cfg.(weighting_field);
+    [found,weight_order]=ismember(node_ids,string(weighting.node_ids(:)));
+    assert(all(found),'Weight node IDs differ from STACI nodes');
+    nodal_split_weights=double(weighting.weights(weight_order));
+end
 threshold_m3s = pi / 4 * 0.010^2 * 0.01;
 consumer_ids = node_ids(double(node_state.demand_m3s(:)) > threshold_m3s);
 quality_ids = string(cfg.quality_node_ids(:));
@@ -48,6 +66,11 @@ candidate_x = x0;
 candidate_names = "original (bounded)";
 % Final STACI results are read once before GA starts as feasible warm starts.
 for name = string(cfg.objectives)
+    if ismember(name,["source_distance_weighted_entropy", ...
+            "branch_hop_weighted_entropy"])
+        % Keep each distance experiment independent of its prior result.
+        continue;
+    end
     saved = fullfile(cfg.results_dir, name + ".mat");
     if ~isfile(saved), continue; end
     loaded = load(saved, 'result');
@@ -147,10 +170,15 @@ result.minimum_constraint_demand_m3s = threshold_m3s;
 result.minimum_constraint_chlorine_mgL = 0.2;
 result.model = 'staci_steady_first_order';
 result.optimizer = 'matlab_ga_staci_mex';
+if strcmp(cfg.id,'anytown')
+    result.pressure_to_head_ft_per_psi=cfg.pressure_to_head;
+    result.nominal_pressure_anchor_node_ids=cfg.pressure_anchor_node_ids;
+end
 result.ga_last_generation = last_generation;
 result.maximum_wall_seconds = maximum_wall_seconds;
+[~,input_stem,input_extension]=fileparts(input_file);
 result.input_file = fullfile('networks', cfg.id, 'input', ...
-    'network_staci_fixed_load.inp');
+    [input_stem input_extension]);
 result.ga_fval = best_f;
 result.optimizer_value = best_feasible_f;
 result.incumbent_source = char(best_source);
@@ -160,10 +188,16 @@ result.elapsed_time_seconds = toc(started);
 result.random_seed = cfg.ga.random_seed;
 result.ga_max_generations = cfg.ga.max_generations;
 result.ga_population_size = cfg.ga.population_size;
+if ~isempty(weighting_field)
+    result.(weighting_field) = cfg.(weighting_field);
+end
 if isfield(cfg.ga, 'anchor_numerical_guard_ft')
     result.anchor_numerical_guard_ft = cfg.ga.anchor_numerical_guard_ft;
 else
     result.anchor_numerical_guard_ft = 0;
+end
+if isfield(cfg.ga,'pressure_numerical_guard_psi')
+    result.pressure_guard_psi=cfg.ga.pressure_numerical_guard_psi;
 end
 % Published plotting and tables use the INP's EPANET link order. The
 % template comes directly from the input, never from an archived result.
@@ -242,9 +276,17 @@ fprintf('%s/%s: best %.9g, violation %.3g, source %s, %.1f s\n', ...
             if strcmp(cfg.id, 'anytown')
                 pressure = pressure / (0.3048 * cfg.pressure_to_head);
             end
-            constraints = cfg.minimum_pressure - pressure(pidx);
+            lower_pressure=cfg.minimum_pressure;
+            upper_pressure=cfg.maximum_pressure;
+            if isfield(cfg.ga,'pressure_numerical_guard_psi')
+                lower_pressure=lower_pressure+ ...
+                    cfg.ga.pressure_numerical_guard_psi;
+                upper_pressure=upper_pressure- ...
+                    cfg.ga.pressure_numerical_guard_psi;
+            end
+            constraints = lower_pressure - pressure(pidx);
             if isfinite(cfg.maximum_pressure)
-                constraints = [constraints; pressure(pidx) - cfg.maximum_pressure];
+                constraints = [constraints; pressure(pidx) - upper_pressure];
             end
             if isfield(cfg, 'pressure_anchor_node_ids') && ...
                     ~isempty(cfg.pressure_anchor_node_ids)
@@ -277,10 +319,14 @@ fprintf('%s/%s: best %.9g, violation %.3g, source %s, %.1f s\n', ...
                     score = wdn.pipe_cost(x, lengths, cfg);
                 case "hydraulic_entropy"
                     score = wdn.staci_flow_entropy(staci, cfg, []);
+                case {"source_distance_weighted_entropy", ...
+                        "branch_hop_weighted_entropy"}
+                    score = wdn.source_distance_weighted_entropy(staci, cfg, ...
+                        nodal_split_weights);
                 case "chlorine_concentration"
                     score = concentration_sum;
                 case "chlorine_entropy"
-                    score = wdn.staci_flow_entropy(staci, cfg, q_mgL);
+                    score = wdn.staci_chlorine_entropy(staci, cfg, q_mgL);
                 case "todini"
                     score = wdn.staci_todini_index(staci, cfg);
             end
@@ -302,9 +348,12 @@ fprintf('%s/%s: best %.9g, violation %.3g, source %s, %.1f s\n', ...
                 state_now.metrics.cost = wdn.pipe_cost(x, lengths, cfg);
                 state_now.metrics.chlorine_concentration = concentration_sum;
                 state_now.metrics.chlorine_entropy = ...
-                    wdn.staci_flow_entropy(staci, cfg, q_mgL);
+                    wdn.staci_chlorine_entropy(staci, cfg, q_mgL);
                 state_now.metrics.hydraulic_entropy = ...
                     wdn.staci_flow_entropy(staci, cfg, []);
+                if ~isempty(weighting_field)
+                    state_now.metrics.(char(objective_name)) = score;
+                end
                 state_now.metrics.todini = wdn.staci_todini_index(staci, cfg);
                 state_now.metrics.node_ids = cellstr(string(hydraulic.id(:)));
                 state_now.metrics.pressures = pressure;

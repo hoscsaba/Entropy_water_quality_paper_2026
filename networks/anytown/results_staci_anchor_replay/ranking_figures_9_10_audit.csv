@@ -1,0 +1,5 @@
+Objective,FeasibleDesignsChecked,MissingK1Criteria,MaxRelativeMetricError,MaxConstraintViolation
+cost,76,4,0.000115377111208515,3.20867272205483e-05
+branch_hop_weighted_entropy,76,4,0.000246042321469754,0
+chlorine_concentration,76,4,7.03265171809243e-05,0
+chlorine_entropy,76,4,0.000321598472561933,3.99781362045992e-05

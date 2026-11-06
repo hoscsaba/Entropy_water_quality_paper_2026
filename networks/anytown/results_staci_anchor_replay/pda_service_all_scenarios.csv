@@ -1,0 +1,685 @@
+Topology,FailedLinkID,DeliveredDemandFraction,QualityCompliantDemandFraction,PressureViolationFraction,OverdeliveryNodeCount,MaxOverdelivery,Nonconvergent,ErrorMessage,Objective,Availability
+Cost / both,2,0.999134813615446,0.999134813615446,0.368421052631579,0,0,0,,cost,both
+Cost / both,4,1,1,0,0,0,0,,cost,both
+Cost / both,6,0.999929544418739,0.999929544418739,0.0526315789473684,0,0,0,,cost,both
+Cost / both,8,1,1,0,0,0,0,,cost,both
+Cost / both,10,0.999858341829814,0.999858341829814,0.157894736842105,0,0,0,,cost,both
+Cost / both,12,0.999423248132856,0.999423248132856,0.0526315789473684,0,0,0,,cost,both
+Cost / both,14,0.999721330337981,0.999721330337981,0.210526315789474,0,0,0,,cost,both
+Cost / both,16,0.85235824847317,0.85235824847317,0.0526315789473684,0,0,0,,cost,both
+Cost / both,18,0.872938370686623,0.872938370686623,0.421052631578947,0,0,0,,cost,both
+Cost / both,20,0.99950238433427,0.99950238433427,0.0526315789473684,0,0,0,,cost,both
+Cost / both,22,0.999548020187148,0.999548020187148,0.0526315789473684,0,0,0,,cost,both
+Cost / both,24,0.999438362085357,0.999438362085357,0.0526315789473684,0,0,0,,cost,both
+Cost / both,26,1,1,0,0,0,0,,cost,both
+Cost / both,28,0.974182203694039,0.974182203694039,0.315789473684211,0,0,0,,cost,both
+Cost / both,30,0.912433937322833,0.912433937322833,0.315789473684211,0,0,0,,cost,both
+Cost / both,32,0.971805180060494,0.971805180060494,0.0526315789473684,0,0,0,,cost,both
+Cost / both,34,0.975797161287704,0.975797161287704,0.263157894736842,0,0,0,,cost,both
+Cost / both,36,0.999472614814667,0.999472614814667,0.0526315789473684,0,0,0,,cost,both
+Cost / both,38,0.999894181987922,0.999894181987922,0.105263157894737,0,0,0,,cost,both
+Cost / both,40,0.97661075157098,0.97661075157098,0.263157894736842,0,0,0,,cost,both
+Cost / both,42,1,1,0.157894736842105,0,0,0,,cost,both
+Cost / both,44,0.99997848622514,0.99997848622514,0.0526315789473684,0,0,0,,cost,both
+Cost / both,46,1,1,0,0,0,0,,cost,both
+Cost / both,48,0.999305291370188,0.999305291370188,0.0526315789473684,0,0,0,,cost,both
+Cost / both,50,0.928003496603403,0.928003496603403,0.105263157894737,0,0,0,,cost,both
+Cost / both,52,0.998884446845088,0.998884446845088,0.0526315789473684,0,0,0,,cost,both
+Cost / both,54,0.970442696772223,0.970442696772223,0.105263157894737,0,0,0,,cost,both
+Cost / both,56,0.999964019139144,0.999964019139144,0.0526315789473684,0,0,0,,cost,both
+Cost / both,58,0.939804137740407,0.939804137740407,0.210526315789474,0,0,0,,cost,both
+Cost / both,60,0.969091050358211,0.969091050358211,0.105263157894737,0,0,0,,cost,both
+Cost / both,62,0.999836576419732,0.999836576419732,0.210526315789474,0,0,0,,cost,both
+Cost / both,64,1,1,0,0,0,0,,cost,both
+Cost / both,66,1,1,0,0,0,0,,cost,both
+Cost / both,68,1,1,0.0526315789473684,0,0,0,,cost,both
+Cost / both,70,1,1,0.0526315789473684,0,0,0,,cost,both
+Cost / both,72,1,1,0.0526315789473684,0,0,0,,cost,both
+Cost / both,74,1,1,0,0,0,0,,cost,both
+Cost / both,76,1,1,0.0526315789473684,0,0,0,,cost,both
+Cost / only_R65,2,0.987279121406246,0.987279121406246,0.578947368421053,0,0,0,,cost,only_R65
+Cost / only_R65,4,1,1,0,0,0,0,,cost,only_R65
+Cost / only_R65,6,0.999914348467539,0.999914348467539,0.0526315789473684,0,0,0,,cost,only_R65
+Cost / only_R65,8,1,1,0,0,0,0,,cost,only_R65
+Cost / only_R65,10,0.632404565309595,0.632404565309595,0.631578947368421,0,0,0,,cost,only_R65
+Cost / only_R65,12,0.999423186286948,0.999423186286948,0.0526315789473684,0,0,0,,cost,only_R65
+Cost / only_R65,14,0.999959584051973,0.999959584051973,0.0526315789473684,0,0,0,,cost,only_R65
+Cost / only_R65,16,0.852358520306865,0.852358520306865,0.0526315789473684,0,0,0,,cost,only_R65
+Cost / only_R65,18,0.872925083879555,0.872925083879555,0.421052631578947,0,0,0,,cost,only_R65
+Cost / only_R65,20,0.999502107757781,0.999502107757781,0.0526315789473684,0,0,0,,cost,only_R65
+Cost / only_R65,22,0.999547758067918,0.999547758067918,0.0526315789473684,0,0,0,,cost,only_R65
+Cost / only_R65,24,0.999438381348576,0.999438381348576,0.0526315789473684,0,0,0,,cost,only_R65
+Cost / only_R65,26,1,1,0,0,0,0,,cost,only_R65
+Cost / only_R65,28,0.974175433569131,0.974175433569131,0.315789473684211,0,0,0,,cost,only_R65
+Cost / only_R65,30,0.912433900734316,0.912433900734316,0.315789473684211,0,0,0,,cost,only_R65
+Cost / only_R65,32,0.971805172047553,0.971805172047553,0.0526315789473684,0,0,0,,cost,only_R65
+Cost / only_R65,34,0.975797094155221,0.975797094155221,0.263157894736842,0,0,0,,cost,only_R65
+Cost / only_R65,36,0.999472600516581,0.999472600516581,0.0526315789473684,0,0,0,,cost,only_R65
+Cost / only_R65,38,0.999894167125694,0.999894167125694,0.105263157894737,0,0,0,,cost,only_R65
+Cost / only_R65,40,0.976608684990805,0.976608684990805,0.263157894736842,0,0,0,,cost,only_R65
+Cost / only_R65,42,1,1,0.157894736842105,0,0,0,,cost,only_R65
+Cost / only_R65,44,0.999978509883052,0.999978509883052,0.0526315789473684,0,0,0,,cost,only_R65
+Cost / only_R65,46,0.710738002280643,0.710738002280643,0.526315789473684,0,0,0,,cost,only_R65
+Cost / only_R65,48,0.999295853078427,0.999295853078427,0.0526315789473684,0,0,0,,cost,only_R65
+Cost / only_R65,50,0.928158217377747,0.928158217377747,0.0526315789473684,0,0,0,,cost,only_R65
+Cost / only_R65,52,0.998886939786484,0.998886939786484,0.0526315789473684,0,0,0,,cost,only_R65
+Cost / only_R65,54,0.97084083967244,0.97084083967244,0.105263157894737,0,0,0,,cost,only_R65
+Cost / only_R65,56,0.999956081760285,0.999956081760285,0.0526315789473684,0,0,0,,cost,only_R65
+Cost / only_R65,58,0.940315925165064,0.940315925165064,0.157894736842105,0,0,0,,cost,only_R65
+Cost / only_R65,60,0.969091515376341,0.969091515376341,0.105263157894737,0,0,0,,cost,only_R65
+Cost / only_R65,62,0.999836729771824,0.999836729771824,0.210526315789474,0,0,0,,cost,only_R65
+Cost / only_R65,64,1,1,0,0,0,0,,cost,only_R65
+Cost / only_R65,66,1,1,0,0,0,0,,cost,only_R65
+Cost / only_R65,68,1,1,0.0526315789473684,0,0,0,,cost,only_R65
+Cost / only_R65,70,1,1,0.0526315789473684,0,0,0,,cost,only_R65
+Cost / only_R65,72,1,1,0.0526315789473684,0,0,0,,cost,only_R65
+Cost / only_R65,74,1,1,0,0,0,0,,cost,only_R65
+Cost / only_R65,76,1,1,0.0526315789473684,0,0,0,,cost,only_R65
+Cost / only_R165,2,0.975744514257047,0.975744514257047,0.526315789473684,0,0,0,,cost,only_R165
+Cost / only_R165,4,1,1,0,0,0,0,,cost,only_R165
+Cost / only_R165,6,0.999929444435583,0.999929444435583,0.0526315789473684,0,0,0,,cost,only_R165
+Cost / only_R165,8,1,1,0,0,0,0,,cost,only_R165
+Cost / only_R165,10,0.999921579081601,0.999921579081601,0.105263157894737,0,0,0,,cost,only_R165
+Cost / only_R165,12,0.999385939254418,0.999385939254418,0.0526315789473684,0,0,0,,cost,only_R165
+Cost / only_R165,14,0.547786929705953,0.547786929705953,0.578947368421053,0,0,0,,cost,only_R165
+Cost / only_R165,16,0.852514743309249,0.852514743309249,0.0526315789473684,0,0,0,,cost,only_R165
+Cost / only_R165,18,0.876258414600692,0.876258414600692,0.315789473684211,0,0,0,,cost,only_R165
+Cost / only_R165,20,0.999481162170863,0.999481162170863,0.0526315789473684,0,0,0,,cost,only_R165
+Cost / only_R165,22,0.99952495234268,0.99952495234268,0.0526315789473684,0,0,0,,cost,only_R165
+Cost / only_R165,24,0.99939104808676,0.99939104808676,0.0526315789473684,0,0,0,,cost,only_R165
+Cost / only_R165,26,1,1,0,0,0,0,,cost,only_R165
+Cost / only_R165,28,0.974942847989652,0.974942847989652,0.263157894736842,0,0,0,,cost,only_R165
+Cost / only_R165,30,0.912518418319182,0.912518418319182,0.315789473684211,0,0,0,,cost,only_R165
+Cost / only_R165,32,0.971824101422966,0.971824101422966,0.0526315789473684,0,0,0,,cost,only_R165
+Cost / only_R165,34,0.975911178401871,0.975911178401871,0.210526315789474,0,0,0,,cost,only_R165
+Cost / only_R165,36,0.999467904968821,0.999467904968821,0.0526315789473684,0,0,0,,cost,only_R165
+Cost / only_R165,38,0.999886863310271,0.999886863310271,0.105263157894737,0,0,0,,cost,only_R165
+Cost / only_R165,40,0.976663524637291,0.976663524637291,0.210526315789474,0,0,0,,cost,only_R165
+Cost / only_R165,42,0.999995860044626,0.999995860044626,0.210526315789474,0,0,0,,cost,only_R165
+Cost / only_R165,44,0.999955881453341,0.999955881453341,0.0526315789473684,0,0,0,,cost,only_R165
+Cost / only_R165,46,1,1,0,0,0,0,,cost,only_R165
+Cost / only_R165,48,0.999305276631023,0.999305276631023,0.0526315789473684,0,0,0,,cost,only_R165
+Cost / only_R165,50,0.928003236220572,0.928003236220572,0.105263157894737,0,0,0,,cost,only_R165
+Cost / only_R165,52,0.998884330456856,0.998884330456856,0.0526315789473684,0,0,0,,cost,only_R165
+Cost / only_R165,54,0.97044246020146,0.97044246020146,0.105263157894737,0,0,0,,cost,only_R165
+Cost / only_R165,56,0.999964010952517,0.999964010952517,0.0526315789473684,0,0,0,,cost,only_R165
+Cost / only_R165,58,0.939803587536607,0.939803587536607,0.210526315789474,0,0,0,,cost,only_R165
+Cost / only_R165,60,0.969090626712806,0.969090626712806,0.105263157894737,0,0,0,,cost,only_R165
+Cost / only_R165,62,0.999815444493968,0.999815444493968,0.210526315789474,0,0,0,,cost,only_R165
+Cost / only_R165,64,1,1,0,0,0,0,,cost,only_R165
+Cost / only_R165,66,1,1,0,0,0,0,,cost,only_R165
+Cost / only_R165,68,1,1,0.0526315789473684,0,0,0,,cost,only_R165
+Cost / only_R165,70,1,1,0.0526315789473684,0,0,0,,cost,only_R165
+Cost / only_R165,72,1,1,0.0526315789473684,0,0,0,,cost,only_R165
+Cost / only_R165,74,1,1,0,0,0,0,,cost,only_R165
+Cost / only_R165,76,1,1,0.0526315789473684,0,0,0,,cost,only_R165
+Flow entropy / both,2,1,1,0,0,0,0,,hydraulic_entropy,both
+Flow entropy / both,4,1,1,0,0,0,0,,hydraulic_entropy,both
+Flow entropy / both,6,1,1,0,0,0,0,,hydraulic_entropy,both
+Flow entropy / both,8,1,1,0,0,0,0,,hydraulic_entropy,both
+Flow entropy / both,10,1,1,0,0,0,0,,hydraulic_entropy,both
+Flow entropy / both,12,1,1,0,0,0,0,,hydraulic_entropy,both
+Flow entropy / both,14,1,1,0,0,0,0,,hydraulic_entropy,both
+Flow entropy / both,16,1,1,0,0,0,0,,hydraulic_entropy,both
+Flow entropy / both,18,1,1,0,0,0,0,,hydraulic_entropy,both
+Flow entropy / both,20,1,1,0,0,0,0,,hydraulic_entropy,both
+Flow entropy / both,22,1,1,0,0,0,0,,hydraulic_entropy,both
+Flow entropy / both,24,1,1,0,0,0,0,,hydraulic_entropy,both
+Flow entropy / both,26,1,1,0,0,0,0,,hydraulic_entropy,both
+Flow entropy / both,28,1,1,0,0,0,0,,hydraulic_entropy,both
+Flow entropy / both,30,1,1,0,0,0,0,,hydraulic_entropy,both
+Flow entropy / both,32,1,1,0,0,0,0,,hydraulic_entropy,both
+Flow entropy / both,34,1,1,0,0,0,0,,hydraulic_entropy,both
+Flow entropy / both,36,1,1,0,0,0,0,,hydraulic_entropy,both
+Flow entropy / both,38,1,1,0,0,0,0,,hydraulic_entropy,both
+Flow entropy / both,40,1,1,0,0,0,0,,hydraulic_entropy,both
+Flow entropy / both,42,1,1,0,0,0,0,,hydraulic_entropy,both
+Flow entropy / both,44,1,1,0,0,0,0,,hydraulic_entropy,both
+Flow entropy / both,46,1,1,0,0,0,0,,hydraulic_entropy,both
+Flow entropy / both,48,1,1,0,0,0,0,,hydraulic_entropy,both
+Flow entropy / both,50,1,1,0,0,0,0,,hydraulic_entropy,both
+Flow entropy / both,52,1,1,0,0,0,0,,hydraulic_entropy,both
+Flow entropy / both,54,1,1,0,0,0,0,,hydraulic_entropy,both
+Flow entropy / both,56,1,1,0,0,0,0,,hydraulic_entropy,both
+Flow entropy / both,58,1,1,0,0,0,0,,hydraulic_entropy,both
+Flow entropy / both,60,0.992865086668236,0.992865086668236,0.0526315789473684,0,0,0,,hydraulic_entropy,both
+Flow entropy / both,62,1,1,0,0,0,0,,hydraulic_entropy,both
+Flow entropy / both,64,1,1,0,0,0,0,,hydraulic_entropy,both
+Flow entropy / both,66,1,1,0,0,0,0,,hydraulic_entropy,both
+Flow entropy / both,68,1,1,0,0,0,0,,hydraulic_entropy,both
+Flow entropy / both,70,1,1,0,0,0,0,,hydraulic_entropy,both
+Flow entropy / both,72,1,1,0,0,0,0,,hydraulic_entropy,both
+Flow entropy / both,74,1,1,0,0,0,0,,hydraulic_entropy,both
+Flow entropy / both,76,1,1,0,0,0,0,,hydraulic_entropy,both
+Flow entropy / only_R65,2,1,1,0,0,0,0,,hydraulic_entropy,only_R65
+Flow entropy / only_R65,4,1,1,0,0,0,0,,hydraulic_entropy,only_R65
+Flow entropy / only_R65,6,1,1,0,0,0,0,,hydraulic_entropy,only_R65
+Flow entropy / only_R65,8,1,1,0,0,0,0,,hydraulic_entropy,only_R65
+Flow entropy / only_R65,10,1,1,0,0,0,0,,hydraulic_entropy,only_R65
+Flow entropy / only_R65,12,1,1,0,0,0,0,,hydraulic_entropy,only_R65
+Flow entropy / only_R65,14,1,1,0,0,0,0,,hydraulic_entropy,only_R65
+Flow entropy / only_R65,16,1,1,0,0,0,0,,hydraulic_entropy,only_R65
+Flow entropy / only_R65,18,1,1,0,0,0,0,,hydraulic_entropy,only_R65
+Flow entropy / only_R65,20,1,1,0,0,0,0,,hydraulic_entropy,only_R65
+Flow entropy / only_R65,22,1,1,0,0,0,0,,hydraulic_entropy,only_R65
+Flow entropy / only_R65,24,1,1,0,0,0,0,,hydraulic_entropy,only_R65
+Flow entropy / only_R65,26,1,1,0,0,0,0,,hydraulic_entropy,only_R65
+Flow entropy / only_R65,28,1,1,0,0,0,0,,hydraulic_entropy,only_R65
+Flow entropy / only_R65,30,1,1,0,0,0,0,,hydraulic_entropy,only_R65
+Flow entropy / only_R65,32,1,1,0,0,0,0,,hydraulic_entropy,only_R65
+Flow entropy / only_R65,34,1,1,0,0,0,0,,hydraulic_entropy,only_R65
+Flow entropy / only_R65,36,1,1,0,0,0,0,,hydraulic_entropy,only_R65
+Flow entropy / only_R65,38,1,1,0,0,0,0,,hydraulic_entropy,only_R65
+Flow entropy / only_R65,40,1,1,0,0,0,0,,hydraulic_entropy,only_R65
+Flow entropy / only_R65,42,1,1,0,0,0,0,,hydraulic_entropy,only_R65
+Flow entropy / only_R65,44,1,1,0,0,0,0,,hydraulic_entropy,only_R65
+Flow entropy / only_R65,46,1,1,0,0,0,0,,hydraulic_entropy,only_R65
+Flow entropy / only_R65,48,1,1,0,0,0,0,,hydraulic_entropy,only_R65
+Flow entropy / only_R65,50,1,1,0,0,0,0,,hydraulic_entropy,only_R65
+Flow entropy / only_R65,52,1,1,0,0,0,0,,hydraulic_entropy,only_R65
+Flow entropy / only_R65,54,1,1,0,0,0,0,,hydraulic_entropy,only_R65
+Flow entropy / only_R65,56,1,1,0,0,0,0,,hydraulic_entropy,only_R65
+Flow entropy / only_R65,58,1,1,0,0,0,0,,hydraulic_entropy,only_R65
+Flow entropy / only_R65,60,0.992829166078702,0.992829166078702,0.0526315789473684,0,0,0,,hydraulic_entropy,only_R65
+Flow entropy / only_R65,62,1,1,0,0,0,0,,hydraulic_entropy,only_R65
+Flow entropy / only_R65,64,1,1,0,0,0,0,,hydraulic_entropy,only_R65
+Flow entropy / only_R65,66,1,1,0,0,0,0,,hydraulic_entropy,only_R65
+Flow entropy / only_R65,68,1,1,0,0,0,0,,hydraulic_entropy,only_R65
+Flow entropy / only_R65,70,1,1,0,0,0,0,,hydraulic_entropy,only_R65
+Flow entropy / only_R65,72,1,1,0,0,0,0,,hydraulic_entropy,only_R65
+Flow entropy / only_R65,74,1,1,0,0,0,0,,hydraulic_entropy,only_R65
+Flow entropy / only_R65,76,1,1,0,0,0,0,,hydraulic_entropy,only_R65
+Flow entropy / only_R165,2,1,1,0,0,0,0,,hydraulic_entropy,only_R165
+Flow entropy / only_R165,4,1,1,0,0,0,0,,hydraulic_entropy,only_R165
+Flow entropy / only_R165,6,1,1,0,0,0,0,,hydraulic_entropy,only_R165
+Flow entropy / only_R165,8,1,1,0,0,0,0,,hydraulic_entropy,only_R165
+Flow entropy / only_R165,10,1,1,0,0,0,0,,hydraulic_entropy,only_R165
+Flow entropy / only_R165,12,1,1,0,0,0,0,,hydraulic_entropy,only_R165
+Flow entropy / only_R165,14,1,1,0,0,0,0,,hydraulic_entropy,only_R165
+Flow entropy / only_R165,16,1,1,0,0,0,0,,hydraulic_entropy,only_R165
+Flow entropy / only_R165,18,1,1,0,0,0,0,,hydraulic_entropy,only_R165
+Flow entropy / only_R165,20,1,1,0,0,0,0,,hydraulic_entropy,only_R165
+Flow entropy / only_R165,22,1,1,0,0,0,0,,hydraulic_entropy,only_R165
+Flow entropy / only_R165,24,1,1,0,0,0,0,,hydraulic_entropy,only_R165
+Flow entropy / only_R165,26,1,1,0,0,0,0,,hydraulic_entropy,only_R165
+Flow entropy / only_R165,28,1,1,0,0,0,0,,hydraulic_entropy,only_R165
+Flow entropy / only_R165,30,1,1,0,0,0,0,,hydraulic_entropy,only_R165
+Flow entropy / only_R165,32,1,1,0,0,0,0,,hydraulic_entropy,only_R165
+Flow entropy / only_R165,34,1,1,0,0,0,0,,hydraulic_entropy,only_R165
+Flow entropy / only_R165,36,1,1,0,0,0,0,,hydraulic_entropy,only_R165
+Flow entropy / only_R165,38,1,1,0,0,0,0,,hydraulic_entropy,only_R165
+Flow entropy / only_R165,40,1,1,0,0,0,0,,hydraulic_entropy,only_R165
+Flow entropy / only_R165,42,1,1,0,0,0,0,,hydraulic_entropy,only_R165
+Flow entropy / only_R165,44,1,1,0,0,0,0,,hydraulic_entropy,only_R165
+Flow entropy / only_R165,46,1,1,0,0,0,0,,hydraulic_entropy,only_R165
+Flow entropy / only_R165,48,1,1,0,0,0,0,,hydraulic_entropy,only_R165
+Flow entropy / only_R165,50,1,1,0,0,0,0,,hydraulic_entropy,only_R165
+Flow entropy / only_R165,52,1,1,0,0,0,0,,hydraulic_entropy,only_R165
+Flow entropy / only_R165,54,1,1,0,0,0,0,,hydraulic_entropy,only_R165
+Flow entropy / only_R165,56,1,1,0,0,0,0,,hydraulic_entropy,only_R165
+Flow entropy / only_R165,58,1,1,0,0,0,0,,hydraulic_entropy,only_R165
+Flow entropy / only_R165,60,0.992886335972286,0.992886335972286,0.0526315789473684,0,0,0,,hydraulic_entropy,only_R165
+Flow entropy / only_R165,62,1,1,0,0,0,0,,hydraulic_entropy,only_R165
+Flow entropy / only_R165,64,1,1,0,0,0,0,,hydraulic_entropy,only_R165
+Flow entropy / only_R165,66,1,1,0,0,0,0,,hydraulic_entropy,only_R165
+Flow entropy / only_R165,68,1,1,0,0,0,0,,hydraulic_entropy,only_R165
+Flow entropy / only_R165,70,1,1,0,0,0,0,,hydraulic_entropy,only_R165
+Flow entropy / only_R165,72,1,1,0,0,0,0,,hydraulic_entropy,only_R165
+Flow entropy / only_R165,74,1,1,0,0,0,0,,hydraulic_entropy,only_R165
+Flow entropy / only_R165,76,1,1,0,0,0,0,,hydraulic_entropy,only_R165
+Branch-hop entropy / both,2,1,1,0,0,0,0,,branch_hop_weighted_entropy,both
+Branch-hop entropy / both,4,1,1,0,0,0,0,,branch_hop_weighted_entropy,both
+Branch-hop entropy / both,6,1,1,0,0,0,0,,branch_hop_weighted_entropy,both
+Branch-hop entropy / both,8,1,1,0,0,0,0,,branch_hop_weighted_entropy,both
+Branch-hop entropy / both,10,1,1,0,0,0,0,,branch_hop_weighted_entropy,both
+Branch-hop entropy / both,12,1,1,0,0,0,0,,branch_hop_weighted_entropy,both
+Branch-hop entropy / both,14,1,1,0,0,0,0,,branch_hop_weighted_entropy,both
+Branch-hop entropy / both,16,1,1,0,0,0,0,,branch_hop_weighted_entropy,both
+Branch-hop entropy / both,18,1,1,0,0,0,0,,branch_hop_weighted_entropy,both
+Branch-hop entropy / both,20,1,1,0,0,0,0,,branch_hop_weighted_entropy,both
+Branch-hop entropy / both,22,1,1,0,0,0,0,,branch_hop_weighted_entropy,both
+Branch-hop entropy / both,24,1,1,0,0,0,0,,branch_hop_weighted_entropy,both
+Branch-hop entropy / both,26,1,1,0,0,0,0,,branch_hop_weighted_entropy,both
+Branch-hop entropy / both,28,1,1,0,0,0,0,,branch_hop_weighted_entropy,both
+Branch-hop entropy / both,30,1,1,0,0,0,0,,branch_hop_weighted_entropy,both
+Branch-hop entropy / both,32,1,1,0,0,0,0,,branch_hop_weighted_entropy,both
+Branch-hop entropy / both,34,1,1,0,0,0,0,,branch_hop_weighted_entropy,both
+Branch-hop entropy / both,36,1,1,0,0,0,0,,branch_hop_weighted_entropy,both
+Branch-hop entropy / both,38,1,1,0,0,0,0,,branch_hop_weighted_entropy,both
+Branch-hop entropy / both,40,1,1,0,0,0,0,,branch_hop_weighted_entropy,both
+Branch-hop entropy / both,42,1,1,0,0,0,0,,branch_hop_weighted_entropy,both
+Branch-hop entropy / both,44,1,1,0,0,0,0,,branch_hop_weighted_entropy,both
+Branch-hop entropy / both,46,1,1,0,0,0,0,,branch_hop_weighted_entropy,both
+Branch-hop entropy / both,48,1,1,0,0,0,0,,branch_hop_weighted_entropy,both
+Branch-hop entropy / both,50,1,1,0,0,0,0,,branch_hop_weighted_entropy,both
+Branch-hop entropy / both,52,1,1,0,0,0,0,,branch_hop_weighted_entropy,both
+Branch-hop entropy / both,54,1,1,0,0,0,0,,branch_hop_weighted_entropy,both
+Branch-hop entropy / both,56,1,1,0,0,0,0,,branch_hop_weighted_entropy,both
+Branch-hop entropy / both,58,1,1,0,0,0,0,,branch_hop_weighted_entropy,both
+Branch-hop entropy / both,60,1,1,0,0,0,0,,branch_hop_weighted_entropy,both
+Branch-hop entropy / both,62,1,1,0,0,0,0,,branch_hop_weighted_entropy,both
+Branch-hop entropy / both,64,1,1,0,0,0,0,,branch_hop_weighted_entropy,both
+Branch-hop entropy / both,66,1,1,0,0,0,0,,branch_hop_weighted_entropy,both
+Branch-hop entropy / both,68,1,1,0,0,0,0,,branch_hop_weighted_entropy,both
+Branch-hop entropy / both,70,1,1,0,0,0,0,,branch_hop_weighted_entropy,both
+Branch-hop entropy / both,72,1,1,0,0,0,0,,branch_hop_weighted_entropy,both
+Branch-hop entropy / both,74,1,1,0,0,0,0,,branch_hop_weighted_entropy,both
+Branch-hop entropy / both,76,1,1,0,0,0,0,,branch_hop_weighted_entropy,both
+Branch-hop entropy / only_R65,2,1,1,0,0,0,0,,branch_hop_weighted_entropy,only_R65
+Branch-hop entropy / only_R65,4,1,1,0,0,0,0,,branch_hop_weighted_entropy,only_R65
+Branch-hop entropy / only_R65,6,1,1,0,0,0,0,,branch_hop_weighted_entropy,only_R65
+Branch-hop entropy / only_R65,8,1,1,0,0,0,0,,branch_hop_weighted_entropy,only_R65
+Branch-hop entropy / only_R65,10,1,1,0,0,0,0,,branch_hop_weighted_entropy,only_R65
+Branch-hop entropy / only_R65,12,1,1,0,0,0,0,,branch_hop_weighted_entropy,only_R65
+Branch-hop entropy / only_R65,14,1,1,0,0,0,0,,branch_hop_weighted_entropy,only_R65
+Branch-hop entropy / only_R65,16,1,1,0,0,0,0,,branch_hop_weighted_entropy,only_R65
+Branch-hop entropy / only_R65,18,1,1,0,0,0,0,,branch_hop_weighted_entropy,only_R65
+Branch-hop entropy / only_R65,20,1,1,0,0,0,0,,branch_hop_weighted_entropy,only_R65
+Branch-hop entropy / only_R65,22,1,1,0,0,0,0,,branch_hop_weighted_entropy,only_R65
+Branch-hop entropy / only_R65,24,1,1,0,0,0,0,,branch_hop_weighted_entropy,only_R65
+Branch-hop entropy / only_R65,26,1,1,0,0,0,0,,branch_hop_weighted_entropy,only_R65
+Branch-hop entropy / only_R65,28,1,1,0,0,0,0,,branch_hop_weighted_entropy,only_R65
+Branch-hop entropy / only_R65,30,1,1,0,0,0,0,,branch_hop_weighted_entropy,only_R65
+Branch-hop entropy / only_R65,32,1,1,0,0,0,0,,branch_hop_weighted_entropy,only_R65
+Branch-hop entropy / only_R65,34,1,1,0,0,0,0,,branch_hop_weighted_entropy,only_R65
+Branch-hop entropy / only_R65,36,1,1,0,0,0,0,,branch_hop_weighted_entropy,only_R65
+Branch-hop entropy / only_R65,38,1,1,0,0,0,0,,branch_hop_weighted_entropy,only_R65
+Branch-hop entropy / only_R65,40,1,1,0,0,0,0,,branch_hop_weighted_entropy,only_R65
+Branch-hop entropy / only_R65,42,1,1,0,0,0,0,,branch_hop_weighted_entropy,only_R65
+Branch-hop entropy / only_R65,44,1,1,0,0,0,0,,branch_hop_weighted_entropy,only_R65
+Branch-hop entropy / only_R65,46,1,1,0,0,0,0,,branch_hop_weighted_entropy,only_R65
+Branch-hop entropy / only_R65,48,1,1,0,0,0,0,,branch_hop_weighted_entropy,only_R65
+Branch-hop entropy / only_R65,50,1,1,0,0,0,0,,branch_hop_weighted_entropy,only_R65
+Branch-hop entropy / only_R65,52,1,1,0,0,0,0,,branch_hop_weighted_entropy,only_R65
+Branch-hop entropy / only_R65,54,1,1,0,0,0,0,,branch_hop_weighted_entropy,only_R65
+Branch-hop entropy / only_R65,56,1,1,0,0,0,0,,branch_hop_weighted_entropy,only_R65
+Branch-hop entropy / only_R65,58,1,1,0,0,0,0,,branch_hop_weighted_entropy,only_R65
+Branch-hop entropy / only_R65,60,1,1,0,0,0,0,,branch_hop_weighted_entropy,only_R65
+Branch-hop entropy / only_R65,62,1,1,0,0,0,0,,branch_hop_weighted_entropy,only_R65
+Branch-hop entropy / only_R65,64,1,1,0,0,0,0,,branch_hop_weighted_entropy,only_R65
+Branch-hop entropy / only_R65,66,1,1,0,0,0,0,,branch_hop_weighted_entropy,only_R65
+Branch-hop entropy / only_R65,68,1,1,0,0,0,0,,branch_hop_weighted_entropy,only_R65
+Branch-hop entropy / only_R65,70,1,1,0,0,0,0,,branch_hop_weighted_entropy,only_R65
+Branch-hop entropy / only_R65,72,1,1,0,0,0,0,,branch_hop_weighted_entropy,only_R65
+Branch-hop entropy / only_R65,74,1,1,0,0,0,0,,branch_hop_weighted_entropy,only_R65
+Branch-hop entropy / only_R65,76,1,1,0,0,0,0,,branch_hop_weighted_entropy,only_R65
+Branch-hop entropy / only_R165,2,1,1,0,0,0,0,,branch_hop_weighted_entropy,only_R165
+Branch-hop entropy / only_R165,4,1,1,0,0,0,0,,branch_hop_weighted_entropy,only_R165
+Branch-hop entropy / only_R165,6,1,1,0,0,0,0,,branch_hop_weighted_entropy,only_R165
+Branch-hop entropy / only_R165,8,1,1,0,0,0,0,,branch_hop_weighted_entropy,only_R165
+Branch-hop entropy / only_R165,10,1,1,0,0,0,0,,branch_hop_weighted_entropy,only_R165
+Branch-hop entropy / only_R165,12,1,1,0,0,0,0,,branch_hop_weighted_entropy,only_R165
+Branch-hop entropy / only_R165,14,1,1,0,0,0,0,,branch_hop_weighted_entropy,only_R165
+Branch-hop entropy / only_R165,16,1,1,0,0,0,0,,branch_hop_weighted_entropy,only_R165
+Branch-hop entropy / only_R165,18,1,1,0,0,0,0,,branch_hop_weighted_entropy,only_R165
+Branch-hop entropy / only_R165,20,1,1,0,0,0,0,,branch_hop_weighted_entropy,only_R165
+Branch-hop entropy / only_R165,22,1,1,0,0,0,0,,branch_hop_weighted_entropy,only_R165
+Branch-hop entropy / only_R165,24,1,1,0,0,0,0,,branch_hop_weighted_entropy,only_R165
+Branch-hop entropy / only_R165,26,1,1,0,0,0,0,,branch_hop_weighted_entropy,only_R165
+Branch-hop entropy / only_R165,28,1,1,0,0,0,0,,branch_hop_weighted_entropy,only_R165
+Branch-hop entropy / only_R165,30,1,1,0,0,0,0,,branch_hop_weighted_entropy,only_R165
+Branch-hop entropy / only_R165,32,1,1,0,0,0,0,,branch_hop_weighted_entropy,only_R165
+Branch-hop entropy / only_R165,34,1,1,0,0,0,0,,branch_hop_weighted_entropy,only_R165
+Branch-hop entropy / only_R165,36,1,1,0,0,0,0,,branch_hop_weighted_entropy,only_R165
+Branch-hop entropy / only_R165,38,1,1,0,0,0,0,,branch_hop_weighted_entropy,only_R165
+Branch-hop entropy / only_R165,40,1,1,0,0,0,0,,branch_hop_weighted_entropy,only_R165
+Branch-hop entropy / only_R165,42,1,1,0,0,0,0,,branch_hop_weighted_entropy,only_R165
+Branch-hop entropy / only_R165,44,1,1,0,0,0,0,,branch_hop_weighted_entropy,only_R165
+Branch-hop entropy / only_R165,46,1,1,0,0,0,0,,branch_hop_weighted_entropy,only_R165
+Branch-hop entropy / only_R165,48,1,1,0,0,0,0,,branch_hop_weighted_entropy,only_R165
+Branch-hop entropy / only_R165,50,1,1,0,0,0,0,,branch_hop_weighted_entropy,only_R165
+Branch-hop entropy / only_R165,52,1,1,0,0,0,0,,branch_hop_weighted_entropy,only_R165
+Branch-hop entropy / only_R165,54,1,1,0,0,0,0,,branch_hop_weighted_entropy,only_R165
+Branch-hop entropy / only_R165,56,1,1,0,0,0,0,,branch_hop_weighted_entropy,only_R165
+Branch-hop entropy / only_R165,58,1,1,0,0,0,0,,branch_hop_weighted_entropy,only_R165
+Branch-hop entropy / only_R165,60,1,1,0,0,0,0,,branch_hop_weighted_entropy,only_R165
+Branch-hop entropy / only_R165,62,1,1,0,0,0,0,,branch_hop_weighted_entropy,only_R165
+Branch-hop entropy / only_R165,64,1,1,0,0,0,0,,branch_hop_weighted_entropy,only_R165
+Branch-hop entropy / only_R165,66,1,1,0,0,0,0,,branch_hop_weighted_entropy,only_R165
+Branch-hop entropy / only_R165,68,1,1,0,0,0,0,,branch_hop_weighted_entropy,only_R165
+Branch-hop entropy / only_R165,70,1,1,0,0,0,0,,branch_hop_weighted_entropy,only_R165
+Branch-hop entropy / only_R165,72,1,1,0,0,0,0,,branch_hop_weighted_entropy,only_R165
+Branch-hop entropy / only_R165,74,1,1,0,0,0,0,,branch_hop_weighted_entropy,only_R165
+Branch-hop entropy / only_R165,76,1,1,0,0,0,0,,branch_hop_weighted_entropy,only_R165
+Cl concentration / both,2,0.999674741046038,0.999674741046038,0.263157894736842,0,0,0,,chlorine_concentration,both
+Cl concentration / both,4,1,1,0,0,0,0,,chlorine_concentration,both
+Cl concentration / both,6,0.999978816555389,0.999978816555389,0.0526315789473684,0,0,0,,chlorine_concentration,both
+Cl concentration / both,8,1,1,0,0,0,0,,chlorine_concentration,both
+Cl concentration / both,10,0.999923919655818,0.999923919655818,0.105263157894737,0,0,0,,chlorine_concentration,both
+Cl concentration / both,12,1,1,0,0,0,0,,chlorine_concentration,both
+Cl concentration / both,14,0.999906928727076,0.999906928727076,0.105263157894737,0,0,0,,chlorine_concentration,both
+Cl concentration / both,16,0.970901252611023,0.970901252611023,0.157894736842105,0,0,0,,chlorine_concentration,both
+Cl concentration / both,18,0.88237534904643,0.88237534904643,0.473684210526316,0,0,0,,chlorine_concentration,both
+Cl concentration / both,20,1,1,0,0,0,0,,chlorine_concentration,both
+Cl concentration / both,22,0.979882695839072,0.979882695839072,0.0526315789473684,0,0,0,,chlorine_concentration,both
+Cl concentration / both,24,1,1,0,0,0,0,,chlorine_concentration,both
+Cl concentration / both,26,0.99996638822387,0.99996638822387,0.0526315789473684,0,0,0,,chlorine_concentration,both
+Cl concentration / both,28,0.99734910542666,0.99734910542666,0.0526315789473684,0,0,0,,chlorine_concentration,both
+Cl concentration / both,30,0.923621900509034,0.923621900509034,0.315789473684211,0,0,0,,chlorine_concentration,both
+Cl concentration / both,32,0.996915412841493,0.996915412841493,0.210526315789474,0,0,0,,chlorine_concentration,both
+Cl concentration / both,34,0.985902823159365,0.985902823159365,0.263157894736842,0,0,0,,chlorine_concentration,both
+Cl concentration / both,36,0.997717091439793,0.997717091439793,0.0526315789473684,0,0,0,,chlorine_concentration,both
+Cl concentration / both,38,1,1,0.0526315789473684,0,0,0,,chlorine_concentration,both
+Cl concentration / both,40,0.988889937457742,0.988889937457742,0.263157894736842,0,0,0,,chlorine_concentration,both
+Cl concentration / both,42,0.994310733856682,0.994310733856682,0.0526315789473684,0,0,0,,chlorine_concentration,both
+Cl concentration / both,44,0.999684734196624,0.999684734196624,0.0526315789473684,0,0,0,,chlorine_concentration,both
+Cl concentration / both,46,0.999995274655401,0.999995274655401,0.0526315789473684,0,0,0,,chlorine_concentration,both
+Cl concentration / both,48,0.999356788143582,0.999356788143582,0.0526315789473684,0,0,0,,chlorine_concentration,both
+Cl concentration / both,50,0.92812166861602,0.92812166861602,0.105263157894737,0,0,0,,chlorine_concentration,both
+Cl concentration / both,52,0.998883304683642,0.998883304683642,0.0526315789473684,0,0,0,,chlorine_concentration,both
+Cl concentration / both,54,0.970448391334599,0.970448391334599,0.105263157894737,0,0,0,,chlorine_concentration,both
+Cl concentration / both,56,0.999948664308441,0.999948664308441,0.0526315789473684,0,0,0,,chlorine_concentration,both
+Cl concentration / both,58,0.939977816774103,0.939977816774103,0.157894736842105,0,0,0,,chlorine_concentration,both
+Cl concentration / both,60,0.969282043376022,0.969282043376022,0.0526315789473684,0,0,0,,chlorine_concentration,both
+Cl concentration / both,62,1,1,0,0,0,0,,chlorine_concentration,both
+Cl concentration / both,64,1,1,0,0,0,0,,chlorine_concentration,both
+Cl concentration / both,66,1,1,0.0526315789473684,0,0,0,,chlorine_concentration,both
+Cl concentration / both,68,1,1,0.0526315789473684,0,0,0,,chlorine_concentration,both
+Cl concentration / both,70,1,1,0.157894736842105,0,0,0,,chlorine_concentration,both
+Cl concentration / both,72,1,1,0.0526315789473684,0,0,0,,chlorine_concentration,both
+Cl concentration / both,74,1,1,0,0,0,0,,chlorine_concentration,both
+Cl concentration / both,76,1,1,0.0526315789473684,0,0,0,,chlorine_concentration,both
+Cl concentration / only_R65,2,0.98958741488166,0.98958741488166,0.315789473684211,0,0,0,,chlorine_concentration,only_R65
+Cl concentration / only_R65,4,1,1,0,0,0,0,,chlorine_concentration,only_R65
+Cl concentration / only_R65,6,0.999941098090752,0.999941098090752,0.0526315789473684,0,0,0,,chlorine_concentration,only_R65
+Cl concentration / only_R65,8,1,1,0,0,0,0,,chlorine_concentration,only_R65
+Cl concentration / only_R65,10,0.656433062678434,0.656433062678434,0.368421052631579,0,0,0,,chlorine_concentration,only_R65
+Cl concentration / only_R65,12,1,1,0,0,0,0,,chlorine_concentration,only_R65
+Cl concentration / only_R65,14,1,1,0.0526315789473684,0,0,0,,chlorine_concentration,only_R65
+Cl concentration / only_R65,16,0.970880585722436,0.970880585722436,0.157894736842105,0,0,0,,chlorine_concentration,only_R65
+Cl concentration / only_R65,18,0.881916283116886,0.881916283116886,0.631578947368421,0,0,0,,chlorine_concentration,only_R65
+Cl concentration / only_R65,20,1,1,0,0,0,0,,chlorine_concentration,only_R65
+Cl concentration / only_R65,22,0.979883412198319,0.979883412198319,0.0526315789473684,0,0,0,,chlorine_concentration,only_R65
+Cl concentration / only_R65,24,1,1,0,0,0,0,,chlorine_concentration,only_R65
+Cl concentration / only_R65,26,0.999965548233649,0.999965548233649,0.0526315789473684,0,0,0,,chlorine_concentration,only_R65
+Cl concentration / only_R65,28,0.997343478622675,0.997343478622675,0.0526315789473684,0,0,0,,chlorine_concentration,only_R65
+Cl concentration / only_R65,30,0.923621558757805,0.923621558757805,0.315789473684211,0,0,0,,chlorine_concentration,only_R65
+Cl concentration / only_R65,32,0.996915266213623,0.996915266213623,0.210526315789474,0,0,0,,chlorine_concentration,only_R65
+Cl concentration / only_R65,34,0.985902607580889,0.985902607580889,0.263157894736842,0,0,0,,chlorine_concentration,only_R65
+Cl concentration / only_R65,36,0.997717049047664,0.997717049047664,0.0526315789473684,0,0,0,,chlorine_concentration,only_R65
+Cl concentration / only_R65,38,1,1,0.0526315789473684,0,0,0,,chlorine_concentration,only_R65
+Cl concentration / only_R65,40,0.98878236080451,0.98878236080451,0.368421052631579,0,0,0,,chlorine_concentration,only_R65
+Cl concentration / only_R65,42,0.994300672603275,0.994300672603275,0.0526315789473684,0,0,0,,chlorine_concentration,only_R65
+Cl concentration / only_R65,44,0.999685483619178,0.999685483619178,0.0526315789473684,0,0,0,,chlorine_concentration,only_R65
+Cl concentration / only_R65,46,0.728843919115167,0.728843919115167,0.315789473684211,0,0,0,,chlorine_concentration,only_R65
+Cl concentration / only_R65,48,0.999324971193927,0.999324971193927,0.0526315789473684,0,0,0,,chlorine_concentration,only_R65
+Cl concentration / only_R65,50,0.928297829200091,0.928297829200091,0.0526315789473684,0,0,0,,chlorine_concentration,only_R65
+Cl concentration / only_R65,52,0.998863596248546,0.998863596248546,0.0526315789473684,0,0,0,,chlorine_concentration,only_R65
+Cl concentration / only_R65,54,0.970806422775521,0.970806422775521,0.105263157894737,0,0,0,,chlorine_concentration,only_R65
+Cl concentration / only_R65,56,0.999925570372743,0.999925570372743,0.0526315789473684,0,0,0,,chlorine_concentration,only_R65
+Cl concentration / only_R65,58,0.940483535904043,0.940483535904043,0.157894736842105,0,0,0,,chlorine_concentration,only_R65
+Cl concentration / only_R65,60,0.969282140382891,0.969282140382891,0.0526315789473684,0,0,0,,chlorine_concentration,only_R65
+Cl concentration / only_R65,62,1,1,0,0,0,0,,chlorine_concentration,only_R65
+Cl concentration / only_R65,64,1,1,0,0,0,0,,chlorine_concentration,only_R65
+Cl concentration / only_R65,66,1,1,0.0526315789473684,0,0,0,,chlorine_concentration,only_R65
+Cl concentration / only_R65,68,1,1,0.0526315789473684,0,0,0,,chlorine_concentration,only_R65
+Cl concentration / only_R65,70,1,1,0.157894736842105,0,0,0,,chlorine_concentration,only_R65
+Cl concentration / only_R65,72,1,1,0.0526315789473684,0,0,0,,chlorine_concentration,only_R65
+Cl concentration / only_R65,74,1,1,0,0,0,0,,chlorine_concentration,only_R65
+Cl concentration / only_R65,76,1,1,0.0526315789473684,0,0,0,,chlorine_concentration,only_R65
+Cl concentration / only_R165,2,0.993110942369889,0.993110942369889,0.368421052631579,0,0,0,,chlorine_concentration,only_R165
+Cl concentration / only_R165,4,1,1,0,0,0,0,,chlorine_concentration,only_R165
+Cl concentration / only_R165,6,0.999978926283552,0.999978926283552,0.0526315789473684,0,0,0,,chlorine_concentration,only_R165
+Cl concentration / only_R165,8,1,1,0,0,0,0,,chlorine_concentration,only_R165
+Cl concentration / only_R165,10,0.999961218701163,0.999961218701163,0.0526315789473684,0,0,0,,chlorine_concentration,only_R165
+Cl concentration / only_R165,12,1,1,0,0,0,0,,chlorine_concentration,only_R165
+Cl concentration / only_R165,14,0.572424165244585,0.572424165244585,0.578947368421053,0,0,0,,chlorine_concentration,only_R165
+Cl concentration / only_R165,16,0.971800306298966,0.971800306298966,0.105263157894737,0,0,0,,chlorine_concentration,only_R165
+Cl concentration / only_R165,18,0.887012356645534,0.887012356645534,0.473684210526316,0,0,0,,chlorine_concentration,only_R165
+Cl concentration / only_R165,20,1,1,0,0,0,0,,chlorine_concentration,only_R165
+Cl concentration / only_R165,22,0.980224841334971,0.980224841334971,0.0526315789473684,0,0,0,,chlorine_concentration,only_R165
+Cl concentration / only_R165,24,1,1,0,0,0,0,,chlorine_concentration,only_R165
+Cl concentration / only_R165,26,0.999966309008863,0.999966309008863,0.0526315789473684,0,0,0,,chlorine_concentration,only_R165
+Cl concentration / only_R165,28,0.997412375677859,0.997412375677859,0.0526315789473684,0,0,0,,chlorine_concentration,only_R165
+Cl concentration / only_R165,30,0.92382841309992,0.92382841309992,0.315789473684211,0,0,0,,chlorine_concentration,only_R165
+Cl concentration / only_R165,32,0.996958076733564,0.996958076733564,0.210526315789474,0,0,0,,chlorine_concentration,only_R165
+Cl concentration / only_R165,34,0.986023482470892,0.986023482470892,0.263157894736842,0,0,0,,chlorine_concentration,only_R165
+Cl concentration / only_R165,36,0.99773517829759,0.99773517829759,0.0526315789473684,0,0,0,,chlorine_concentration,only_R165
+Cl concentration / only_R165,38,1,1,0.0526315789473684,0,0,0,,chlorine_concentration,only_R165
+Cl concentration / only_R165,40,0.989267124939284,0.989267124939284,0.263157894736842,0,0,0,,chlorine_concentration,only_R165
+Cl concentration / only_R165,42,0.994425541959067,0.994425541959067,0.0526315789473684,0,0,0,,chlorine_concentration,only_R165
+Cl concentration / only_R165,44,0.999631715199271,0.999631715199271,0.105263157894737,0,0,0,,chlorine_concentration,only_R165
+Cl concentration / only_R165,46,1,1,0,0,0,0,,chlorine_concentration,only_R165
+Cl concentration / only_R165,48,0.999356805400359,0.999356805400359,0.0526315789473684,0,0,0,,chlorine_concentration,only_R165
+Cl concentration / only_R165,50,0.928122114827032,0.928122114827032,0.105263157894737,0,0,0,,chlorine_concentration,only_R165
+Cl concentration / only_R165,52,0.998883413456677,0.998883413456677,0.0526315789473684,0,0,0,,chlorine_concentration,only_R165
+Cl concentration / only_R165,54,0.970448649316719,0.970448649316719,0.105263157894737,0,0,0,,chlorine_concentration,only_R165
+Cl concentration / only_R165,56,0.99994867487278,0.99994867487278,0.0526315789473684,0,0,0,,chlorine_concentration,only_R165
+Cl concentration / only_R165,58,0.939978215410322,0.939978215410322,0.157894736842105,0,0,0,,chlorine_concentration,only_R165
+Cl concentration / only_R165,60,0.969282219573906,0.969282219573906,0.0526315789473684,0,0,0,,chlorine_concentration,only_R165
+Cl concentration / only_R165,62,1,1,0,0,0,0,,chlorine_concentration,only_R165
+Cl concentration / only_R165,64,1,1,0,0,0,0,,chlorine_concentration,only_R165
+Cl concentration / only_R165,66,1,1,0.0526315789473684,0,0,0,,chlorine_concentration,only_R165
+Cl concentration / only_R165,68,1,1,0.0526315789473684,0,0,0,,chlorine_concentration,only_R165
+Cl concentration / only_R165,70,1,1,0.157894736842105,0,0,0,,chlorine_concentration,only_R165
+Cl concentration / only_R165,72,1,1,0.0526315789473684,0,0,0,,chlorine_concentration,only_R165
+Cl concentration / only_R165,74,1,1,0,0,0,0,,chlorine_concentration,only_R165
+Cl concentration / only_R165,76,1,1,0.0526315789473684,0,0,0,,chlorine_concentration,only_R165
+Cl entropy / both,2,1,1,0,0,0,0,,chlorine_entropy,both
+Cl entropy / both,4,1,1,0,0,0,0,,chlorine_entropy,both
+Cl entropy / both,6,1,1,0,0,0,0,,chlorine_entropy,both
+Cl entropy / both,8,1,1,0,0,0,0,,chlorine_entropy,both
+Cl entropy / both,10,1,1,0,0,0,0,,chlorine_entropy,both
+Cl entropy / both,12,1,1,0,0,0,0,,chlorine_entropy,both
+Cl entropy / both,14,1,1,0,0,0,0,,chlorine_entropy,both
+Cl entropy / both,16,1,1,0,0,0,0,,chlorine_entropy,both
+Cl entropy / both,18,1,1,0,0,0,0,,chlorine_entropy,both
+Cl entropy / both,20,1,1,0,0,0,0,,chlorine_entropy,both
+Cl entropy / both,22,1,1,0,0,0,0,,chlorine_entropy,both
+Cl entropy / both,24,1,1,0,0,0,0,,chlorine_entropy,both
+Cl entropy / both,26,1,1,0,0,0,0,,chlorine_entropy,both
+Cl entropy / both,28,1,1,0,0,0,0,,chlorine_entropy,both
+Cl entropy / both,30,1,1,0,0,0,0,,chlorine_entropy,both
+Cl entropy / both,32,1,1,0,0,0,0,,chlorine_entropy,both
+Cl entropy / both,34,1,1,0,0,0,0,,chlorine_entropy,both
+Cl entropy / both,36,1,1,0,0,0,0,,chlorine_entropy,both
+Cl entropy / both,38,1,1,0,0,0,0,,chlorine_entropy,both
+Cl entropy / both,40,1,1,0,0,0,0,,chlorine_entropy,both
+Cl entropy / both,42,1,1,0,0,0,0,,chlorine_entropy,both
+Cl entropy / both,44,1,1,0,0,0,0,,chlorine_entropy,both
+Cl entropy / both,46,1,1,0,0,0,0,,chlorine_entropy,both
+Cl entropy / both,48,1,1,0,0,0,0,,chlorine_entropy,both
+Cl entropy / both,50,1,1,0,0,0,0,,chlorine_entropy,both
+Cl entropy / both,52,1,1,0,0,0,0,,chlorine_entropy,both
+Cl entropy / both,54,1,1,0,0,0,0,,chlorine_entropy,both
+Cl entropy / both,56,1,1,0,0,0,0,,chlorine_entropy,both
+Cl entropy / both,58,1,1,0,0,0,0,,chlorine_entropy,both
+Cl entropy / both,60,0.984982535373422,0.984982535373422,0.0526315789473684,0,0,0,,chlorine_entropy,both
+Cl entropy / both,62,1,1,0,0,0,0,,chlorine_entropy,both
+Cl entropy / both,64,1,1,0,0,0,0,,chlorine_entropy,both
+Cl entropy / both,66,1,1,0,0,0,0,,chlorine_entropy,both
+Cl entropy / both,68,1,1,0,0,0,0,,chlorine_entropy,both
+Cl entropy / both,70,1,1,0,0,0,0,,chlorine_entropy,both
+Cl entropy / both,72,1,1,0,0,0,0,,chlorine_entropy,both
+Cl entropy / both,74,1,1,0,0,0,0,,chlorine_entropy,both
+Cl entropy / both,76,1,1,0,0,0,0,,chlorine_entropy,both
+Cl entropy / only_R65,2,1,1,0,0,0,0,,chlorine_entropy,only_R65
+Cl entropy / only_R65,4,1,1,0,0,0,0,,chlorine_entropy,only_R65
+Cl entropy / only_R65,6,1,1,0,0,0,0,,chlorine_entropy,only_R65
+Cl entropy / only_R65,8,1,1,0,0,0,0,,chlorine_entropy,only_R65
+Cl entropy / only_R65,10,1,1,0,0,0,0,,chlorine_entropy,only_R65
+Cl entropy / only_R65,12,1,1,0,0,0,0,,chlorine_entropy,only_R65
+Cl entropy / only_R65,14,1,1,0,0,0,0,,chlorine_entropy,only_R65
+Cl entropy / only_R65,16,1,1,0,0,0,0,,chlorine_entropy,only_R65
+Cl entropy / only_R65,18,1,1,0,0,0,0,,chlorine_entropy,only_R65
+Cl entropy / only_R65,20,1,1,0,0,0,0,,chlorine_entropy,only_R65
+Cl entropy / only_R65,22,1,1,0,0,0,0,,chlorine_entropy,only_R65
+Cl entropy / only_R65,24,1,1,0,0,0,0,,chlorine_entropy,only_R65
+Cl entropy / only_R65,26,1,1,0,0,0,0,,chlorine_entropy,only_R65
+Cl entropy / only_R65,28,1,1,0,0,0,0,,chlorine_entropy,only_R65
+Cl entropy / only_R65,30,1,1,0,0,0,0,,chlorine_entropy,only_R65
+Cl entropy / only_R65,32,1,1,0,0,0,0,,chlorine_entropy,only_R65
+Cl entropy / only_R65,34,1,1,0,0,0,0,,chlorine_entropy,only_R65
+Cl entropy / only_R65,36,1,1,0,0,0,0,,chlorine_entropy,only_R65
+Cl entropy / only_R65,38,1,1,0,0,0,0,,chlorine_entropy,only_R65
+Cl entropy / only_R65,40,1,1,0,0,0,0,,chlorine_entropy,only_R65
+Cl entropy / only_R65,42,1,1,0,0,0,0,,chlorine_entropy,only_R65
+Cl entropy / only_R65,44,1,1,0,0,0,0,,chlorine_entropy,only_R65
+Cl entropy / only_R65,46,1,1,0,0,0,0,,chlorine_entropy,only_R65
+Cl entropy / only_R65,48,1,1,0,0,0,0,,chlorine_entropy,only_R65
+Cl entropy / only_R65,50,1,1,0,0,0,0,,chlorine_entropy,only_R65
+Cl entropy / only_R65,52,1,1,0,0,0,0,,chlorine_entropy,only_R65
+Cl entropy / only_R65,54,1,1,0,0,0,0,,chlorine_entropy,only_R65
+Cl entropy / only_R65,56,1,1,0,0,0,0,,chlorine_entropy,only_R65
+Cl entropy / only_R65,58,1,1,0,0,0,0,,chlorine_entropy,only_R65
+Cl entropy / only_R65,60,0.984941141058432,0.984941141058432,0.0526315789473684,0,0,0,,chlorine_entropy,only_R65
+Cl entropy / only_R65,62,1,1,0,0,0,0,,chlorine_entropy,only_R65
+Cl entropy / only_R65,64,1,1,0,0,0,0,,chlorine_entropy,only_R65
+Cl entropy / only_R65,66,1,1,0,0,0,0,,chlorine_entropy,only_R65
+Cl entropy / only_R65,68,1,1,0,0,0,0,,chlorine_entropy,only_R65
+Cl entropy / only_R65,70,1,1,0,0,0,0,,chlorine_entropy,only_R65
+Cl entropy / only_R65,72,1,1,0,0,0,0,,chlorine_entropy,only_R65
+Cl entropy / only_R65,74,1,1,0,0,0,0,,chlorine_entropy,only_R65
+Cl entropy / only_R65,76,1,1,0,0,0,0,,chlorine_entropy,only_R65
+Cl entropy / only_R165,2,1,1,0,0,0,0,,chlorine_entropy,only_R165
+Cl entropy / only_R165,4,1,1,0,0,0,0,,chlorine_entropy,only_R165
+Cl entropy / only_R165,6,1,1,0,0,0,0,,chlorine_entropy,only_R165
+Cl entropy / only_R165,8,1,1,0,0,0,0,,chlorine_entropy,only_R165
+Cl entropy / only_R165,10,1,1,0,0,0,0,,chlorine_entropy,only_R165
+Cl entropy / only_R165,12,1,1,0,0,0,0,,chlorine_entropy,only_R165
+Cl entropy / only_R165,14,1,1,0,0,0,0,,chlorine_entropy,only_R165
+Cl entropy / only_R165,16,1,1,0,0,0,0,,chlorine_entropy,only_R165
+Cl entropy / only_R165,18,1,1,0,0,0,0,,chlorine_entropy,only_R165
+Cl entropy / only_R165,20,1,1,0,0,0,0,,chlorine_entropy,only_R165
+Cl entropy / only_R165,22,1,1,0,0,0,0,,chlorine_entropy,only_R165
+Cl entropy / only_R165,24,1,1,0,0,0,0,,chlorine_entropy,only_R165
+Cl entropy / only_R165,26,1,1,0,0,0,0,,chlorine_entropy,only_R165
+Cl entropy / only_R165,28,1,1,0,0,0,0,,chlorine_entropy,only_R165
+Cl entropy / only_R165,30,1,1,0,0,0,0,,chlorine_entropy,only_R165
+Cl entropy / only_R165,32,1,1,0,0,0,0,,chlorine_entropy,only_R165
+Cl entropy / only_R165,34,1,1,0,0,0,0,,chlorine_entropy,only_R165
+Cl entropy / only_R165,36,1,1,0,0,0,0,,chlorine_entropy,only_R165
+Cl entropy / only_R165,38,1,1,0,0,0,0,,chlorine_entropy,only_R165
+Cl entropy / only_R165,40,1,1,0,0,0,0,,chlorine_entropy,only_R165
+Cl entropy / only_R165,42,1,1,0,0,0,0,,chlorine_entropy,only_R165
+Cl entropy / only_R165,44,1,1,0,0,0,0,,chlorine_entropy,only_R165
+Cl entropy / only_R165,46,1,1,0,0,0,0,,chlorine_entropy,only_R165
+Cl entropy / only_R165,48,1,1,0,0,0,0,,chlorine_entropy,only_R165
+Cl entropy / only_R165,50,1,1,0,0,0,0,,chlorine_entropy,only_R165
+Cl entropy / only_R165,52,1,1,0,0,0,0,,chlorine_entropy,only_R165
+Cl entropy / only_R165,54,1,1,0,0,0,0,,chlorine_entropy,only_R165
+Cl entropy / only_R165,56,1,1,0,0,0,0,,chlorine_entropy,only_R165
+Cl entropy / only_R165,58,1,1,0,0,0,0,,chlorine_entropy,only_R165
+Cl entropy / only_R165,60,0.98500307439895,0.98500307439895,0.0526315789473684,0,0,0,,chlorine_entropy,only_R165
+Cl entropy / only_R165,62,1,1,0,0,0,0,,chlorine_entropy,only_R165
+Cl entropy / only_R165,64,1,1,0,0,0,0,,chlorine_entropy,only_R165
+Cl entropy / only_R165,66,1,1,0,0,0,0,,chlorine_entropy,only_R165
+Cl entropy / only_R165,68,1,1,0,0,0,0,,chlorine_entropy,only_R165
+Cl entropy / only_R165,70,1,1,0,0,0,0,,chlorine_entropy,only_R165
+Cl entropy / only_R165,72,1,1,0,0,0,0,,chlorine_entropy,only_R165
+Cl entropy / only_R165,74,1,1,0,0,0,0,,chlorine_entropy,only_R165
+Cl entropy / only_R165,76,1,1,0,0,0,0,,chlorine_entropy,only_R165
+Todini / both,2,1,1,0,0,0,0,,todini,both
+Todini / both,4,1,1,0,0,0,0,,todini,both
+Todini / both,6,0.975630766419277,0.975630766419277,0.0526315789473684,0,0,0,,todini,both
+Todini / both,8,1,1,0,0,0,0,,todini,both
+Todini / both,10,1,1,0,0,0,0,,todini,both
+Todini / both,12,1,1,0,0,0,0,,todini,both
+Todini / both,14,1,1,0,0,0,0,,todini,both
+Todini / both,16,1,1,0,0,0,0,,todini,both
+Todini / both,18,1,1,0,0,0,0,,todini,both
+Todini / both,20,1,1,0,0,0,0,,todini,both
+Todini / both,22,1,1,0,0,0,0,,todini,both
+Todini / both,24,1,1,0,0,0,0,,todini,both
+Todini / both,26,1,1,0,0,0,0,,todini,both
+Todini / both,28,1,1,0,0,0,0,,todini,both
+Todini / both,30,1,1,0,0,0,0,,todini,both
+Todini / both,32,1,1,0,0,0,0,,todini,both
+Todini / both,34,1,1,0,0,0,0,,todini,both
+Todini / both,36,1,1,0,0,0,0,,todini,both
+Todini / both,38,1,1,0,0,0,0,,todini,both
+Todini / both,40,1,1,0,0,0,0,,todini,both
+Todini / both,42,1,1,0,0,0,0,,todini,both
+Todini / both,44,1,1,0,0,0,0,,todini,both
+Todini / both,46,1,1,0,0,0,0,,todini,both
+Todini / both,48,1,1,0,0,0,0,,todini,both
+Todini / both,50,1,1,0,0,0,0,,todini,both
+Todini / both,52,1,1,0,0,0,0,,todini,both
+Todini / both,54,1,1,0,0,0,0,,todini,both
+Todini / both,56,1,1,0,0,0,0,,todini,both
+Todini / both,58,1,1,0,0,0,0,,todini,both
+Todini / both,60,1,1,0,0,0,0,,todini,both
+Todini / both,62,1,1,0,0,0,0,,todini,both
+Todini / both,64,1,1,0,0,0,0,,todini,both
+Todini / both,66,1,1,0,0,0,0,,todini,both
+Todini / both,68,1,1,0,0,0,0,,todini,both
+Todini / both,70,1,1,0,0,0,0,,todini,both
+Todini / both,72,1,1,0,0,0,0,,todini,both
+Todini / both,74,1,1,0,0,0,0,,todini,both
+Todini / both,76,1,1,0,0,0,0,,todini,both
+Todini / only_R65,2,1,1,0,0,0,0,,todini,only_R65
+Todini / only_R65,4,1,1,0,0,0,0,,todini,only_R65
+Todini / only_R65,6,0.975628528581075,0.975628528581075,0.0526315789473684,0,0,0,,todini,only_R65
+Todini / only_R65,8,1,1,0,0,0,0,,todini,only_R65
+Todini / only_R65,10,1,1,0,0,0,0,,todini,only_R65
+Todini / only_R65,12,1,1,0,0,0,0,,todini,only_R65
+Todini / only_R65,14,1,1,0,0,0,0,,todini,only_R65
+Todini / only_R65,16,1,1,0,0,0,0,,todini,only_R65
+Todini / only_R65,18,1,1,0,0,0,0,,todini,only_R65
+Todini / only_R65,20,1,1,0,0,0,0,,todini,only_R65
+Todini / only_R65,22,1,1,0,0,0,0,,todini,only_R65
+Todini / only_R65,24,1,1,0,0,0,0,,todini,only_R65
+Todini / only_R65,26,1,1,0,0,0,0,,todini,only_R65
+Todini / only_R65,28,1,1,0,0,0,0,,todini,only_R65
+Todini / only_R65,30,1,1,0,0,0,0,,todini,only_R65
+Todini / only_R65,32,1,1,0,0,0,0,,todini,only_R65
+Todini / only_R65,34,1,1,0,0,0,0,,todini,only_R65
+Todini / only_R65,36,1,1,0,0,0,0,,todini,only_R65
+Todini / only_R65,38,1,1,0,0,0,0,,todini,only_R65
+Todini / only_R65,40,1,1,0,0,0,0,,todini,only_R65
+Todini / only_R65,42,1,1,0,0,0,0,,todini,only_R65
+Todini / only_R65,44,1,1,0,0,0,0,,todini,only_R65
+Todini / only_R65,46,1,1,0,0,0,0,,todini,only_R65
+Todini / only_R65,48,1,1,0,0,0,0,,todini,only_R65
+Todini / only_R65,50,1,1,0,0,0,0,,todini,only_R65
+Todini / only_R65,52,1,1,0,0,0,0,,todini,only_R65
+Todini / only_R65,54,1,1,0,0,0,0,,todini,only_R65
+Todini / only_R65,56,1,1,0,0,0,0,,todini,only_R65
+Todini / only_R65,58,1,1,0,0,0,0,,todini,only_R65
+Todini / only_R65,60,1,1,0,0,0,0,,todini,only_R65
+Todini / only_R65,62,1,1,0,0,0,0,,todini,only_R65
+Todini / only_R65,64,1,1,0,0,0,0,,todini,only_R65
+Todini / only_R65,66,1,1,0,0,0,0,,todini,only_R65
+Todini / only_R65,68,1,1,0,0,0,0,,todini,only_R65
+Todini / only_R65,70,1,1,0,0,0,0,,todini,only_R65
+Todini / only_R65,72,1,1,0,0,0,0,,todini,only_R65
+Todini / only_R65,74,1,1,0,0,0,0,,todini,only_R65
+Todini / only_R65,76,1,1,0,0,0,0,,todini,only_R65
+Todini / only_R165,2,1,1,0,0,0,0,,todini,only_R165
+Todini / only_R165,4,1,1,0,0,0,0,,todini,only_R165
+Todini / only_R165,6,0.975629805953312,0.975629805953312,0.0526315789473684,0,0,0,,todini,only_R165
+Todini / only_R165,8,1,1,0,0,0,0,,todini,only_R165
+Todini / only_R165,10,1,1,0,0,0,0,,todini,only_R165
+Todini / only_R165,12,1,1,0,0,0,0,,todini,only_R165
+Todini / only_R165,14,1,1,0,0,0,0,,todini,only_R165
+Todini / only_R165,16,1,1,0,0,0,0,,todini,only_R165
+Todini / only_R165,18,1,1,0,0,0,0,,todini,only_R165
+Todini / only_R165,20,1,1,0,0,0,0,,todini,only_R165
+Todini / only_R165,22,1,1,0,0,0,0,,todini,only_R165
+Todini / only_R165,24,1,1,0,0,0,0,,todini,only_R165
+Todini / only_R165,26,1,1,0,0,0,0,,todini,only_R165
+Todini / only_R165,28,1,1,0,0,0,0,,todini,only_R165
+Todini / only_R165,30,1,1,0,0,0,0,,todini,only_R165
+Todini / only_R165,32,1,1,0,0,0,0,,todini,only_R165
+Todini / only_R165,34,1,1,0,0,0,0,,todini,only_R165
+Todini / only_R165,36,1,1,0,0,0,0,,todini,only_R165
+Todini / only_R165,38,1,1,0,0,0,0,,todini,only_R165
+Todini / only_R165,40,1,1,0,0,0,0,,todini,only_R165
+Todini / only_R165,42,1,1,0,0,0,0,,todini,only_R165
+Todini / only_R165,44,1,1,0,0,0,0,,todini,only_R165
+Todini / only_R165,46,1,1,0,0,0,0,,todini,only_R165
+Todini / only_R165,48,1,1,0,0,0,0,,todini,only_R165
+Todini / only_R165,50,1,1,0,0,0,0,,todini,only_R165
+Todini / only_R165,52,1,1,0,0,0,0,,todini,only_R165
+Todini / only_R165,54,1,1,0,0,0,0,,todini,only_R165
+Todini / only_R165,56,1,1,0,0,0,0,,todini,only_R165
+Todini / only_R165,58,1,1,0,0,0,0,,todini,only_R165
+Todini / only_R165,60,1,1,0,0,0,0,,todini,only_R165
+Todini / only_R165,62,1,1,0,0,0,0,,todini,only_R165
+Todini / only_R165,64,1,1,0,0,0,0,,todini,only_R165
+Todini / only_R165,66,1,1,0,0,0,0,,todini,only_R165
+Todini / only_R165,68,1,1,0,0,0,0,,todini,only_R165
+Todini / only_R165,70,1,1,0,0,0,0,,todini,only_R165
+Todini / only_R165,72,1,1,0,0,0,0,,todini,only_R165
+Todini / only_R165,74,1,1,0,0,0,0,,todini,only_R165
+Todini / only_R165,76,1,1,0,0,0,0,,todini,only_R165

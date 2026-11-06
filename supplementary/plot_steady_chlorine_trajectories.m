@@ -1,9 +1,12 @@
-function plot_steady_chlorine_trajectories(results_dir)
+function plot_steady_chlorine_trajectories(results_dir,anytown_results_dir)
 %PLOT_STEADY_CHLORINE_TRAJECTORIES EPANET history and STACI asymptotes.
 if nargin < 1 || strlength(string(results_dir)) == 0
     results_dir = fullfile(fileparts(mfilename('fullpath')), 'results');
 end
 summary = readtable(fullfile(results_dir, 'summary.csv'), 'TextType', 'string');
+if nargin<2 || isempty(anytown_results_dir)
+    anytown_results_dir=results_dir;
+end
 networks = ["tanyimboh_templeman", "anytown", "balerma"];
 names = ["Tanyimboh–Templeman", "Anytown", "Balerma"];
 colors = [0.00 0.38 0.74; 0.85 0.33 0.10; 0.24 0.62 0.28];
@@ -11,10 +14,19 @@ fig = figure('Color', 'w', 'Position', [80 80 1150 1040]);
 layout = tiledlayout(fig, 3, 1, 'Padding', 'compact', ...
     'TileSpacing', 'compact');
 for k = 1:numel(networks)
-    row = summary(summary.network == networks(k) & ...
-                  summary.design == "original", :);
+    current_results=results_dir;
+    current_summary=summary;
+    if networks(k)=="anytown"
+        current_results=anytown_results_dir;
+        if ~strcmp(string(anytown_results_dir),string(results_dir))
+            current_summary=readtable(fullfile(anytown_results_dir, ...
+                'summary.csv'),'TextType','string');
+        end
+    end
+    row = current_summary(current_summary.network == networks(k) & ...
+                  current_summary.design == "original", :);
     assert(height(row) == 1, 'Missing original network comparison');
-    folder = fullfile(results_dir, networks(k), 'original');
+    folder = fullfile(current_results, networks(k), 'original');
     trajectory = readmatrix(fullfile(folder, 'trajectory.csv'), ...
         'NumHeaderLines', 1);
     steady = jsondecode(fileread(fullfile(folder, 'steady.json')));

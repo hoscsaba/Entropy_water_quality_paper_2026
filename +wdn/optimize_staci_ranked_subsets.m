@@ -5,6 +5,9 @@ function study = optimize_staci_ranked_subsets(cfg, ranking, objective, k_values
 objective = string(objective);
 names = {'cost','hydraulic_entropy','chlorine_concentration', ...
     'chlorine_entropy','todini'};
+if isfield(cfg,'branch_hop_weighting')
+    names{end+1}='branch_hop_weighted_entropy';
+end
 assert(ismember(objective, string(names)), 'Unknown objective');
 chlorine_objective = ismember(objective, ...
     ["chlorine_concentration","chlorine_entropy"]);
@@ -26,7 +29,7 @@ full_original = full_original(:)';
 full_original(design_positions) = x_original;
 k_values = double(k_values(:)');
 n_criteria = numel(ranking.criterion_keys);
-metrics = nan(n_criteria,numel(k_values),5);
+metrics = nan(n_criteria,numel(k_values),numel(names));
 designs = nan(n_criteria,numel(k_values),numel(x_original));
 violations = nan(n_criteria,numel(k_values));
 is_feasible = false(n_criteria,numel(k_values));
@@ -38,6 +41,7 @@ if chlorine_objective
         0.2 - original_metrics.minimum_consumer_chlorine_mgL);
 end
 study_started = tic;
+first_candidate_error_reported=false;
 if isfield(cfg.ranking,'max_generations')
     ranking_maxgen = cfg.ranking.max_generations;
 else
@@ -50,6 +54,8 @@ else
 end
 for q = 1:n_criteria
     current_feasible = [];
+    previous_feasible_entry = [];
+    previous_feasible_k = NaN;
     for j = 1:numel(k_values)
         if toc(study_started) > 7200
             error('wdn:RankingWallBudget', ...
@@ -67,7 +73,17 @@ for q = 1:n_criteria
             sum(ranking.orders(:,q).*(1:numel(design_ids))'));
         signature = sprintf('%s|%.9g',signature_base, ...
             sum(full_result.design_diameters.^2));
-        if isfile(cache_file) && k < numel(x_original)
+        reuse_cache=isfile(cache_file) && k < numel(x_original);
+        small_seed_file=fullfile(cfg.results_dir,'k2_feasibility_seed.mat');
+        if reuse_cache && k==2 && isfile(small_seed_file)
+            checked=load(cache_file,'entry');
+            reuse_cache=checked.entry.is_feasible;
+        end
+        if reuse_cache && objective=="branch_hop_weighted_entropy"
+            checked=load(cache_file,'entry');
+            reuse_cache=checked.entry.is_feasible || k==0;
+        end
+        if reuse_cache
             saved = load(cache_file,'entry');
             % A better full-network seed does not invalidate an earlier
             % feasible subset calculation. Only K=N must follow the latest
@@ -86,8 +102,14 @@ for q = 1:n_criteria
                 entry.exitflag = NaN; entry.generations = 0;
             elseif k == numel(x_original)
                 entry.design_diameters = full_result.design_diameters;
-                entry.metrics = full_result.metrics;
-                entry.max_constraint_violation = full_result.max_constraint_violation;
+                [entry.metrics,entry.max_constraint_violation] = ...
+                    wdn.evaluate_staci_design(st,cfg,entry.design_diameters, ...
+                    link_order,full_original);
+                if chlorine_objective
+                    entry.max_constraint_violation=max( ...
+                        entry.max_constraint_violation, ...
+                        0.2-entry.metrics.minimum_consumer_chlorine_mgL);
+                end
                 entry.is_feasible = entry.max_constraint_violation <= ...
                     cfg.ga.constraint_tolerance;
                 entry.exitflag = full_result.exitflag;
@@ -100,8 +122,34 @@ for q = 1:n_criteria
                 population = lb + rand(cfg.ga.population_size,k).*(ub-lb);
                 population(1,:) = x_original(selected);
                 population(2,:) = full_result.design_diameters(selected);
+                seed_count=2;
+                if objective=="branch_hop_weighted_entropy"
+                    for prior=["cost","hydraulic_entropy"]
+                        prior_file=fullfile(cfg.results_dir,'ranking_cache', ...
+                            char(prior),ranking.criterion_keys{q}, ...
+                            sprintf('k_%03d.mat',k));
+                        if ~isfile(prior_file), continue; end
+                        prior_saved=load(prior_file,'entry');
+                        if prior_saved.entry.is_feasible
+                            seed_count=seed_count+1;
+                            population(seed_count,:)= ...
+                                prior_saved.entry.design_diameters(selected);
+                        end
+                    end
+                end
                 if ~isempty(current_feasible)
-                    population(3,:) = current_feasible(selected);
+                    seed_count=seed_count+1;
+                    population(seed_count,:) = current_feasible(selected);
+                end
+                if k==2 && isfile(small_seed_file)
+                    feasible_seed=load(small_seed_file,'seed');
+                    candidate=double(feasible_seed.seed.design_diameters(:)');
+                    fixed=setdiff(1:numel(x_original),selected);
+                    if numel(candidate)==numel(x_original) && ...
+                            all(abs(candidate(fixed)-x_original(fixed))<1e-8)
+                        seed_count=seed_count+1;
+                        population(seed_count,:)=candidate(selected);
+                    end
                 end
                 last_y = [];
                 last_metric = struct();
@@ -120,7 +168,7 @@ for q = 1:n_criteria
                     'UseParallel',false,'OutputFcn',@budget_callback);
                 [y,~,exitflag,output] = ga(@fitness,k,[],[],[],[], ...
                     lb,ub,@constraint,options);
-                candidates = [y(:)';population(1:2,:)];
+                candidates = [y(:)';population(1:seed_count,:)];
                 if ~isempty(current_feasible)
                     candidates(end+1,:) = current_feasible(selected);
                 end
@@ -166,16 +214,52 @@ for q = 1:n_criteria
             entry.created_at = datetime('now','TimeZone','local');
             save(cache_file,'entry','-v7');
         end
+        % Ranked subsets are nested: the last feasible full diameter vector
+        % remains admissible after releasing additional pipes. Preserve it
+        % if an independently stopped GA returns a worse incumbent. Copy
+        % every metric with the vector so cross-objective panels remain
+        % evaluations of the design actually shown.
+        if ~isempty(previous_feasible_entry) && k > 0
+            previous_value = previous_feasible_entry.metrics.(char(objective));
+            if entry.is_feasible
+                current_value = entry.metrics.(char(objective));
+                if objective == "cost"
+                    worse = current_value > previous_value;
+                else
+                    worse = current_value < previous_value;
+                end
+            else
+                worse = true;
+            end
+            if worse
+                assert(k < numel(x_original), ...
+                    'Saved full-network endpoint is worse than a nested feasible incumbent');
+                if ~isfield(entry,'raw_ga_entry')
+                    entry.raw_ga_entry = entry;
+                end
+                entry.design_diameters = previous_feasible_entry.design_diameters;
+                entry.metrics = previous_feasible_entry.metrics;
+                entry.max_constraint_violation = ...
+                    previous_feasible_entry.max_constraint_violation;
+                entry.is_feasible = true;
+                entry.nested_incumbent_from_k = previous_feasible_k;
+                save(cache_file,'entry','-v7');
+            end
+        end
         designs(q,j,:) = entry.design_diameters;
         violations(q,j) = entry.max_constraint_violation;
         is_feasible(q,j) = entry.is_feasible;
         elapsed_seconds(q,j) = entry.elapsed_seconds;
         if k == 0 || entry.is_feasible
-            for m = 1:5
+            for m = 1:numel(names)
                 metrics(q,j,m) = entry.metrics.(names{m});
             end
         end
-        if entry.is_feasible, current_feasible = entry.design_diameters; end
+        if entry.is_feasible
+            current_feasible = entry.design_diameters;
+            previous_feasible_entry = entry;
+            previous_feasible_k = k;
+        end
         fprintf('%s/%s k=%d feasible=%d gen=%d elapsed=%.1fs\n', ...
             cfg.id,objective,k,entry.is_feasible,entry.generations, ...
             entry.elapsed_seconds);
@@ -218,7 +302,12 @@ study.created_at = datetime('now','TimeZone','local');
             x = map_design(y);
             [m,v] = fast_measure(x);
             f = fitness_from_metric(m);
-        catch
+        catch candidate_error
+            if ~first_candidate_error_reported
+                fprintf(2,'First %s candidate error: %s\n', ...
+                    objective,getReport(candidate_error,'extended'));
+                first_candidate_error_reported=true;
+            end
             m = struct(); v = 1e6; f = 1e12;
         end
         if v <= cfg.ga.constraint_tolerance && f < best_f
@@ -239,9 +328,15 @@ study.created_at = datetime('now','TimeZone','local');
         if strcmp(cfg.id,'anytown')
             pressure=pressure/(0.3048*cfg.pressure_to_head);
         end
-        c=cfg.minimum_pressure-pressure(pressure_index);
+        lower_pressure=cfg.minimum_pressure;
+        upper_pressure=cfg.maximum_pressure;
+        if isfield(cfg.ga,'pressure_numerical_guard_psi')
+            lower_pressure=lower_pressure+cfg.ga.pressure_numerical_guard_psi;
+            upper_pressure=upper_pressure-cfg.ga.pressure_numerical_guard_psi;
+        end
+        c=lower_pressure-pressure(pressure_index);
         if isfinite(cfg.maximum_pressure)
-            c=[c;pressure(pressure_index)-cfg.maximum_pressure];
+            c=[c;pressure(pressure_index)-upper_pressure];
         end
         if isfield(cfg,'pressure_anchor_node_ids') && ...
                 ~isempty(cfg.pressure_anchor_node_ids)
@@ -249,8 +344,13 @@ study.created_at = datetime('now','TimeZone','local');
                 string(nodes.id(:)));
             assert(all(found),'STACI pressure anchor missing');
             anchor_ft=double(nodes.total_head_m(ix))/0.3048;
-            c=[c;abs(anchor_ft(:)-cfg.pressure_anchor_target_heads(:)) ...
-                -cfg.pressure_anchor_head_tolerance];
+            anchor_limit=cfg.pressure_anchor_head_tolerance;
+            if isfield(cfg.ga,'anchor_numerical_guard_ft')
+                anchor_limit=anchor_limit-cfg.ga.anchor_numerical_guard_ft;
+            end
+            anchor_violation=abs(anchor_ft(:)- ...
+                cfg.pressure_anchor_target_heads(:)) - anchor_limit;
+            c=[c;anchor_violation(:)];
         end
         m=struct();
         switch objective
@@ -258,6 +358,14 @@ study.created_at = datetime('now','TimeZone','local');
                 m.cost=wdn.pipe_cost(x,lengths,cfg);
             case "hydraulic_entropy"
                 m.hydraulic_entropy=wdn.staci_flow_entropy(st,cfg,[]);
+            case "branch_hop_weighted_entropy"
+                node_ids=string(nodes.id(:));
+                [found,wi]=ismember(node_ids, ...
+                    string(cfg.branch_hop_weighting.node_ids(:)));
+                assert(all(found),'Branch-hop weight node mismatch');
+                m.branch_hop_weighted_entropy= ...
+                    wdn.source_distance_weighted_entropy(st,cfg, ...
+                    cfg.branch_hop_weighting.weights(wi));
             otherwise
                 quality=st.solveSteadyQuality('chemical');
                 chlorine=1000*double(quality.node_concentration_kgm3(:));
@@ -277,7 +385,7 @@ study.created_at = datetime('now','TimeZone','local');
                     [~,ix]=ismember(string(nodes.id(:)), ...
                         string(quality.node_ids(:)));
                     node_chlorine(:)=chlorine(ix);
-                    m.chlorine_entropy=wdn.staci_flow_entropy( ...
+                    m.chlorine_entropy=wdn.staci_chlorine_entropy( ...
                         st,cfg,node_chlorine);
                 end
         end

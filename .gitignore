@@ -1,9 +1,14 @@
 .DS_Store
 /en??????
 networks/*/runtime/*
+networks/*/runtime_anchor_replay/*
 !networks/*/runtime/README.md
 networks/*/results_staci/runtime/
 supplementary/results/validation_staci_15/cases/
+supplementary/results/validation_staci_distance_anytown/cases/
+supplementary/results/validation_staci_branch_hop_anytown/cases/
+supplementary/results/validation_staci_pareto_anytown/cases/
+supplementary/results/validation_anytown_anchor_replay/cases/
 supplementary/results/anytown/
 supplementary/results/balerma/
 supplementary/results/tanyimboh_templeman/
@@ -14,3 +19,19 @@ networks/*/results_staci_smoke/
 *.ros
 **/__pycache__/
 *.pyc
+
+# Recreated scratch/staging data; released vectors live in results_staci*.
+networks/balerma/results_staci_connected/
+networks/balerma/figures_staci_connected/
+networks/anytown/results_staci_physical_reservoirs/
+networks/anytown/figures_staci_physical_reservoirs/
+networks/anytown/results_staci/runtime/
+networks/balerma/results_staci/runtime/
+supplementary/results/validation_current/
+
+# Rendered network-local copies; manuscript/generated/figures is the release.
+networks/*/figures_staci*/
+networks/tanyimboh_templeman/figures/
+networks/anytown/runtime_physical_reservoirs/
+supplementary/results/validation_staci_tanyimboh/cases/
+supplementary/results/validation_staci_balerma_connected/cases/

@@ -1,4 +1,4 @@
-function output_files = make_balerma_figures
+function output_files = make_balerma_figures(result_dir_override,figure_dir_override)
 %MAKE_BALERMA_FIGURES Rebuild the six-panel Balerma objective figure.
 %   This function reads validated MAT results and does not optimize.
 
@@ -9,12 +9,22 @@ addpath(network_dir);
 cfg = network_config(network_dir);
 cfg.results_dir = fullfile(network_dir,'results_staci');
 cfg.figures_dir = fullfile(network_dir,'figures_staci');
+publish=true;
+if nargin>=1 && ~isempty(result_dir_override)
+    cfg.results_dir=char(result_dir_override);
+    publish=false;
+end
+if nargin>=2 && ~isempty(figure_dir_override)
+    cfg.figures_dir=char(figure_dir_override);
+end
 wdn.setup_toolkit(cfg);
 
-result_names = {'baseline','cost','hydraulic_entropy', ...
-    'chlorine_concentration','chlorine_entropy','todini'};
-panel_titles = {'(a) Original','(b) Cost','(c) Hydraulic entropy', ...
-    '(d) Chlorine concentration','(e) Chlorine entropy','(f) Todini index'};
+result_names = {'cost','hydraulic_entropy', ...
+    'branch_hop_weighted_entropy_rank45','chlorine_concentration', ...
+    'chlorine_entropy','todini'};
+panel_titles = {'(a) Cost','(b) Flow entropy', ...
+    '(c) Branch-hop entropy (45 pipes)','(d) Chlorine concentration', ...
+    '(e) Chlorine entropy','(f) Todini index'};
 
 [d, model] = wdn.open_network(cfg);
 cleanup = onCleanup(@() d.unload);
@@ -48,7 +58,11 @@ for index = 1:numel(result_names)
         geometry.node_ids,string(record.metrics.node_ids(:)));
     assert(all(found_nodes),'Balerma STACI node ID mismatch');
     item.pressure = double(record.metrics.pressures(node_order));
-    all_pressure = [all_pressure; item.pressure(isfinite(item.pressure))]; %#ok<AGROW>
+    item.chlorine = double(record.metrics.chlorine(node_order));
+    % Reservoir boundary nodes carry fixed total head and are drawn with
+    % separate blue squares. Scale pressure colors from demand junctions.
+    pressure_nodes = geometry.node_types(:) ~= 1 & isfinite(item.pressure(:));
+    all_pressure = [all_pressure; item.pressure(pressure_nodes)]; %#ok<AGROW>
     data{index} = item;
 end
 
@@ -66,7 +80,8 @@ layout = tiledlayout(fig, 2, 3, 'TileSpacing', 'compact', 'Padding', 'compact');
 colormap(fig, jet(256));
 for index = 1:numel(data)
     ax = nexttile(layout);
-    draw_network(ax, data{index}, x_limits, y_limits, pressure_limits);
+    draw_network(ax, data{index}, x_limits, y_limits, pressure_limits, ...
+        'pressure');
     title(ax, panel_titles{index}, 'FontSize', 18, 'FontWeight', 'normal');
 end
 cb = colorbar(ax);
@@ -82,15 +97,40 @@ exportgraphics(fig, svg_file, 'ContentType', 'image', 'Resolution', 300);
 close(fig);
 
 generated_dir = fullfile(root, 'manuscript', 'generated', 'figures');
-if ~isfolder(generated_dir), mkdir(generated_dir); end
-copyfile(png_file, fullfile(generated_dir, ...
-    'figure10_balerma_objectives.png'), 'f');
-copyfile(svg_file, fullfile(generated_dir, ...
-    'figure10_balerma_objectives.svg'), 'f');
-output_files = {png_file, svg_file};
+if publish
+    if ~isfolder(generated_dir), mkdir(generated_dir); end
+    copyfile(png_file, fullfile(generated_dir, ...
+        'figure10_balerma_objectives.png'), 'f');
+    copyfile(svg_file, fullfile(generated_dir, ...
+        'figure10_balerma_objectives.svg'), 'f');
 end
 
-function draw_network(ax, item, x_limits, y_limits, pressure_limits)
+% A matching six-panel water-quality map uses the same diameter encoding.
+fig = figure('Color','w','Position',[80 40 1900 1320]);
+layout = tiledlayout(fig,2,3,'TileSpacing','compact','Padding','compact');
+colormap(fig,jet(256));
+for index=1:numel(data)
+    ax=nexttile(layout);
+    draw_network(ax,data{index},x_limits,y_limits,[0 1],'chlorine');
+    title(ax,panel_titles{index},'FontSize',18,'FontWeight','normal');
+end
+cb=colorbar(ax);
+cb.Layout.Tile='east';
+cb.FontSize=15;
+ylabel(cb,'Chlorine [mg/L]','FontSize',17);
+cl_png=fullfile(cfg.figures_dir,'figure14_balerma_chlorine.png');
+cl_svg=fullfile(cfg.figures_dir,'figure14_balerma_chlorine.svg');
+exportgraphics(fig,cl_png,'Resolution',cfg.plot.resolution);
+exportgraphics(fig,cl_svg,'ContentType','image','Resolution',300);
+close(fig);
+if publish
+    copyfile(cl_png,fullfile(generated_dir,'figure14_balerma_chlorine.png'),'f');
+    copyfile(cl_svg,fullfile(generated_dir,'figure14_balerma_chlorine.svg'),'f');
+end
+output_files = {png_file, svg_file, cl_png, cl_svg};
+end
+
+function draw_network(ax, item, x_limits, y_limits, color_limits, color_metric)
 hold(ax, 'on');
 for link = 1:size(item.link_nodes, 1)
     diameter = item.diameters(link);
@@ -101,7 +141,7 @@ for link = 1:size(item.link_nodes, 1)
         item.node_y(item.link_nodes(link, :)), 'Color', [0.08 0.08 0.08], ...
         'LineWidth', line_width, 'LineStyle', line_style);
 end
-scatter(ax, item.node_x, item.node_y, 15, item.pressure, 'filled', ...
+scatter(ax, item.node_x, item.node_y, 15, item.(color_metric), 'filled', ...
     'MarkerEdgeColor', [0.15 0.15 0.15], 'LineWidth', 0.35);
 reservoirs = find(item.node_types == 1);
 scatter(ax, item.node_x(reservoirs), item.node_y(reservoirs), 70, ...
@@ -109,6 +149,6 @@ scatter(ax, item.node_x(reservoirs), item.node_y(reservoirs), 70, ...
 axis(ax, 'equal');
 xlim(ax, x_limits);
 ylim(ax, y_limits);
-clim(ax, pressure_limits);
+clim(ax, color_limits);
 axis(ax, 'off');
 end

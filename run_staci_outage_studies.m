@@ -1,4 +1,4 @@
-function run_staci_outage_studies(staci_root, mex_dir, networks)
+function run_staci_outage_studies(staci_root, mex_dir, networks, result_dir_override)
 %RUN_STACI_OUTAGE_STUDIES DDA stress and PDA service of saved STACI optima.
 root = fileparts(mfilename('fullpath'));
 addpath(root, fullfile(staci_root, 'matlab'), mex_dir);
@@ -9,8 +9,11 @@ for network = string(networks)
     network_dir = char(fullfile(root, 'networks', network));
     addpath(network_dir);
     cfg = network_config(network_dir);
+    if nargin>=4 && ~isempty(result_dir_override)
+        cfg.results_dir=char(result_dir_override);
+    end
     input_file = fullfile(network_dir, 'input', 'network_staci_fixed_load.inp');
-    result_dir = fullfile(network_dir, 'results_staci');
+    result_dir = cfg.results_dir;
     pda_file = fullfile(result_dir, 'runtime', 'network_pda_fixed_load.inp');
     wdn.write_staci_pda_input(cfg, input_file, pda_file);
     stress_summaries = cell(5,1);

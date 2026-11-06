@@ -18,11 +18,12 @@ state.head_m = double(nodes.total_head_m(ni(:)))';
 state.chlorine_mgL = ...
     double(quality.node_concentration_kgm3(qi(:)))' * 1000;
 cfg.design_link_ids = cellstr(link_ids);
+cfg.source_node_ids = {'S'};
 state.hydraulic_entropy = wdn.staci_flow_entropy(staci,cfg,[]);
 chlorine_ordered = zeros(numel(nodes.id),1);
 chlorine_ordered(ni(:)) = state.chlorine_mgL(:);
 [state.chlorine_entropy,detail] = ...
-    wdn.staci_flow_entropy(staci,cfg,chlorine_ordered);
+    wdn.staci_chlorine_entropy(staci,cfg,chlorine_ordered);
 state.chlorine_node_entropy = detail.node_entropy(ni(:))';
 [~,detail] = wdn.staci_flow_entropy(staci,cfg,[]);
 state.hydraulic_node_entropy = detail.node_entropy(ni(:))';

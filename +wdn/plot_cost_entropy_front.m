@@ -1,10 +1,10 @@
 function plot_cost_entropy_front(result, cfg, output_file)
-%PLOT_COST_ENTROPY_FRONT Plot cost--entropy Pareto front with two Cl encodings.
+%PLOT_COST_ENTROPY_FRONT Cost--branching-hop archive with two Cl encodings.
 
 if ~strcmp(result.network_id, cfg.id) || ...
-        ~isequal(string(result.objectives), ["cost", "hydraulic_entropy"])
+        ~isequal(string(result.objectives), ["cost", "branch_hop_weighted_entropy"])
     error('wdn:ResultObjectiveMismatch', ...
-        'Expected an Anytown cost--hydraulic-entropy Pareto result.');
+        'Expected an Anytown cost--branching-hop-entropy Pareto result.');
 end
 if any(result.max_constraint_violation > cfg.ga.constraint_tolerance)
     error('wdn:InvalidMultiobjectiveResult', ...
@@ -12,7 +12,7 @@ if any(result.max_constraint_violation > cfg.ga.constraint_tolerance)
 end
 
 cost_million = result.cost(:) / 1e6;
-hydraulic_entropy = result.hydraulic_entropy(:);
+branch_hop_entropy = result.branch_hop_entropy(:);
 chlorine_objective = result.chlorine_concentration(:);
 chlorine_entropy = result.chlorine_entropy(:);
 
@@ -29,10 +29,10 @@ marker_area = marker_area_min + (marker_area_max - marker_area_min) * ...
 
 fig = figure('Color', 'w', 'Position', [100 100 1040 700]);
 ax = axes(fig); hold(ax, 'on');
-plot(ax, cost_million, hydraulic_entropy, '-', ...
+plot(ax, cost_million, branch_hop_entropy, '-', ...
     'Color', [0.32 0.32 0.32], 'LineWidth', 1.25, ...
     'HandleVisibility', 'off');
-scatter(ax, cost_million, hydraulic_entropy, marker_area, ...
+scatter(ax, cost_million, branch_hop_entropy, marker_area, ...
     chlorine_objective, 'filled', 'MarkerEdgeColor', 'k', ...
     'LineWidth', 0.75, 'HandleVisibility', 'off');
 colormap(fig, turbo);
@@ -51,8 +51,8 @@ legend(ax, legend_handles, legend_labels, 'Location', 'southeast', ...
     'FontSize', 13, 'Box', 'on');
 
 xlabel(ax, 'Cost [10^6 relative cost units]');
-ylabel(ax, 'Hydraulic entropy [-]');
-title(ax, 'Initial Anytown cost-hydraulic-entropy archive', 'FontSize', 17);
+ylabel(ax, 'Branching-hop entropy [-]');
+title(ax, 'Anytown cost versus branching-hop entropy', 'FontSize', 17);
 grid(ax, 'on'); box(ax, 'on');
 ax.FontSize = 15;
 cb.FontSize = 14;
@@ -60,13 +60,13 @@ cb.Label.FontSize = 15;
 ax.LineWidth = 0.8;
 
 cost_span = max(cost_million) - min(cost_million);
-entropy_span = max(hydraulic_entropy) - min(hydraulic_entropy);
+entropy_span = max(branch_hop_entropy) - min(branch_hop_entropy);
 if cost_span <= eps, cost_span = 1; end
 if entropy_span <= eps, entropy_span = 1; end
 xlim(ax, [min(cost_million) - 0.04*cost_span, ...
     max(cost_million) + 0.04*cost_span]);
-ylim(ax, [min(hydraulic_entropy) - 0.04*entropy_span, ...
-    max(hydraulic_entropy) + 0.04*entropy_span]);
+ylim(ax, [min(branch_hop_entropy) - 0.06*entropy_span, ...
+    max(branch_hop_entropy) + 0.08*entropy_span]);
 
 exportgraphics(fig, output_file, 'Resolution', cfg.plot.resolution);
 [output_dir, output_name] = fileparts(output_file);

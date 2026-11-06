@@ -1,10 +1,15 @@
-function make_objective_relationship_summary(staci_root, mex_dir)
+function make_objective_relationship_summary(staci_root, mex_dir, anytown_variant)
 %MAKE_OBJECTIVE_RELATIONSHIP_SUMMARY Cross-effects and rank associations.
 % This post-processing script uses saved optimization results only. It does
 % not run a genetic algorithm. The Anytown reference is the documented
 % pressure-anchor-feasible design; Balerma uses its original feasible design.
 
 close all;
+if nargin<3,anytown_variant="pressure_anchor";end
+anytown_physical=string(anytown_variant)=="physical_reservoirs";
+anytown_anchor_replay=string(anytown_variant)=="anchor_replay";
+assert(ismember(string(anytown_variant), ...
+    ["pressure_anchor","physical_reservoirs","anchor_replay"]));
 
 project_root = fileparts(fileparts(fileparts(mfilename('fullpath'))));
 addpath(project_root, '-begin');
@@ -30,20 +35,38 @@ cross_effects = cell(1, numel(network_ids));
 reference_metrics = cell(1, numel(network_ids));
 for n = 1:numel(network_ids)
     network_dir = fullfile(project_root, 'networks', network_ids{n});
-    cfg = local_network_config(network_dir);
-    cfg.results_dir = fullfile(network_dir,'results_staci');
+    if n==1
+        cfg = local_network_config(network_dir,string(anytown_variant));
+    else
+        cfg = local_network_config(network_dir,"pressure_anchor");
+    end
 
-    if strcmp(network_ids{n}, 'anytown')
-        baseline = load(fullfile(cfg.results_dir,'baseline.mat'),'baseline');
-        st = StaciModel(fullfile(network_dir,'input', ...
-            'network_staci_fixed_load.inp'));
+    if strcmp(network_ids{n}, 'anytown') && anytown_physical
+        st=StaciModel(cfg.inp_file);
+        cleanup_network=onCleanup(@()st.release());
+        [link_order,full_original]=wdn.staci_input_link_template( ...
+            cfg.inp_file,st,0.0254);
+        x_ref=double(st.getLinkProperty( ...
+            string(cfg.design_link_ids(:)),'diameter_m'))'/0.0254;
+        reference=wdn.evaluate_staci_design(st,cfg,x_ref, ...
+            link_order,full_original);
+        clear cleanup_network st
+    elseif strcmp(network_ids{n}, 'anytown')
+        % Recreate the K=0 reference directly from the released nominal INP.
+        % This avoids depending on a superseded baseline MAT file.
+        st = StaciModel(cfg.inp_file);
         cleanup_network = onCleanup(@() st.release());
-        x0 = double(baseline.baseline.design_diameters(:));
-        x_ref = x0 + cfg.ga.feasible_interpolation_to_upper * ...
-            (cfg.maximum_diameter - x0);
+        [link_order,full_original] = wdn.staci_input_link_template( ...
+            cfg.inp_file,st,0.0254);
+        x0 = double(st.getLinkProperty( ...
+            string(cfg.design_link_ids(:)),'diameter_m'))/0.0254;
+        x_ref = x0(:);
+        if ~anytown_anchor_replay
+            x_ref = x_ref + cfg.ga.feasible_interpolation_to_upper * ...
+                (cfg.maximum_diameter - x_ref);
+        end
         reference = wdn.evaluate_staci_design(st,cfg,x_ref, ...
-            string(baseline.baseline.full_link_ids(:)), ...
-            baseline.baseline.full_diameters);
+            link_order,full_original);
         clear cleanup_network st
     else
         baseline = load(fullfile(cfg.results_dir, 'baseline.mat'));
@@ -122,7 +145,7 @@ exportgraphics(figure_handle, svg_file, 'ContentType', 'vector');
 close(figure_handle);
 
 correlation_rows = local_ranking_correlations(project_root, network_ids, ...
-    metric_names, metric_labels);
+    metric_names, metric_labels,string(anytown_variant));
 correlation_csv = fullfile(output_dir, 'ranking_trajectory_correlations.csv');
 writetable(correlation_rows, correlation_csv);
 local_write_latex_table(correlation_rows, ...
@@ -140,10 +163,16 @@ fprintf('Created %s\n', svg_file);
 fprintf('Created %s\n', correlation_csv);
 end
 
-function cfg = local_network_config(network_dir)
+function cfg = local_network_config(network_dir,variant)
 addpath(network_dir, '-begin');
 path_cleanup = onCleanup(@() rmpath(network_dir));
-cfg = network_config(network_dir);
+if variant=="anchor_replay"
+    cfg=network_config_anchor_replay(network_dir);
+elseif variant=="physical_reservoirs"
+    cfg=network_config_physical_reservoirs(network_dir);
+else
+    cfg = network_config(network_dir);
+end
 clear path_cleanup
 end
 
@@ -175,7 +204,7 @@ end
 end
 
 function rows = local_ranking_correlations(project_root, network_ids, ...
-        metric_names, metric_labels)
+        metric_names, metric_labels,anytown_variant)
 pairs = nchoosek(1:numel(metric_names), 2);
 records = cell(size(pairs, 1), 1);
 for p = 1:size(pairs, 1)
@@ -191,10 +220,33 @@ study_files = {'ranking_cost_study.mat','ranking_entropy_study.mat', ...
 stats = cell(numel(network_ids), size(pairs, 1));
 for n = 1:numel(network_ids)
     result_dir = fullfile(project_root, 'networks', network_ids{n}, 'results_staci');
+    files_now=study_files;
+    objectives_now=study_objectives;
+    if n==1 && ismember(anytown_variant, ...
+            ["physical_reservoirs","anchor_replay"])
+        if anytown_variant=="anchor_replay"
+            folder='results_staci_anchor_replay';
+        else
+            folder='results_staci_physical_reservoirs';
+        end
+        result_dir=fullfile(project_root,'networks','anytown',folder);
+        files_now={'ranking_cost_study.mat', ...
+            'ranking_branch_hop_weighted_entropy_study.mat', ...
+            'ranking_chlorine_concentration_study.mat', ...
+            'ranking_chlorine_entropy_study.mat'};
+        objectives_now={'cost','branch_hop_weighted_entropy', ...
+            'chlorine_concentration','chlorine_entropy'};
+    end
+    if n==2
+        % The reported Balerma ranking panel optimizes branch-hop entropy.
+        % Use that same staged objective for the cross-trajectory summary.
+        files_now{2}='ranking_branch_hop_study.mat';
+        objectives_now{2}='branch_hop_weighted_entropy';
+    end
     rho_by_pair = cell(size(pairs, 1), 1);
-    for s = 1:numel(study_files)
-        loaded = load(fullfile(result_dir, study_files{s}));
-        study = local_find_study(loaded, study_objectives{s});
+    for s = 1:numel(files_now)
+        loaded = load(fullfile(result_dir, files_now{s}));
+        study = local_find_study(loaded, objectives_now{s});
         for criterion = 1:size(study.metrics, 1)
             feasible = reshape(logical(study.is_feasible(criterion, :)), 1, []);
             for p = 1:size(pairs, 1)

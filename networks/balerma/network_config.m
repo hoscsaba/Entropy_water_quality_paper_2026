@@ -80,7 +80,7 @@ cfg.ranking.max_generations = 100;
 cfg.ranking.max_stall_generations = 30;
 cfg.ranking.cache_dir = fullfile(cfg.results_dir, 'ranking_cache');
 cfg.ranking.display = 'final';
-cfg.ranking.figure_basename = 'figure14_balerma_ranking_objectives';
+cfg.ranking.figure_basename = 'figure12_balerma_ranking_objectives';
 cfg.ranking.chlorine_figure_basename = ...
     'figure12_balerma_chlorine_ranking_objectives';
 

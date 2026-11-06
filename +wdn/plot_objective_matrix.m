@@ -1,9 +1,17 @@
-function plot_objective_matrix(cfg, output_file, color_metric)
-%PLOT_OBJECTIVE_MATRIX Plot original plus five objective optima in a 2x3 matrix.
+function plot_objective_matrix(cfg, output_file, color_metric, edge_label_metric, panel_overrides)
+%PLOT_OBJECTIVE_MATRIX Plot six selected objective designs in a 2x3 matrix.
 
 if nargin < 3
     color_metric = 'pressure';
 end
+if nargin < 4
+    edge_label_metric = 'diameter';
+end
+if nargin < 5
+    panel_overrides = struct();
+end
+assert(ismember(string(edge_label_metric),["diameter","flow_lps"]), ...
+    'Unknown edge-label metric');
 
 [d, model] = wdn.open_network(cfg);
 cleanup = onCleanup(@() d.unload);
@@ -11,21 +19,38 @@ previous_dir = pwd;
 cd(cfg.runtime_dir);
 directory_cleanup = onCleanup(@() cd(previous_dir));
 
-names = ["original", string(cfg.objectives)];
-titles = ["Original", "Cost", "Hydraulic entropy", ...
-    "Chlorine concentration", "Chlorine entropy", "Todini index"];
+if strcmp(cfg.id,'anytown')
+    names = ["cost","hydraulic_entropy","branch_hop_weighted_entropy", ...
+        "chlorine_concentration","chlorine_entropy","todini"];
+    titles = ["Cost","Flow-weighted entropy","Branch-hop entropy", ...
+        "Chlorine concentration","Chlorine entropy","Todini index"];
+else
+    names = ["original", string(cfg.objectives)];
+    titles = ["Original", "Cost", "Hydraulic entropy", ...
+        "Chlorine concentration", "Chlorine entropy", "Todini index"];
+end
 diameters = cell(1, numel(names));
-diameters{1} = model.original_full_diameters;
 metric_sets = cell(1, numel(names));
-
-baseline_file = fullfile(cfg.results_dir, 'baseline.mat');
-assert(isfile(baseline_file), ...
-    'Missing STACI reference state: %s', baseline_file);
-loaded_baseline = load(baseline_file, 'baseline');
-metric_sets{1} = loaded_baseline.baseline.metrics;
-
-for k = 2:numel(names)
+if names(1)=="original"
+    diameters{1} = model.original_full_diameters;
+    baseline_file = fullfile(cfg.results_dir, 'baseline.mat');
+    assert(isfile(baseline_file), 'Missing STACI reference state: %s', baseline_file);
+    loaded_baseline = load(baseline_file, 'baseline');
+    metric_sets{1} = loaded_baseline.baseline.metrics;
+    first_result = 2;
+else
+    first_result = 1;
+end
+for k = first_result:numel(names)
     result_file = fullfile(cfg.results_dir, names(k) + ".mat");
+    panel_key = char(names(k));
+    if isfield(panel_overrides,panel_key)
+        override=panel_overrides.(panel_key);
+        result_file=string(override.file);
+        if isfield(override,'title')
+            titles(k)=string(override.title);
+        end
+    end
     if ~isfile(result_file)
         error('wdn:ResultMissing', ...
             'Missing %s. Run run_optimizations before make_figure3.', result_file);
@@ -40,6 +65,19 @@ for k = 2:numel(names)
     end
     diameters{k} = loaded.result.full_diameters;
     metric_sets{k} = loaded.result.metrics;
+end
+
+flow_lps = cell(1,numel(names));
+if string(edge_label_metric)=="flow_lps"
+    for k = 1:numel(names)
+        assert(isfield(metric_sets{k},'link_ids') && ...
+            isfield(metric_sets{k},'flows_m3s'), ...
+            'Saved STACI result lacks link flows for panel %d',k);
+        [found,order] = ismember(string(model.link_ids(:)), ...
+            string(metric_sets{k}.link_ids(:)));
+        assert(all(found),'Saved STACI result has a link-ID mismatch');
+        flow_lps{k} = 1000*abs(double(metric_sets{k}.flows_m3s(order)));
+    end
 end
 
 all_diameters = cell2mat(cellfun(@(x) x(:), diameters, 'UniformOutput', false));
@@ -135,9 +173,23 @@ for k = 1:numel(names)
             label_fraction * node_x(links(j,2)) + label_offset(1);
         label_y = (1 - label_fraction) * node_y(links(j,1)) + ...
             label_fraction * node_y(links(j,2)) + label_offset(2);
-        label_text = sprintf('%.1f', current(j));
+        if string(edge_label_metric)=="flow_lps"
+            q = flow_lps{k}(j);
+            if q < 0.005
+                label_text = '0';
+            elseif q < 1
+                label_text = sprintf('%.2f',q);
+            elseif q < 100
+                label_text = sprintf('%.1f',q);
+            else
+                label_text = sprintf('%.0f',q);
+            end
+        else
+            label_text = sprintf('%.1f', current(j));
+        end
         label_font_size = cfg.plot.diameter_label_font_size;
-        if k == 1 && isfield(cfg.plot, 'link_id_labels_on_original') && ...
+        if string(edge_label_metric)=="diameter" && names(k)=="original" && ...
+                isfield(cfg.plot, 'link_id_labels_on_original') && ...
                 cfg.plot.link_id_labels_on_original
             label_text = sprintf('L%s', link_id);
             if isfield(cfg.plot, 'link_id_label_font_size')
@@ -171,5 +223,8 @@ cb.Label.String = colorbar_label;
 cb.FontSize = 15;
 cb.Label.FontSize = 17;
 exportgraphics(fig, output_file, 'Resolution', cfg.plot.resolution);
+[folder,basename]=fileparts(output_file);
+exportgraphics(fig,fullfile(folder,[basename '.svg']), ...
+    'ContentType','vector');
 close(fig);
 end
