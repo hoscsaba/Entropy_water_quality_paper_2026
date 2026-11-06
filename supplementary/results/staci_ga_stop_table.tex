@@ -1,6 +1,6 @@
 \begin{table}[H]
 \centering\scriptsize
-\caption{Actual stopping audit for the 15 final STACI single-objective searches. TT: Tanyimboh--Templeman; AT: Anytown; BA: Balerma. Fitness calls exclude separate final-result and EPANET replay solves. Wall time is a single-run measurement and can be affected by concurrent processes.}
+\caption{Actual final-stage stopping audit for 17 full-network STACI single-objective designs. TT: Tanyimboh--Templeman; AT: Anytown; BA: Balerma. The restricted Balerma branch-hop search follows a different 45-pipe protocol and is excluded. Fitness calls exclude final-result and EPANET replays; wall time depends on hardware and concurrent processes.}
 \label{tab:ga-stops}
 \begin{tabular}{llrrrl}
 \toprule
@@ -8,19 +8,21 @@ Network & Objective & Gen./cap & Fitness calls & Wall (s) & MATLAB stop \\
 \midrule
 TT & Cost & 151/10000 & 14451 & 3.491 & function tol. \\
 TT & Hyd. entropy & 151/10000 & 15201 & 3.834 & function tol. \\
+TT & Branch-hop & 160/10000 & 16101 & 2.488 & function tol. \\
 TT & Cl conc. & 151/10000 & 15201 & 4.479 & function tol. \\
 TT & Cl entropy & 151/10000 & 15201 & 7.198 & function tol. \\
 TT & Todini & 151/10000 & 15201 & 4.161 & function tol. \\
-AT & Cost & 1415/10000 & 134531 & 26.3 & function tol. \\
-AT & Hyd. entropy & 358/10000 & 35901 & 48.12 & function tol. \\
-AT & Cl conc. & 183/10000 & 18401 & 5.92 & function tol. \\
-AT & Cl entropy & 552/10000 & 55301 & 72.84 & function tol. \\
-AT & Todini & 1107/10000 & 110801 & 47.68 & function tol. \\
-BA & Cost & 302/12000 & 28902 & 364.6 & function tol. \\
-BA & Hyd. entropy & 2375/22000 & 237803 & 7180 & wall limit \\
-BA & Cl conc. & 151/2000 & 15201 & 136.3 & function tol. \\
-BA & Cl entropy & 2126/12000 & 212802 & 7194 & wall limit \\
-BA & Todini & 2203/12000 & 220502 & 7159 & wall limit \\
+AT & Cost & 151/10000 & 14451 & 3.217 & function tol. \\
+AT & Hyd. entropy & 260/10000 & 26101 & 21.47 & function tol. \\
+AT & Branch-hop & 151/10000 & 15201 & 12.18 & function tol. \\
+AT & Cl conc. & 389/10000 & 39001 & 14.01 & function tol. \\
+AT & Cl entropy & 600/10000 & 60101 & 82.75 & function tol. \\
+AT & Todini & 776/10000 & 77701 & 37.09 & function tol. \\
+BA & Cost & 151/10000 & 14451 & 124.7 & function tol. \\
+BA & Hyd. entropy & 1396/10000 & 139701 & 2787 & function tol. \\
+BA & Cl conc. & 151/10000 & 15201 & 145.4 & function tol. \\
+BA & Cl entropy & 205/10000 & 20601 & 441.7 & function tol. \\
+BA & Todini & 3396/10000 & 339701 & 6469 & function tol. \\
 \bottomrule
 \end{tabular}
 \end{table}

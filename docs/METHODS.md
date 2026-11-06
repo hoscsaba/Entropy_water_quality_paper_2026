@@ -35,3 +35,7 @@ Balerma bridge failures can disconnect junctions from every reservoir. Its outag
 ## Independent verification
 
 `supplementary/validate_staci_final_designs.m` applies each exact final diameter vector to the same nominal INP in EPANET 2.2. It reports maximum and mean absolute node-head, signed link-flow, and chlorine differences in `supplementary/results/validation_anytown_anchor_replay/staci_epanet_anytown_anchor_replay_six.csv`. EPANET quality runs 14 days with five-minute steps to approximate the stationary field. All six nominal Anytown vectors meet the EPANET pressure and anchor-head limits. The benchmark applies to one fixed demand state and first-order chlorine model.
+
+## Small-network branch-hop comparison
+
+The Tanyimboh–Templeman Supplementary matrix uses the same six-objective panel order as Anytown. Its extra full-network branch-hop result optimizes all eight physical diameters. The frozen `1/(1+b)` weights start at physical supply entries 1 and 2; the EPANET fixed-head adapter `P_input_2` is excluded from the service graph. `tanyimboh_branch_hop_weights.m` computes weights from the undirected pipe graph and demand exits without a hydraulic solve. `run_tanyimboh_branch_hop_optimization.m` applies the common TT diameter bounds, 10-m pressure floor, and MATLAB GA settings. Its saved MAT, weights CSV, GA stop CSV, and six-design EPANET replay make the additional panel auditable.

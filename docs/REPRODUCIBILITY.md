@@ -44,3 +44,5 @@ validate_staci_final_designs(staci_root,mex_dir, ...
 ```
 
 The Anytown check expects pump-only nominal supply and zero flow through links 78/80. During outage replay, R65/R165 are restored at 215 ft; an unavailable reservoir is isolated by closing only its connector. Balerma is different: all four reservoirs remain physical sources in both phases. EPANET quality is advanced for 14 days with five-minute steps to approximate the stationary STACI field. The released CSVs report maximum and mean absolute head, signed-flow, and chlorine differences.
+
+The TT Supplementary six-panel matrix replaces the original-layout panel with a full-network branch-hop search. Run `run_tanyimboh_branch_hop_optimization(paper_root,staci_root,mex_dir)` from MATLAB to repeat it. The fixed topological weights count branching junctions from physical supply entries 1 and 2, excluding the EPANET adapter P_input_2. The resulting exact diameters, weights, GA stop record, and six-design EPANET validation CSV are versioned with the network.

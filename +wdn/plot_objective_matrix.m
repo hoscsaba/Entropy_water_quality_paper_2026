@@ -19,7 +19,12 @@ previous_dir = pwd;
 cd(cfg.runtime_dir);
 directory_cleanup = onCleanup(@() cd(previous_dir));
 
-if strcmp(cfg.id,'anytown')
+if isfield(cfg.plot,'matrix_objectives')
+    names = string(cfg.plot.matrix_objectives);
+    titles = string(cfg.plot.matrix_titles);
+    assert(numel(names)==6 && numel(titles)==6, ...
+        'A 2-by-3 matrix requires six objective names and titles');
+elseif strcmp(cfg.id,'anytown')
     names = ["cost","hydraulic_entropy","branch_hop_weighted_entropy", ...
         "chlorine_concentration","chlorine_entropy","todini"];
     titles = ["Cost","Flow-weighted entropy","Branch-hop entropy", ...

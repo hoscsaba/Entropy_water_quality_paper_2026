@@ -40,6 +40,9 @@ for network = networks
     end
     wdn.setup_toolkit(cfg);
     objectives_to_check = string(cfg.objectives);
+    if network == "tanyimboh_templeman"
+        objectives_to_check(end+1) = "branch_hop_weighted_entropy";
+    end
     if network == "anytown" && ismember(string(anytown_variant), ...
             ["physical_reservoirs","anchor_replay"]) && ...
             ~ismember("branch_hop_weighted_entropy", objectives_to_check)
@@ -151,7 +154,7 @@ elseif network == "anytown" && string(anytown_variant)=="anchor_replay"
 elseif network == "anytown" && string(anytown_variant)=="physical_reservoirs"
     filename = 'staci_epanet_anytown_physical_six.csv';
 elseif numel(networks)==1 && network == "tanyimboh_templeman"
-    filename = 'staci_epanet_tanyimboh_five.csv';
+    filename = 'staci_epanet_tanyimboh_six.csv';
 elseif isempty(objective_filter)
     filename = 'staci_epanet_current_designs.csv';
 else

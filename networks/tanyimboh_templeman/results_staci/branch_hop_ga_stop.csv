@@ -1,0 +1,3 @@
+Objective,Generations,Evaluations,WallSeconds,Exitflag,MaxConstraintViolation,StopMessage
+Branch-hop entropy,160,16101,2.48790104166667,1,0,"ga stopped because the average change in the penalty function value is less than options.FunctionTolerance and 
+the constraint violation is less than options.ConstraintTolerance."

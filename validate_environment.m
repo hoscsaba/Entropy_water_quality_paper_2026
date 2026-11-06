@@ -1,5 +1,5 @@
 function report = validate_environment(staci_root, mex_dir)
-%VALIDATE_ENVIRONMENT Check tools, inputs, and the 16 archived full-network designs.
+%VALIDATE_ENVIRONMENT Check tools, inputs, and the 17 archived full-network designs.
 % Read-only preflight: no optimizer or EPANET run is performed. The restricted
 % 45-pipe Balerma design is a separate ranked-subset result.
 root = fileparts(mfilename('fullpath'));
@@ -32,6 +32,9 @@ for k = 1:numel(ids)
     clear network_config
     cfg = network_config(network_dir);
     names = string(cfg.objectives);
+    if ids(k) == "tanyimboh_templeman"
+        names(end+1) = "branch_hop_weighted_entropy";
+    end
     if ids(k) == "anytown"
         names(end+1) = "branch_hop_weighted_entropy";
         results_dir = fullfile(network_dir,'results_staci_anchor_replay');
