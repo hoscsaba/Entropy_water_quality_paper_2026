@@ -1,0 +1,162 @@
+[TITLE]
+
+[JUNCTIONS]
+ 2                                     0.0000
+ 1                                     0.0000
+ 4                                     0.0000
+ 3                                     0.0000
+ 6                                     0.0000
+ 5                                     0.0000
+
+[RESERVOIRS]
+ R6  35.0000
+ 8                                    50.0000
+
+[TANKS]
+
+[PIPES]
+ P_R6  R6  6  1.0  1000.0  100.0  0.0
+P1 1 3 100.0000 73.273611956991 100.0000 0.0000
+P4 2 4 100.0000 59.965313821498 100.0000 0.0000
+P7 4 6 100.0000 46.186923157972 100.0000 0.0000
+P6 3 5 100.0000 18.969335569601 100.0000 0.0000
+P2 1 4 100.0000 48.968220374622 100.0000 0.0000
+P3 2 3 100.0000 88.666430464396 100.0000 0.0000
+P8 5 6 100.0000 31.478546531289 100.0000 0.0000
+P5 3 4 100.0000 81.251722754750 100.0000 0.0000
+ P_input_2                       8                               1                                   100.0000     120.0000     100.0000       0.0000
+
+[PUMPS]
+
+[VALVES]
+
+[DEMANDS]
+ 2                                   -35.000000
+ 1                                     0.000000
+ 4                                    25.000000
+ 3                                    15.000000
+ 6                                    10.000000
+ 5                                     5.000000
+
+[EMITTERS]
+
+[STATUS]
+
+[PATTERNS]
+
+[CURVES]
+
+[CONTROLS]
+
+[RULES]
+
+[QUALITY]
+ R6  1.0
+ 2                                     1.000000
+ 8                                     1.000000
+
+[SOURCES]
+ R6  CONCEN  1.0
+ 2                               CONCEN         1.000000
+ 8                               CONCEN         1.000000
+
+[MIXING]
+
+[REACTIONS]
+ BULK P_R6 -1.0
+ ORDER  BULK            1.00
+ ORDER  WALL            1
+ ORDER  TANK            1.00
+ GLOBAL BULK            0.000000
+ GLOBAL WALL            0.000000
+ BULK   P1                              -1.000000
+ BULK   P4                              -1.000000
+ BULK   P7                              -1.000000
+ BULK   P6                              -1.000000
+ BULK   P2                              -1.000000
+ BULK   P3                              -1.000000
+ BULK   P8                              -1.000000
+ BULK   P5                              -1.000000
+ BULK   P_input_2                       -1.000000
+
+[ENERGY]
+ GLOBAL EFFIC        75.0000
+ DEMAND CHARGE       0.0000
+
+[TIMES]
+ DURATION            336:00:00
+ HYDRAULIC TIMESTEP  1:00:00
+ QUALITY TIMESTEP    0:05:00
+ REPORT TIMESTEP     1:00:00
+ REPORT START        0:00:00
+ PATTERN TIMESTEP    1:00:00
+ PATTERN START       0:00:00
+ RULE TIMESTEP       0:06:00
+ START CLOCKTIME     0:00:00
+ STATISTIC           NONE
+
+[OPTIONS]
+ UNITS               CMH
+ PRESSURE            METERS
+ HEADLOSS            H-W
+ UNBALANCED          CONTINUE 10
+ QUALITY             Chlorine mg/L
+ DEMAND MULTIPLIER   1.0000
+ EMITTER EXPONENT    0.5000
+ VISCOSITY           1.000000
+ DIFFUSIVITY         1.000000
+ SPECIFIC GRAVITY    1.000000
+ TRIALS              40
+ ACCURACY            0.00100000
+ TOLERANCE           0.000001
+ CHECKFREQ           2
+ MAXCHECK            10
+ DAMPLIMIT           0.00000000
+
+[REPORT]
+ PAGESIZE            0
+ STATUS              NO
+ SUMMARY             NO
+ ENERGY              NO
+ MESSAGES            YES
+ NODES               NONE
+ LINKS               NONE
+ Elevation           NO
+ Demand              PRECISION 2
+ Head                PRECISION 2
+ Pressure            PRECISION 2
+ Quality             NO
+ Length              NO
+ Diameter            NO
+ Flow                PRECISION 2
+ Velocity            PRECISION 2
+ Headloss            PRECISION 2
+ Quality             NO
+ State               NO
+ Setting             NO
+ Reaction            NO
+
+[COORDINATES]
+ R6  -1.0  -0.15
+ 2                                     0.000000       2.000000
+ 1                                     1.100000       2.000000
+ 4                                     0.000000       1.000000
+ 3                                     1.100000       1.000000
+ 6                                     0.000000      -0.150000
+ 5                                     1.100000      -0.150000
+ 8                                     2.100000       3.000000
+
+[VERTICES]
+
+[TAGS]
+
+[LABELS]
+;X-Coord             Y-Coord             Label & Anchor Node
+
+[BACKDROP]
+  DIMENSIONS  	-0.250            	-0.400            	2.350             	3.250
+ UNITS          	None
+ FILE
+ OFFSET         	0.00            	0.00
+
+[END]
