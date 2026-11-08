@@ -38,6 +38,7 @@ replot_cost_entropy(root, generated_dir);
 replot_hydraulic_rankings(root, 'balerma', generated_dir);
 replot_chlorine_rankings(root, 'balerma', generated_dir);
 make_objective_relationship_summary(staci_root,mex_dir,'anchor_replay');
+plot_cross_effects_portrait; % saved-data heat map, enlarged for journal page
 make_portrait_submission_figures; % final portrait-page panel pairs
 
 
