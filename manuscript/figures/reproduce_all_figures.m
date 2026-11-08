@@ -38,6 +38,8 @@ replot_cost_entropy(root, generated_dir);
 replot_hydraulic_rankings(root, 'balerma', generated_dir);
 replot_chlorine_rankings(root, 'balerma', generated_dir);
 make_objective_relationship_summary(staci_root,mex_dir,'anchor_replay');
+make_portrait_submission_figures; % final portrait-page panel pairs
+
 
 fprintf('All active computational manuscript figures are in %s\n', ...
     generated_dir);

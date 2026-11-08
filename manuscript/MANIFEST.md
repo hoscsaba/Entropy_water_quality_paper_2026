@@ -20,3 +20,5 @@ All paths are relative to this repository. The current Anytown outputs come from
 | Supplementary EPANET verification | `supplementary/validate_staci_final_designs.m` | Six nominal-anchor Anytown MAT designs, the other final designs, and matching INPs |
 
 `make_anytown_anchor_replay_figures.m` replots the six current Anytown panels without a new network GA. The four-pipe chlorine script accepts `false` to replot its saved pair without a new small GA. Each current Anytown ranked-subset point is cached separately so a longer pipe-count range can resume without repeating completed points.
+
+Portrait journal-page variants of the wide two-design and six-design figures are produced by `manuscript/figures/make_portrait_submission_figures.m` from the saved full-resolution composites. This is a visual-only operation; no hydraulic or optimization results are recomputed.
