@@ -16,6 +16,13 @@ make_two_consumer_entropy_example;
 make_two_consumer_chlorine_entropy_example(false);
 make_tanyimboh_reference_schematic;
 make_tanyimboh_equal_entropy_pair;
+% Supplementary S3 is a saved, independently checked inverse-sizing pair.
+node6_dir=fullfile(root,'networks','tanyimboh_templeman', ...
+    'experiments','node6_reservoir');
+addpath(node6_dir,'-begin');
+plot_node6_reservoir_pair;
+copy_pair(fullfile(node6_dir,'node6_reservoir_equal_entropy_pair.png'), ...
+    generated_dir);
 make_figure3;
 make_anytown_schematic;
 make_anytown_anchor_replay_figures;

@@ -1,5 +1,5 @@
 function make_figure3
-%MAKE_FIGURE3 Six optimized TT designs for Supplementary Figure S3.
+%MAKE_FIGURE3 Six optimized TT designs for Supplementary Figure S4.
 % The original network is retained as an INP/baseline, but has no panel.
 
 root = fileparts(fileparts(fileparts(mfilename('fullpath'))));

@@ -38,7 +38,8 @@ for k=1:2
  % Diameter and flow labels have a 0.42-unit vertical separation.
  label_pipe(ax,1.35,1.03,0.61,0,diameter(k,1),flow(k,1),'center',changed_diameter(1));
  label_pipe(ax,4.33,2.55,2.13,1,diameter(k,2),flow(k,2),'center',changed_diameter(2));
- label_pipe(ax,4.25,-2.48,-2.90,2,diameter(k,3),flow(k,3),'center',changed_diameter(3));
+ % Place the lower-pipe labels below the J annotation, clear of its head and entropy lines.
+ label_pipe(ax,4.25,-3.25,-3.67,2,diameter(k,3),flow(k,3),'center',changed_diameter(3));
  label_pipe(ax,6.55,0.32,-0.10,3,diameter(k,4),abs(flow(k,4)),'left',changed_diameter(4));
  % The two non-consuming nodes have no withdrawal line. All values remain
  % beside their own node, with no detached legend or inset boxes.
@@ -49,7 +50,7 @@ for k=1:2
  title(ax,sprintf('(%c) Design %c: $%s=%s$ nat', ...
      'a'+k-1,'A'+k-1,metric_name,fmt_num(metric(k),5)), ...
      'Interpreter','latex','FontSize',18,'FontWeight','normal');
- xlim(ax,[-0.72 12.25]);ylim(ax,[-3.42 3.03]);axis(ax,'off');
+ xlim(ax,[-0.72 12.25]);ylim(ax,[-4.02 3.03]);axis(ax,'off');
 end
 exportgraphics(fig,[output_prefix '.png'],'Resolution',600);
 exportgraphics(fig,[output_prefix '.svg'],'ContentType','vector');
