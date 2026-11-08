@@ -46,14 +46,30 @@ xs=round([0 .32 .64 .935]*W);
 starts=round([0 .32 .64]*W);
 ends=round([.31 .62 .935]*W);
 bar=I(:,xs(4)+1:end,:);
+% Pair cost with chlorine concentration; compare both hydraulic entropy
+% variants in the next figure; then show chlorine entropy beside Todini.
+pairs=[1 4;2 3;5 6];
 for k=1:3
-    a=I(1:split,starts(k)+1:ends(k),:);
-    b=I(split+1:end,starts(k)+1:ends(k),:);
+    tiles=cell(1,2);
+    for row=1:2
+        idx=pairs(k,row);
+        panel_row=ceil(idx/3);
+        panel_col=mod(idx-1,3)+1;
+        if panel_row==1, yrange=1:split;
+        else, yrange=split+1:H; end
+        tiles{row}=I(yrange,starts(panel_col)+1:ends(panel_col),:);
+    end
+    a=tiles{1};b=tiles{2};
+    h1=size(a,1);h2=size(b,1);
     w=max(size(a,2),size(b,2));
-    canvas=uint8(255*ones(H,w+size(bar,2),3));
-    canvas(1:size(a,1),1:size(a,2),:)=a;
-    canvas(split+1:split+size(b,1),1:size(b,2),:)=b;
-    canvas(:,w+1:end,:)=bar;
+    canvas=uint8(255*ones(h1+h2,w+size(bar,2),3));
+    canvas(1:h1,1:size(a,2),:)=a;
+    canvas(h1+1:h1+h2,1:size(b,2),:)=b;
+    bar_view=bar(1:min(size(bar,1),h1+h2),:,:);
+    canvas(1:size(bar_view,1),w+1:end,:)=bar_view;
+    if size(bar_view,1)<h1+h2
+        canvas(end,w+1:end,:)=bar_view(end,:,:);
+    end
     save_art(canvas,fullfile(folder,sprintf('%s_portrait_%d',base,k)));
 end
 end
