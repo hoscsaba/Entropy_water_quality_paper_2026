@@ -8,8 +8,10 @@ xy=[1.8 2.3;-1.8 2.3;1.8 0;-1.8 0;1.8 -2.3;-1.8 -2.3];
 pipe_ids=["P1","P4","P7","P6","P2","P3","P8","P5"];
 ends=["1","3";"2","4";"4","6";"3","5"; ...
       "1","4";"2","3";"5","6";"3","4"];
+% P2 is annotated above the crossing; P3 and P5 use separate rows
+% below the horizontal pipe, keeping labels off all pipe strokes.
 label_xy=[2.17 1.15;-2.17 1.15;-2.17 -1.15;2.17 -1.15; ...
-          0.82 1.74;-0.82 0.70;0 -2.82;0 -0.46];
+          0 2.70;0 -1.35;0 -2.82;0 -0.46];
 label_align={'left','right','right','left','center','center','center','center'};
 [found,link_index]=ismember(pipe_ids,string(out.link_ids));
 assert(all(found),'Saved physical pipe IDs missing');
@@ -82,7 +84,7 @@ for k=1:2
     title(ax,sprintf('(%c) Design %c: $S_{\\mathrm{Cl}}=%.8f$ nat', ...
         'a'+k-1,'A'+k-1,out.chlorine_entropy_nat(k)), ...
         'Interpreter','latex','FontSize',14,'FontWeight','normal');
-    xlim(ax,[-5.0,5.0]);ylim(ax,[-4.30,3.0]);axis(ax,'off');
+    xlim(ax,[-5.0,5.0]);ylim(ax,[-4.30,3.25]);axis(ax,'off');
 end
 base=fullfile(here,'node6_reservoir_equal_entropy_pair');
 exportgraphics(fig,[base '.png'],'Resolution',600);
