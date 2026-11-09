@@ -89,13 +89,15 @@ cfg.plot.maximum_line_width = 5.5;
 cfg.plot.fixed_link_width = 2.0;
 cfg.plot.minimum_diameter_tolerance = 0.05;
 cfg.plot.node_size = 55;
-cfg.plot.diameter_label_font_size = 8;
+% Journal figures are cropped into two portrait panels.  These source sizes
+% give approximately 10-pt lettering after inclusion at column width.
+cfg.plot.diameter_label_font_size = 10;
 cfg.plot.axis_padding_fraction = 0.035;
 cfg.plot.diameter_label_fraction_by_link = struct();
 cfg.plot.diameter_label_offset_by_link = struct();
 cfg.plot.diameter_label_link_ids = cfg.design_link_ids;
 cfg.plot.link_id_labels_on_original = true;
-cfg.plot.link_id_label_font_size = 8.5;
+cfg.plot.link_id_label_font_size = 11;
 cfg.plot.pressure_limits = [cfg.minimum_pressure, cfg.maximum_pressure];
 cfg.plot.pressure_label = 'Pressure [psi]';
 cfg.plot.chlorine_limits = [0, cfg.source_chlorine];
@@ -104,9 +106,11 @@ cfg.plot.source_reservoir_node_ids = {'10'};
 cfg.plot.pressure_anchor_node_ids = cfg.pressure_anchor_node_ids;
 cfg.plot.pump_link_ids = {'82'};
 cfg.plot.equipment_marker_size = 95;
-cfg.plot.equipment_label_font_size = 9.5;
+cfg.plot.equipment_label_font_size = 10;
 cfg.plot.equipment_label_offset = [95, 95];
 cfg.plot.pump_symbol_radius = 82;
+% Keep the source label inside portrait crops and clear of pump P82.
+cfg.plot.equipment_label_offsets.R10 = [-340, -260];
 
 % Reproducible cost--branching-hop search used for Fig. 7.
 cfg.multiobjective.random_seed = 202607;

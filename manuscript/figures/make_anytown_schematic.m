@@ -82,11 +82,11 @@ for n = 1:numel(model.node_ids)
     if ismember(id,outer_ids)
         offset = outer_label_offset(id);
         label = sprintf('%s: 1/%d',id,1+weighting.branch_hops(n));
-        label_size = 11.2;
+        label_size = 14;
     else
         offset = [0,135];
         label = char(id);
-        label_size = 12;
+        label_size = 14;
     end
     text(ax, node_x(n)+offset(1), node_y(n)+offset(2), label, ...
         'FontSize', label_size, 'HorizontalAlignment', 'center', ...
@@ -127,8 +127,10 @@ for a = 1:numel(physical)
         case '34', position = position + [-40, 85];
     end
     diameter = model.original_full_diameters(j);
-    label = sprintf('L%s: %g in', char(model.link_ids(j)), diameter);
-    text(ax,position(1),position(2),label,'FontSize',8.5, ...
+    % The caption supplies units; this compact ID:diameter notation avoids
+    % collisions in the densely connected centre of the portrait view.
+    label = sprintf('%s:%g', char(model.link_ids(j)), diameter);
+    text(ax,position(1),position(2),label,'FontSize',13, ...
         'Rotation',rotation, ...
         'HorizontalAlignment','center','VerticalAlignment','middle', ...
         'BackgroundColor','w','Margin',0.3,'Clipping','on');
@@ -146,13 +148,13 @@ axis(ax, 'off');
 list_ax = axes(fig,'Position',[0.835 0.46 0.155 0.45]);
 hold(list_ax,'on'); axis(list_ax,[0 1 0 1]); axis(list_ax,'off');
 text(list_ax,0,0.95,'internal node weights:', ...
-    'FontSize',12,'FontWeight','bold','VerticalAlignment','top');
+    'FontSize',14,'FontWeight','bold','VerticalAlignment','top');
 for k = 1:numel(interior_ids)
     [found,index] = ismember(interior_ids(k),model.node_ids);
     assert(found);
     text(list_ax,0.04,0.84-0.105*(k-1), ...
         sprintf('%s: 1/%d',interior_ids(k),1+weighting.branch_hops(index)), ...
-        'FontSize',11.5,'VerticalAlignment','middle');
+        'FontSize',14,'VerticalAlignment','middle');
 end
 
 exportgraphics(fig, fullfile(cfg.figures_dir, 'anytown_schematic.png'), ...

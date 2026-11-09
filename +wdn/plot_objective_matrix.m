@@ -190,7 +190,7 @@ for k = 1:numel(names)
                 label_text = sprintf('%.0f',q);
             end
         else
-            label_text = sprintf('%.1f', current(j));
+            label_text = sprintf('%g', round(current(j),1));
         end
         label_font_size = cfg.plot.diameter_label_font_size;
         if string(edge_label_metric)=="diameter" && names(k)=="original" && ...
@@ -219,14 +219,14 @@ for k = 1:numel(names)
     ylim(ax, [min(node_y) - y_padding, max(node_y) + y_padding]);
     axis(ax, 'off');
     title(ax, sprintf('(%c) %s', char('a' + k - 1), titles(k)), ...
-        'FontWeight', 'normal', 'FontSize', 17);
+        'FontWeight', 'normal', 'FontSize', 12);
 end
 
 cb = colorbar;
 cb.Layout.Tile = 'east';
 cb.Label.String = colorbar_label;
-cb.FontSize = 15;
-cb.Label.FontSize = 17;
+cb.FontSize = 11;
+cb.Label.FontSize = 11;
 exportgraphics(fig, output_file, 'Resolution', cfg.plot.resolution);
 [folder,basename]=fileparts(output_file);
 exportgraphics(fig,fullfile(folder,[basename '.svg']), ...

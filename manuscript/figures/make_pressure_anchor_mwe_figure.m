@@ -28,7 +28,7 @@ assert(all(diff(s_supply(1:201))>=-1e-12) && ...
 
 red=[0.72 0.18 0.13];blue=[0.18 0.40 0.67];
 fig=figure('Visible','off','Color','w','Units','centimeters', ...
-    'Position',[2 2 21 8.6]);
+    'Position',[2 2 18 8.6]);
 t=tiledlayout(fig,1,2,'TileSpacing','compact','Padding','compact');
 
 ax1=nexttile(t);hold(ax1,'on');

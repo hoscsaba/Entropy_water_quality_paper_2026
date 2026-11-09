@@ -29,7 +29,7 @@ scatter(ax, x(reservoirs), y(reservoirs), 82, [0.10 0.32 0.80], ...
     's', 'filled', 'MarkerEdgeColor', 'k', 'LineWidth', 1.0);
 axis(ax, 'equal');
 axis(ax, 'off');
-title(ax, 'Balerma benchmark network', 'FontWeight', 'normal', 'FontSize', 17);
+title(ax, 'Balerma benchmark network', 'FontWeight', 'normal', 'FontSize', 14);
 
 output_dir = fullfile(root, 'manuscript', 'generated', 'figures');
 if ~isfolder(output_dir), mkdir(output_dir); end

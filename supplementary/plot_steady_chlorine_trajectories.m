@@ -48,19 +48,19 @@ for k = 1:numel(networks)
     end
     xline(ax, row.convergence_h, ':', 'Color', [0.25 0.25 0.25], ...
         'LineWidth', 1.1, 'HandleVisibility', 'off');
-    title(ax, names(k), 'FontSize', 16, 'FontWeight', 'normal');
-    ylabel(ax, 'Chlorine [mg/L]', 'FontSize', 13);
-    xlabel(ax, 'Time [h]', 'FontSize', 13);
+    title(ax, names(k), 'FontSize', 20, 'FontWeight', 'normal');
+    ylabel(ax, 'Chlorine [mg/L]', 'FontSize', 18);
+    xlabel(ax, 'Time [h]', 'FontSize', 18);
     ylim(ax, [-0.04 1.05]);
     xlim(ax, [0 max_hour]);
     grid(ax, 'on');
-    ax.FontSize = 12;
+    ax.FontSize = 18;
     % A small in-panel key is retained for every network. MATLAB may keep
     % only one axes legend when these axes are exported as a tiled layout.
     for j = 1:numel(ids)
         text(ax, 0.72 * max_hour, 0.06 + 0.07 * (j - 1), ...
             sprintf('Node %s', ids(j)), 'Color', colors(j, :), ...
-            'FontSize', 10, 'FontWeight', 'bold');
+            'FontSize', 17, 'FontWeight', 'bold');
     end
 end
 exportgraphics(fig, fullfile(results_dir, 'steady_chlorine_trajectories.png'), ...

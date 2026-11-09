@@ -82,12 +82,12 @@ for index = 1:numel(data)
     ax = nexttile(layout);
     draw_network(ax, data{index}, x_limits, y_limits, pressure_limits, ...
         'pressure');
-    title(ax, panel_titles{index}, 'FontSize', 18, 'FontWeight', 'normal');
+    title(ax, panel_titles{index}, 'FontSize', 20, 'FontWeight', 'normal');
 end
 cb = colorbar(ax);
 cb.Layout.Tile = 'east';
-cb.FontSize = 15;
-ylabel(cb, 'Pressure [m]', 'FontSize', 17);
+cb.FontSize = 18;
+ylabel(cb, 'Pressure [m]', 'FontSize', 18);
 
 if ~isfolder(cfg.figures_dir), mkdir(cfg.figures_dir); end
 png_file = fullfile(cfg.figures_dir, 'figure10_balerma_objectives.png');
@@ -112,12 +112,12 @@ colormap(fig,jet(256));
 for index=1:numel(data)
     ax=nexttile(layout);
     draw_network(ax,data{index},x_limits,y_limits,[0 1],'chlorine');
-    title(ax,panel_titles{index},'FontSize',18,'FontWeight','normal');
+    title(ax,panel_titles{index},'FontSize',20,'FontWeight','normal');
 end
 cb=colorbar(ax);
 cb.Layout.Tile='east';
-cb.FontSize=15;
-ylabel(cb,'Chlorine [mg/L]','FontSize',17);
+cb.FontSize=18;
+ylabel(cb,'Chlorine [mg/L]','FontSize',18);
 cl_png=fullfile(cfg.figures_dir,'figure14_balerma_chlorine.png');
 cl_svg=fullfile(cfg.figures_dir,'figure14_balerma_chlorine.svg');
 exportgraphics(fig,cl_png,'Resolution',cfg.plot.resolution);

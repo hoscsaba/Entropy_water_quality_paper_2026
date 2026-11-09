@@ -17,6 +17,13 @@ names={'figure3','figure4','figure5','figure10_balerma_objectives', ...
 for i=1:numel(names)
     panel_pairs(folder,names{i});
 end
+ranking_names={'figure9_ranking_objectives', ...
+    'figure10_anytown_chlorine_ranking_objectives', ...
+    'figure12_balerma_ranking_objectives', ...
+    'figure12_balerma_chlorine_ranking_objectives'};
+for i=1:numel(ranking_names)
+    ranking_sections(folder,ranking_names{i});
+end
 % Two overlapping views keep the original link and node identifiers legible.
 I=imread(fullfile(folder,'anytown_schematic.png')); W=size(I,2);
 imwrite(I(:,1:round(.59*W),:), ...
@@ -42,10 +49,11 @@ function panel_pairs(folder,base)
 I=imread(fullfile(folder,[base '.png']));
 W=size(I,2); H=size(I,1); split=round(H/2);
 % Original six-panel source uses three equal columns plus a shared colorbar.
-xs=round([0 .32 .64 .935]*W);
 starts=round([0 .32 .64]*W);
 ends=round([.31 .62 .935]*W);
-bar=I(:,xs(4)+1:end,:);
+% The previous 93.5%% cut also captured R10 and the adjacent pump label
+% from the third network panel; the color scale itself starts past 95%%.
+bar=I(:,round(.951*W)+1:end,:);
 % Pair cost with chlorine concentration; compare both hydraulic entropy
 % variants in the next figure; then show chlorine entropy beside Todini.
 pairs=[1 4;2 3;5 6];
@@ -71,6 +79,30 @@ for k=1:3
         canvas(end,w+1:end,:)=bar_view(end,:,:);
     end
     save_art(canvas,fullfile(folder,sprintf('%s_portrait_%d',base,k)));
+end
+end
+
+function ranking_sections(folder,base)
+% Six one-column sections, with at most two metric rows per page, preserve
+% approximately body-sized labels after inclusion at full portrait width.
+% Retain the full MATLAB SVG as an editable source for all ten panels.
+I=imread(fullfile(folder,[base '.png']));
+W=size(I,2); H=size(I,1);
+middle=round(W/2);
+legend_end=round(.045*H); % titles are typeset in LaTeX at body size
+cut_a=round(.405*H);
+cut_b=round(.805*H);
+bottom_end=round(.967*H); % omit the shared, half-clipped x-axis caption
+parts={I(legend_end+1:cut_a,1:middle,:), ...
+       I(cut_a+1:cut_b,1:middle,:), ...
+       I(cut_b+1:bottom_end,1:middle,:), ...
+       I(legend_end+1:cut_a,middle+1:end,:), ...
+       I(cut_a+1:cut_b,middle+1:end,:), ...
+       I(cut_b+1:bottom_end,middle+1:end,:)};
+suffix={'cost_a','cost_b','cost_c', ...
+        'objective_a','objective_b','objective_c'};
+for k=1:6
+    imwrite(parts{k},fullfile(folder,[base '_' suffix{k} '.png']));
 end
 end
 

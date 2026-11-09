@@ -1,11 +1,33 @@
-function summary = make_tanyimboh_equal_entropy_pair()
+function summary = make_tanyimboh_equal_entropy_pair(mode)
 %MAKE_TANYIMBOH_EQUAL_ENTROPY_PAIR Equal-flow and equal-chlorine-entropy TT pair.
+% Pass 'saved' to redraw the archived, full-precision pair without STACI.
 % A is 0.92 times the archived best-known hydraulic-entropy diameter vector.
 % B changes internal heads, then uses inverse Hazen-Williams sizing to hold
 % every link flow fixed. One scalar root keeps total chlorine entropy fixed.
 % STACI replays both designs; no new genetic optimization is performed.
 root=fileparts(fileparts(fileparts(mfilename('fullpath'))));
 network_dir=fullfile(root,'networks','tanyimboh_templeman');
+if nargin>=1 && strcmpi(string(mode),'saved')
+    saved_dir=fullfile(network_dir,'results_staci');
+    links=readtable(fullfile(saved_dir,'equal_entropy_pair_links.csv'));
+    nodes=readtable(fullfile(saved_dir,'equal_entropy_pair_nodes.csv'));
+    summary=readtable(fullfile(saved_dir,'equal_entropy_pair_summary.csv'));
+    diameters=[links.DiameterA_mm,links.DiameterB_mm];
+    flow=[links.FlowA_m3h,links.FlowB_m3h];
+    heads=[nodes.HeadA_m,nodes.HeadB_m];
+    chlorine=[nodes.ChlorineA_mgL,nodes.ChlorineB_mgL];
+    localS=[nodes.ChlorineLocalEntropyA_nat,nodes.ChlorineLocalEntropyB_nat];
+    S=summary.ChlorineEntropy_nat;
+    node_ids=string(nodes.Node);
+    positive=logical(nodes.PositiveLocalEntropy);
+    ends=[string(links.From),string(links.To)];
+    changed=logical(links.DiameterChanged);
+    figure_dir=fullfile(root,'manuscript','generated','figures');
+    if ~isfolder(figure_dir),mkdir(figure_dir);end
+    plot_pair(diameters,flow,heads,chlorine,localS,S,node_ids,positive, ...
+        ends,changed,fullfile(figure_dir,'tanyimboh_equal_entropy_pair'));
+    return
+end
 addpath(root,network_dir);
 cfg=network_config(network_dir);
 archived=load(fullfile(network_dir,'results_staci','hydraulic_entropy.mat'),'result');
@@ -155,7 +177,7 @@ t=tiledlayout(fig,1,2,'TileSpacing','compact','Padding','compact');
 ids=["1","2","3","4","5","6"];
 xy=[1.8 2.3;-1.8 2.3;1.8 0;-1.8 0;1.8 -2.3;-1.8 -2.3];
 label_xy=[2.17 1.15;-2.17 1.15;-2.17 -1.15;2.17 -1.15; ...
-          0.82 1.74;-0.82 0.70;0 -2.82;0 -0.46];
+          0.00 1.74;-0.82 0.70;0 -2.82;0 -0.46];
 label_align={'left','right','right','left','center','center','center','center'};
 pipe_ids=["P1","P4","P7","P6","P2","P3","P8","P5"];
 for k=1:2
@@ -176,7 +198,7 @@ for k=1:2
         scatter(ax,xy(n,1),xy(n,2),95,face,'filled', ...
             'MarkerEdgeColor','k','LineWidth',1);
         text(ax,xy(n,1),xy(n,2)+0.25,char(ids(n)), ...
-            'FontName','Times New Roman','FontSize',13, ...
+            'FontName','Times New Roman','FontSize',18, ...
             'HorizontalAlignment','center','FontWeight','bold');
         side=sign(xy(n,1));
         node_x=xy(n,1)+side*0.39;
@@ -184,7 +206,7 @@ for k=1:2
         node_label=sprintf('H=%.2f m\nc=%.3f mg/L\nS_i=%.4f nat', ...
             heads(ni,k),chlorine(ni,k),localS(ni,k));
         text(ax,node_x,xy(n,2),node_label, ...
-            'FontName','Times New Roman','FontSize',10.5, ...
+            'FontName','Times New Roman','FontSize',16, ...
             'HorizontalAlignment',alignment,'VerticalAlignment','middle', ...
             'BackgroundColor','w','Margin',1.2);
     end
@@ -200,18 +222,18 @@ for k=1:2
         flow_label=sprintf('$|Q|=%.2f\\,\\mathrm{m^3/h}$',abs(flow(j,k)));
         text(ax,label_xy(j,1),label_xy(j,2)+0.14,diameter_label, ...
             'Interpreter','latex','FontName','Times New Roman', ...
-            'FontSize',11.5,'HorizontalAlignment',label_align{j}, ...
+            'FontSize',17,'HorizontalAlignment',label_align{j}, ...
             'VerticalAlignment','bottom','BackgroundColor','w', ...
             'Margin',0.5);
         text(ax,label_xy(j,1),label_xy(j,2)-0.14,flow_label, ...
             'Interpreter','latex','FontName','Times New Roman', ...
-            'FontSize',10.5,'HorizontalAlignment',label_align{j}, ...
+            'FontSize',16,'HorizontalAlignment',label_align{j}, ...
             'VerticalAlignment','top','BackgroundColor','w', ...
             'Margin',0.5);
     end
     title(ax,sprintf('(%c) Design %c: $S_{\\mathrm{Cl}}=%.8f$ nat', ...
         'a'+k-1,'A'+k-1,S(k)), ...
-        'Interpreter','latex','FontSize',14,'FontWeight','normal');
+        'Interpreter','latex','FontSize',17,'FontWeight','normal');
     xlim(ax,[-5.0,5.0]);ylim(ax,[-3.45,3.0]);axis(ax,'off');
 end
 exportgraphics(fig,[out '.png'],'Resolution',600);

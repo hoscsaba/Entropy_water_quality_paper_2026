@@ -22,3 +22,5 @@ All paths are relative to this repository. The current Anytown outputs come from
 `make_anytown_anchor_replay_figures.m` replots the six current Anytown panels without a new network GA. The four-pipe chlorine script accepts `false` to replot its saved pair without a new small GA. Each current Anytown ranked-subset point is cached separately so a longer pipe-count range can resume without repeating completed points.
 
 Portrait journal-page variants of the wide two-design and six-design figures are produced by `manuscript/figures/make_portrait_submission_figures.m` from the saved full-resolution composites. This is a visual-only operation; no hydraulic or optimization results are recomputed.
+
+The same script slices each dense ranking matrix into six legible portrait sections (`*_cost_{a,b,c}.png` and `*_objective_{a,b,c}.png`). The Supplementary LaTeX file supplies their common 11-pt title, legend, and x-axis text. The complete matrix SVG remains available for editing; the sections are visual crops of it and retain the same numerical data.
