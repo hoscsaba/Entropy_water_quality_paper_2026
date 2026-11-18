@@ -46,3 +46,7 @@ the Supplementary Material. TT's direct EPANET comparisons live in
 `supplementary/results/validation_tt_10_120_clsplit_v2/`, Anytown's in
 `supplementary/results/validation_anytown_10_120_clsplit_final/`, and
 Balerma's in its final result directory under `epanet_validation/`.
+The separate Balerma comparison in Supplementary Section 2 uses the
+four-source, 10–500 mm archive `networks/balerma/results_staci/` and its
+saved validation CSV. It is an earlier solver benchmark, not a current
+diameter-design result.

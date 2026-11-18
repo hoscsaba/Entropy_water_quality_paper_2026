@@ -79,6 +79,11 @@ TT and Anytown and in the Balerma final result directory's
 `epanet_validation/`. The stationary-quality comparison advances EPANET
 quality until a fixed-load near-steady field is reached. Neither solver
 represents diurnal tank-level evolution in the nominal optimization.
+Supplementary Section 2 also reports an earlier four-source, 10–500 mm
+Balerma solver-validation set; its exact archived vectors are retained in
+`networks/balerma/results_staci/` solely to reproduce that historical
+numerical cross-check. They do not supply the current Balerma design figures
+or service tables.
 
 ## Repository map
 

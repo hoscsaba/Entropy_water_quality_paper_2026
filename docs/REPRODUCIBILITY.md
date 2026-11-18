@@ -52,3 +52,14 @@ The reported GA vectors are finite, best-found designs, not mathematical proofs 
 Use the final result directories listed in the repository README. Exact full-precision diameters matter near active constraints. A fresh search should use a separate output directory, then pass all six designs through the same cross-evaluation, PDA replay, EPANET verification, and figure generation sequence before replacing released data. Stochastic GA endpoints are best found within the documented search budget, not global-optimality certificates.
 
 For the published independent checks, call `validate_staci_final_designs` with the matching nominal INP and exact MAT vectors. The six final Anytown validation records are in `supplementary/results/validation_anytown_10_120_clsplit_final/`; TT uses `validation_tt_10_120_clsplit_v2/`, and Balerma uses its final result directory's `epanet_validation/`. EPANET quality is advanced for 14 days with five-minute quality steps to approximate the stationary STACI solution. All three designs apply 0.1–64 in diameter, 10–120 m assessment-junction pressure, and 0.2 mg/L material-consumer chlorine constraints to every objective. Anytown additionally enforces its two 215 ± 0.5 ft pressure anchors; Balerma enforces the R38 head anchor.
+
+Supplementary Section 2 additionally retains an *earlier* Balerma solver
+comparison under four physical reservoirs and 10–500 mm bounds. Its six
+vectors are in `networks/balerma/results_staci/`, and its published CSV is
+`supplementary/results/validation_staci_balerma_connected/staci_epanet_balerma_connected_six.csv`.
+To repeat that historical numerical check, call
+`validate_staci_final_designs(staci_root,mex_dir,output_dir,'balerma', ...
+{'cost','hydraulic_entropy','branch_hop_weighted_entropy_rank45', ...
+'chlorine_concentration','chlorine_entropy','todini'})` with a new
+`output_dir`. It is not the data source for the current R38-anchor figures,
+objective matrix, or service tables.

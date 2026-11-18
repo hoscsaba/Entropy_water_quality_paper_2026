@@ -1,0 +1,7 @@
+Objective,Generations,Evaluations,WallSeconds,SearchScope
+Cost,151,14451,124.680304916667,"454 pipes"
+Hydraulic entropy,1396,139701,2786.643210625,"454 pipes"
+Chlorine concentration,151,15201,145.357815375,"454 pipes"
+Chlorine entropy,205,20601,441.696482291667,"454 pipes"
+Todini,3396,339701,6469.263362375,"454 pipes"
+Branch-hop entropy,100,NaN,208.6295975,"45 pipes, selected ranking"
