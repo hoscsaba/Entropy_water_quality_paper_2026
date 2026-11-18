@@ -19,11 +19,13 @@ base=[100 80 NaN 60];
 base(3)=fzero(@(d2)cross_flow([base(1:2),d2,base(4)])-x_opt,[40,70]);
 diameter=[base;2*base];
 flow=zeros(2,4);head=zeros(2,4);entropy=zeros(2,1);
+chlorine=zeros(2,4);
 node_entropy=zeros(2,4);
 for k=1:2
  state=wdn.evaluate_two_consumer_staci(st,diameter(k,:));
  flow(k,:)=state.flow_Lps;
  head(k,:)=state.head_m;
+ chlorine(k,:)=state.chlorine_mgL;
  entropy(k)=state.hydraulic_entropy;
  node_entropy(k,:)=state.hydraulic_node_entropy;
 end
@@ -32,6 +34,8 @@ assert(max(abs(flow-expected),[],'all')<1e-4);
 assert(max(abs(diff(flow,1,1)),[],'all')<1e-4);
 assert(max(abs(entropy-S_opt))<1e-5);
 assert(min(head(:,3:4),[],'all')>20);
+assert(min(chlorine(:,3:4),[],'all')>=0.2, ...
+ 'An entropy-identical hydraulic example violates the common chlorine floor.');
 results=table(["A";"B"],diameter(:,1),diameter(:,2),diameter(:,3), ...
  diameter(:,4),flow(:,1),flow(:,2),flow(:,3),flow(:,4),entropy, ...
  head(:,1),head(:,2),head(:,3),head(:,4), ...

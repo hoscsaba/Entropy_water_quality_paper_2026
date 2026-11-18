@@ -1,10 +1,13 @@
-function run_staci_ranking_studies(staci_root, mex_dir, network_name, objectives, result_dir_override, figure_dir_override)
+function run_staci_ranking_studies(staci_root, mex_dir, network_name, objectives, result_dir_override, figure_dir_override, cfg_override)
 %RUN_STACI_RANKING_STUDIES Recompute and plot cached STACI ranked-subset GAs.
 root = fileparts(mfilename('fullpath'));
 addpath(root, fullfile(staci_root,'matlab'), mex_dir);
 network_dir = char(fullfile(root,'networks',network_name));
 addpath(network_dir);
 cfg = network_config(network_dir);
+if nargin>=7 && ~isempty(cfg_override)
+    cfg=cfg_override;
+end
 cfg.results_dir = fullfile(network_dir,'results_staci');
 cfg.figures_dir = fullfile(network_dir,'figures_staci');
 if nargin>=5 && ~isempty(result_dir_override)
@@ -14,14 +17,26 @@ if nargin>=6 && ~isempty(figure_dir_override)
     cfg.figures_dir=char(figure_dir_override);
 end
 cfg.ranking.cache_dir=fullfile(cfg.results_dir,'ranking_cache');
+if nargin>=5 && ~isempty(result_dir_override)
+    archived_rank=fullfile(network_dir,'results_staci','pipe_rankings.mat');
+    staged_rank=fullfile(cfg.results_dir,'pipe_rankings.mat');
+    % A new pressure/objective stage must recompute its reference ranking.
+    %#ok<NASGU> archived_rank staged_rank
+end
 if ~isfolder(cfg.figures_dir),mkdir(cfg.figures_dir);end
 if nargin < 4 || isempty(objectives)
     objectives = {'cost','hydraulic_entropy', ...
         'chlorine_concentration','chlorine_entropy'};
 end
 input_file = fullfile(network_dir,'input','network_staci_fixed_load.inp');
-if strcmp(network_name,'balerma')
+if isfield(cfg,'inp_file') && ...
+        contains(string(cfg.inp_file),'r38_anchor')
+    input_file=cfg.inp_file;
+end
+if strcmp(network_name,'balerma') && ~isfield(cfg,'branch_hop_weighting')
     cfg.branch_hop_weighting=balerma_connected_branch_weights(cfg);
+elseif strcmp(network_name,'tanyimboh_templeman')
+    cfg.branch_hop_weighting=tanyimboh_branch_hop_weights(cfg);
 end
 branch_study_file=fullfile(cfg.results_dir,'ranking_branch_hop_study.mat');
 if ~strcmp(network_name,'balerma') && ...
@@ -47,6 +62,10 @@ else
 end
 rank_count = min(size(ranking.ordered_link_ids,1), ...
     20 + 25*strcmp(network_name,'balerma'));
+if isfield(cfg.ranking,'max_rank_display')
+    rank_count=min(size(ranking.ordered_link_ids,1), ...
+        cfg.ranking.max_rank_display);
+end
 rank_table = table((1:rank_count)','VariableNames',{'Rank'});
 for q = 1:numel(ranking.criterion_keys)
     key = matlab.lang.makeValidName(ranking.criterion_keys{q});
@@ -57,7 +76,8 @@ writetable(rank_table,fullfile(cfg.results_dir, ...
 for objective = string(objectives)
     seed_objective=objective;
     if objective=="branch_hop_weighted_entropy" && ...
-            strcmp(network_name,'balerma')
+            strcmp(network_name,'balerma') && ...
+            ~isfile(fullfile(cfg.results_dir,objective+'.mat'))
         seed_objective="hydraulic_entropy";
     end
     saved = load(fullfile(cfg.results_dir,seed_objective+'.mat'),'result');
@@ -86,6 +106,10 @@ for objective = string(objectives)
             filename = 'ranking_chlorine_entropy_study.mat';
             save(fullfile(cfg.results_dir,filename), ...
                 'entropy_study','ranking','cfg','-v7');
+        case "todini"
+            todini_study = study; %#ok<NASGU>
+            save(fullfile(cfg.results_dir,'ranking_todini_study.mat'), ...
+                'todini_study','ranking','cfg','-v7');
     end
     wdn.write_ranking_study_csv(cfg,study, ...
         'ranking_'+objective+'_study.csv');
@@ -120,9 +144,23 @@ if isfile(fullfile(cfg.results_dir,'ranking_cost_study.mat')) && ...
         copy_outputs(files,generated);
     end
 end
-if all(ismember(["chlorine_concentration","chlorine_entropy"], ...
-        string(objectives))) && ...
-        isfile(fullfile(cfg.results_dir,'ranking_chlorine_concentration_study.mat')) && ...
+if isfile(fullfile(cfg.results_dir,'ranking_entropy_study.mat')) && ...
+        isfile(fullfile(cfg.results_dir,'ranking_todini_study.mat'))
+    left=load(fullfile(cfg.results_dir,'ranking_entropy_study.mat'), ...
+        'entropy_study');
+    right=load(fullfile(cfg.results_dir,'ranking_todini_study.mat'), ...
+        'todini_study');
+    pair_basename=[char(network_name) '_hydraulic_todini_rankings'];
+    if contains(string(cfg.results_dir),'r38_anchor')
+        pair_basename='balerma_r38_hydraulic_todini_rankings';
+    end
+    files=wdn.plot_ranking_pair_matrix(cfg,left.entropy_study, ...
+        right.todini_study,pair_basename);
+    if strcmp(cfg.results_dir,fullfile(network_dir,'results_staci'))
+        copy_outputs(files,generated);
+    end
+end
+if isfile(fullfile(cfg.results_dir,'ranking_chlorine_concentration_study.mat')) && ...
         isfile(fullfile(cfg.results_dir,'ranking_chlorine_entropy_study.mat'))
     a=load(fullfile(cfg.results_dir,'ranking_chlorine_concentration_study.mat'), ...
         'concentration_study');

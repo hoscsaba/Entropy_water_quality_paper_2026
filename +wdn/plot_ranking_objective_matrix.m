@@ -1,31 +1,31 @@
 function output_files = plot_ranking_objective_matrix(cfg, cost_study, entropy_study, ~)
 %PLOT_RANKING_OBJECTIVE_MATRIX Plot two ranked-subset optimization series.
-% Values are percentage changes from the original, unoptimized network.
+% Values are percentage changes from the study's K=0 reference design.
 
 colors = lines(numel(cost_study.criterion_labels));
 markers = {'o','s','^','d','v'};
-fig = figure('Color','w','Position',[100 50 1400 1780]);
-t = tiledlayout(fig, 5, 2, 'TileSpacing','loose','Padding','compact');
+fig = figure('Color','w','Position',[100 50 1400 1820]);
+t = tiledlayout(fig, 6, 2, 'TileSpacing','loose','Padding','compact');
 x_percent = 100 * cost_study.k / numel(cfg.design_link_ids);
 
 entropy_metric='hydraulic_entropy';
 if strcmp(string(entropy_study.objective),'branch_hop_weighted_entropy')
     entropy_metric='branch_hop_weighted_entropy';
 end
-left_order = {'cost',entropy_metric,'chlorine_concentration', ...
-    'chlorine_entropy','todini'};
-right_order = {entropy_metric,'cost','chlorine_concentration', ...
-    'chlorine_entropy','todini'};
+left_order = {'cost',entropy_metric,'hydraulic_entropy', ...
+    'chlorine_concentration','chlorine_entropy','todini'};
+right_order = {entropy_metric,'cost','hydraulic_entropy', ...
+    'chlorine_concentration','chlorine_entropy','todini'};
 labels = struct( ...
     'cost','Cost (%) (\leftarrow better)', ...
     'hydraulic_entropy','Hyd. entropy (%) (better \rightarrow)', ...
-    'branch_hop_weighted_entropy','Branch-hop entropy (%) (better \rightarrow)', ...
+    'branch_hop_weighted_entropy','BH entropy (%) (better \rightarrow)', ...
     'chlorine_concentration','Cl concentration (%) (better \rightarrow)', ...
     'chlorine_entropy','Cl entropy (%) (better \rightarrow)', ...
     'todini','Todini (%) (better \rightarrow)');
 
 first_axis = gobjects(1);
-for row = 1:5
+for row = 1:6
     ax_left = nexttile(t);
     left_values = relative_metric(cost_study, left_order{row});
     left_handles = plot_panel(ax_left, x_percent, left_values, ...

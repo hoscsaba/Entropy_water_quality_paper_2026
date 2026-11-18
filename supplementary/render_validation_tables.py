@@ -110,8 +110,8 @@ def render_ga(records: list[dict[str, str | int | float]]) -> str:
 
 
 def validation_records() -> list[dict[str, str]]:
-    sources = (OUT / 'validation_staci_tanyimboh' / 'staci_epanet_tanyimboh_six.csv',
-        OUT / 'validation_anytown_anchor_replay' / 'staci_epanet_anytown_anchor_replay_six.csv',
+    sources = (OUT / 'validation_tt_10_120_clsplit_v2' / 'staci_epanet_tanyimboh_six.csv',
+        OUT / 'validation_anytown_10_120_clsplit_final' / 'staci_epanet_anytown_anchor_replay_six.csv',
         OUT / 'validation_staci_balerma_connected' / 'staci_epanet_balerma_connected_six.csv')
     data = [row for source in sources for row in read_csv(source)]
     assert len(data) == 18

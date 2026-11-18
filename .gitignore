@@ -11,6 +11,18 @@ supplementary/results/validation_staci_pareto_anytown/cases/
 supplementary/results/validation_anytown_anchor_replay/cases/
 supplementary/results/anytown/
 supplementary/results/balerma/
+# Keep the six extra Figure S1 node histories in the release; other
+# network-specific intermediate results remain ignored.
+!supplementary/results/anytown/
+supplementary/results/anytown/*
+!supplementary/results/anytown/original/
+supplementary/results/anytown/original/*
+!supplementary/results/anytown/original/trajectory_distal.csv
+!supplementary/results/balerma/
+supplementary/results/balerma/*
+!supplementary/results/balerma/original/
+supplementary/results/balerma/original/*
+!supplementary/results/balerma/original/trajectory_distal.csv
 supplementary/results/tanyimboh_templeman/
 supplementary/results/validation_anytown_latest/
 supplementary/results/validation_21/
@@ -35,3 +47,28 @@ networks/tanyimboh_templeman/figures/
 networks/anytown/runtime_physical_reservoirs/
 supplementary/results/validation_staci_tanyimboh/cases/
 supplementary/results/validation_staci_balerma_connected/cases/
+
+# EPANET validation case INPs, quality histories and other replay scratch
+# are reproducible from the released exact MAT designs and summary CSVs.
+**/epanet_validation*/cases/
+**/runtime/
+**/pareto_failure_replay*/checkpoints/
+**/pareto_failure_replay*/scenarios/
+**/pda_replay_cache/
+**/r38_unavailable_protected/checkpoints/
+**/refined_ga/
+**/rescue_hydraulic_entropy/
+**/feasible_populations/
+**/outage_scenarios/
+
+# Publish the Balerma common-bound designs, rankings and audit CSVs; omit only replay scratch.
+networks/balerma/results_staci_uniform_0p1_64in_staging/runtime/
+networks/balerma/results_staci_uniform_0p1_64in_staging/pareto_failure_replay/runtime/
+networks/balerma/results_staci_uniform_0p1_64in_staging/pareto_failure_replay/worker_*/
+supplementary/results/validation_balerma_uniform_0p1_64in/cases/
+
+# Corrected Balerma four-reservoir branch-hop study: retain checkpoints and
+# published summaries, omit transient solver inputs and worker scratch.
+networks/balerma/results_staci_uniform_0p1_64in_sourceentry_v4/runtime/
+networks/balerma/results_staci_uniform_0p1_64in_sourceentry_v4/pareto_failure_replay_r44/runtime/
+networks/balerma/results_staci_uniform_0p1_64in_sourceentry_v4/pareto_failure_replay_r44/worker_*/

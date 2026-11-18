@@ -16,9 +16,11 @@ for k=1:numel(categories)
 end
 weighting=wdn.topology_branch_hop_weights(net.node_ids, ...
     double(net.link_nodes),net.design_link_indices,base_demands, ...
-    string(cfg.source_node_ids(:)));
+    string(cfg.source_node_ids(:)),false);
 weighting.physical_source_entries=cfg.source_node_ids;
 weighting.weight_function='1/(1+b)';
-weighting.distance_definition='undirected topology, four physical reservoirs';
+weighting.distance_definition= ...
+    'undirected topology, four physical reservoirs as zero-hop roots';
+weighting.version='reservoir_zero_hop_root_v4';
 clear release d
 end

@@ -1,8 +1,7 @@
 function weighting = tanyimboh_branch_hop_weights(cfg)
 %TANYIMBOH_BRANCH_HOP_WEIGHTS Frozen source-distance weights for the TT graph.
-% Physical node 1 receives the fixed-head reservoir's flow through adapter
-% P_input_2; node 2 supplies the prescribed negative demand. The adapter is
-% excluded from the eight-pipe service graph. Flow direction is ignored, as
+% Physical node 1 is the fixed-head reservoir; node 2 supplies the
+% prescribed negative demand. Flow direction is ignored, as
 % in the Anytown and Balerma branch-hop calculations. Branching includes a
 % demand exit. This function solves no hydraulics.
 wdn.setup_toolkit(cfg);

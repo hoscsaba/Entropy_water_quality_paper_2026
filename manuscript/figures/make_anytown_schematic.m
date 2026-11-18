@@ -16,6 +16,7 @@ coords = d.getNodeCoordinates;
 node_x = cell2mat(coords(:,1));
 node_y = cell2mat(coords(:,2));
 links = double(d.getLinkNodesIndex);
+link_diameters = double(d.getLinkDiameter);
 base_categories = d.getNodeBaseDemands;
 base_demands = zeros(numel(model.node_ids),1);
 for category = 1:numel(base_categories)
@@ -50,8 +51,9 @@ weights_table = table(model.node_ids(:),weighting.branch_hops, ...
 writetable(weights_table,fullfile(cfg.results_dir, ...
     'topology_branch_hop_weights.csv'));
 
-fig = figure('Color', 'w', 'Position', [100 100 1500 810]);
-ax = axes(fig,'Position',[0.04 0.09 0.77 0.85]); hold(ax, 'on');
+fig = figure('Color', 'w', 'Position', [100 100 1700 1100]);
+% The complete topology uses the full page width in one undivided view.
+ax = axes(fig,'Position',[0.02 0.02 0.96 0.94]); hold(ax, 'on');
 for k = 1:size(links, 1)
     if ismember(k, model.entropy_excluded_link_indices)
         color = [0.35 0.35 0.35];
@@ -59,7 +61,11 @@ for k = 1:size(links, 1)
         width = 1.7;
     else
         color = [0.15 0.15 0.15];
-        style = '-';
+        if link_diameters(k) <= cfg.plot.dashed_diameter_threshold + 1e-9
+            style = '--';
+        else
+            style = '-';
+        end
         width = 1.4;
     end
     plot(ax, node_x(links(k,:)), node_y(links(k,:)), ...
@@ -82,11 +88,11 @@ for n = 1:numel(model.node_ids)
     if ismember(id,outer_ids)
         offset = outer_label_offset(id);
         label = sprintf('%s: 1/%d',id,1+weighting.branch_hops(n));
-        label_size = 14;
+        label_size = 18;
     else
-        offset = [0,135];
+        offset = interior_label_offset(id);
         label = char(id);
-        label_size = 14;
+        label_size = 18;
     end
     text(ax, node_x(n)+offset(1), node_y(n)+offset(2), label, ...
         'FontSize', label_size, 'HorizontalAlignment', 'center', ...
@@ -97,13 +103,14 @@ end
 % pressure-anchor sites; show those reservoirs on this source-weight map.
 cfg.plot.source_reservoir_node_ids = {'10','65','165'};
 cfg.plot.pressure_anchor_node_ids = {};
-cfg.plot.equipment_label_offsets.R65 = [110, -20];
+cfg.plot.equipment_label_font_size = 14.4; % marker routine scales by 1.25 -> 18 pt
+cfg.plot.equipment_label_offsets.R65 = [-40, 90];
 cfg.plot.equipment_label_offsets.R165 = [-350, 130];
 cfg.plot.equipment_label_offsets.R10 = [100, -170];
 cfg.plot.equipment_label_offsets.P82 = [100, 100];
 wdn.mark_hydraulic_equipment(ax, node_x, node_y, links, model, cfg, 1.25);
 
-% Each link ID and original diameter is parallel to its pipe. Normalize the
+% Each link ID is parallel to its pipe. Normalize the
 % rotation to [-90,90] degrees so every label can be read upright.
 physical = model.design_link_indices;
 for a = 1:numel(physical)
@@ -124,13 +131,11 @@ for a = 1:numel(physical)
         case '72', position = position + [170, 0];
         case '12', position = position + [120, 110];
         case '24', position = position + [-90, 80];
-        case '34', position = position + [-40, 85];
+        case '34', position = position + [-300, -180];
     end
-    diameter = model.original_full_diameters(j);
-    % The caption supplies units; this compact ID:diameter notation avoids
-    % collisions in the densely connected centre of the portrait view.
-    label = sprintf('%s:%g', char(model.link_ids(j)), diameter);
-    text(ax,position(1),position(2),label,'FontSize',13, ...
+    % Pipe IDs alone keep the schematic legible at manuscript text width.
+    label = char(model.link_ids(j));
+    text(ax,position(1),position(2),label,'FontSize',18, ...
         'Rotation',rotation, ...
         'HorizontalAlignment','center','VerticalAlignment','middle', ...
         'BackgroundColor','w','Margin',0.3,'Clipping','on');
@@ -138,23 +143,23 @@ end
 
 axis(ax, 'equal');
 x_padding = 0.08 * (max(node_x) - min(node_x));
-y_padding = 0.10 * (max(node_y) - min(node_y));
+y_padding = 0.12 * (max(node_y) - min(node_y));
 xlim(ax, [min(node_x)-x_padding, max(node_x)+x_padding]);
-ylim(ax, [min(node_y)-y_padding, max(node_y)+y_padding]);
+ylim(ax, [min(node_y)-1.4*y_padding, max(node_y)+y_padding]);
 axis(ax, 'off');
 
 % Put the dense interior-node weights in an unboxed vertical list at upper
 % right, leaving their node IDs in the network itself.
-list_ax = axes(fig,'Position',[0.835 0.46 0.155 0.45]);
+list_ax = axes(fig,'Position',[0.76 0.73 0.22 0.25]);
 hold(list_ax,'on'); axis(list_ax,[0 1 0 1]); axis(list_ax,'off');
-text(list_ax,0,0.95,'internal node weights:', ...
-    'FontSize',14,'FontWeight','bold','VerticalAlignment','top');
+text(list_ax,0,0.90,'internal node weights:', ...
+    'FontSize',18,'FontWeight','bold','VerticalAlignment','top');
 for k = 1:numel(interior_ids)
     [found,index] = ismember(interior_ids(k),model.node_ids);
     assert(found);
-    text(list_ax,0.04,0.84-0.105*(k-1), ...
+    text(list_ax,0.04,0.70-0.097*(k-1), ...
         sprintf('%s: 1/%d',interior_ids(k),1+weighting.branch_hops(index)), ...
-        'FontSize',14,'VerticalAlignment','middle');
+        'FontSize',18,'VerticalAlignment','middle');
 end
 
 exportgraphics(fig, fullfile(cfg.figures_dir, 'anytown_schematic.png'), ...
@@ -175,18 +180,30 @@ end
 function offset = outer_label_offset(id)
 % Offsets are in the schematic's coordinate units, outside the main grid.
 switch char(id)
-    case '20', offset = [50,-230];
-    case '30', offset = [150,65];
+    case '20', offset = [-80,-230];
+    case '30', offset = [380,105];
     case '40', offset = [0,100];
-    case '50', offset = [0,170];
+    case '50', offset = [340,330];
     case '55', offset = [0,155];
     case '75', offset = [-170,130];
     case '110', offset = [0,-220];
     case '115', offset = [-130,130];
-    case '120', offset = [0,190];
+    case '120', offset = [0,-260];
     case '130', offset = [-135,-195];
-    case '140', offset = [-290,60];
-    case '170', offset = [250,90];
+    case '140', offset = [-500,0];
+    case '170', offset = [450,-20];
     otherwise, error('Unknown outer node %s',id);
+end
+end
+
+function offset = interior_label_offset(id)
+% Move dense interior IDs into open spaces, clear of adjacent pipe IDs.
+switch char(id)
+    case '60', offset = [150,-180];
+    case '80', offset = [0,260];
+    case '90', offset = [185,0];
+    case '100', offset = [0,-165];
+    case '150', offset = [-175,230];
+    otherwise, offset = [0,135];
 end
 end

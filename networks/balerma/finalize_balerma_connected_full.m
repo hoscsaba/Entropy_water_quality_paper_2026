@@ -1,13 +1,22 @@
 function audit = finalize_balerma_connected_full( ...
-        paper_root,staci_root,mex_dir)
-%FINALIZE_BALERMA_CONNECTED_FULL Audit fresh five-objective source model.
+        paper_root,staci_root,mex_dir,result_dir_override,cfg_override)
+%FINALIZE_BALERMA_CONNECTED_FULL Audit fresh physical-reservoir designs.
 % All four physical reservoirs retain their fixed heads and may supply or
 % absorb water. No pressure anchor or zero-flow substitution is applied.
 addpath(paper_root,fullfile(staci_root,'matlab'),mex_dir);
 network_dir=fullfile(paper_root,'networks','balerma');
 addpath(network_dir);
 cfg=network_config(network_dir);
-cfg.results_dir=fullfile(network_dir,'results_staci_connected');
+if nargin>=5 && ~isempty(cfg_override),cfg=cfg_override;end
+if ismember('branch_hop_weighted_entropy',cfg.objectives) && ...
+        ~isfield(cfg,'branch_hop_weighting')
+    cfg.branch_hop_weighting=balerma_connected_branch_weights(cfg);
+end
+if nargin<4 || isempty(result_dir_override)
+    cfg.results_dir=fullfile(network_dir,'results_staci_connected');
+else
+    cfg.results_dir=char(result_dir_override);
+end
 input_file=fullfile(network_dir,'input','network_staci_fixed_load.inp');
 st=StaciModel(input_file);
 cleanup=onCleanup(@()st.release());
@@ -28,7 +37,13 @@ reservoir_ids=string(cfg.source_node_ids(:));
 assert(isequal(sort(reservoir_ids),sort(["38";"43";"44";"88"])), ...
     'All four Balerma sources are required');
 names=string(cfg.objectives);
+if ismember("branch_hop_weighted_entropy",names)
+    names=["cost","hydraulic_entropy", ...
+        "branch_hop_weighted_entropy","chlorine_concentration", ...
+        "chlorine_entropy","todini"];
+end
 designs=["Original";names(:)];
+raw=nan(numel(names),6);
 rows=cell(numel(designs)*numel(reservoir_ids),5);
 row=0;
 for k=1:numel(designs)
@@ -36,11 +51,24 @@ for k=1:numel(designs)
         x=original;
     else
         saved=load(fullfile(cfg.results_dir,names(k-1)+'.mat'),'result');
-        assert(isfield(saved.result,'connected_recalculation_id'), ...
+        assert(isfield(saved.result,'connected_recalculation_id') || ...
+            (isfield(saved.result,'constraint_set_id') && ...
+            strcmp(saved.result.constraint_set_id,cfg.constraint_set_id)), ...
             'Fresh GA result missing: %s',names(k-1));
         x=saved.result.design_diameters;
     end
-    st.setLinkProperty(design_ids,'diameter_m',double(x(:))*0.001);
+    [metrics,violation]=wdn.evaluate_staci_design( ...
+        st,cfg,x,link_order,full_original);
+    if k>1
+        assert(violation<=cfg.ga.constraint_tolerance, ...
+            'Balerma optimized design violates nominal constraints: %s',designs(k));
+        if numel(names)==6
+            raw(k-1,:)=[metrics.cost,metrics.hydraulic_entropy, ...
+                metrics.branch_hop_weighted_entropy, ...
+                metrics.chlorine_concentration,metrics.chlorine_entropy, ...
+                metrics.todini];
+        end
+    end
     status=st.solveHydraulics();
     assert(status.converged,'Balerma design hydraulics failed: %s',designs(k));
     n=st.nodeResults(); e=st.linkResults();
@@ -79,6 +107,25 @@ head_targets=[117;127;122;112];
 assert(all(abs(audit.TotalHead_m-head_targets(ix))<1e-6), ...
     'A physical reservoir head changed during nominal evaluation');
 writetable(audit,fullfile(cfg.results_dir,'connected_reservoir_audit.csv'));
-wdn.write_cross_evaluation(cfg);
+if numel(names)==6
+    assert(all(isfinite(raw(:))),'Missing Balerma six-objective cross-evaluation');
+    normalized=raw;
+    normalized(:,1)=raw(:,1)/min(raw(:,1));
+    for j=2:6,normalized(:,j)=raw(:,j)/max(raw(:,j));end
+    vars={'Cost','FlowEntropy','BranchHopEntropy', ...
+        'ChlorineConcentration','ChlorineEntropy','Todini'};
+    labels=["Cost";"Flow entropy";"Branch-hop entropy"; ...
+        "Cl concentration";"Cl entropy";"Todini"];
+    raw_table=addvars(array2table(raw,'VariableNames',vars), ...
+        labels,'Before',1,'NewVariableNames','OptimizedFor');
+    norm_table=addvars(array2table(normalized,'VariableNames',vars), ...
+        labels,'Before',1,'NewVariableNames','OptimizedFor');
+    writetable(raw_table,fullfile(cfg.results_dir, ...
+        'cross_evaluation_six_raw.csv'));
+    writetable(norm_table,fullfile(cfg.results_dir, ...
+        'cross_evaluation_six.csv'));
+else
+    wdn.write_cross_evaluation(cfg);
+end
 disp(audit);
 end

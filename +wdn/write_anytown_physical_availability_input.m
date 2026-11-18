@@ -77,7 +77,7 @@ for k=1:numel(lines)
             output(end+1,1)=" DEMAND MODEL PDA"; %#ok<AGROW>
             output(end+1,1)=" MINIMUM PRESSURE 0"; %#ok<AGROW>
             output(end+1,1)=sprintf(' REQUIRED PRESSURE %.12g', ...
-                cfg.minimum_pressure); %#ok<AGROW>
+                cfg.minimum_pressure/(0.3048*cfg.pressure_to_head)); %#ok<AGROW>
             output(end+1,1)=" PRESSURE EXPONENT 0.5"; %#ok<AGROW>
         end
         continue

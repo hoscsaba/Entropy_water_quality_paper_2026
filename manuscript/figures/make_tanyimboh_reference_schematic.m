@@ -13,11 +13,11 @@ directed_links = [1 3; 1 4; 2 3; 2 4; 3 4; 3 5; 4 6; 5 6];
 
 fig = figure('Color', 'w', 'Units', 'centimeters', ...
     'Position', [2 2 14 12]);
-ax = axes(fig); hold(ax, 'on');
-% At the manuscript's Figure 4 size, 14-pt Times labels render close to
-% the 12-pt serif body text. Use one size for node, flow and legend labels.
+ax = axes(fig, 'Position', [0.02 0.03 0.96 0.94]); hold(ax, 'on');
+% The Supplementary two-panel layout scales this standalone graphic to
+% roughly half the text width; enlarge all labels so they remain legible.
 label_font = 'Times New Roman';
-label_size = 14;
+label_size = 19;
 
 for k = 1:size(directed_links, 1)
     a = directed_links(k, 1);
@@ -35,8 +35,8 @@ for k = 1:size(directed_links, 1)
 end
 
 scatter(ax, xy(:,1), xy(:,2), 130, 'k', 'filled');
-node_offsets = [0.14 0.10; -0.20 0.10; 0.14 0.05; -0.20 0.05; ...
-    0.14 -0.02; -0.20 -0.02];
+node_offsets = [0.23 0.10; -0.23 0.10; 0.23 0.05; -0.23 0.05; ...
+    0.23 -0.02; -0.23 -0.02];
 for n = 1:6
     text(ax, xy(n,1) + node_offsets(n,1), xy(n,2) + node_offsets(n,2), ...
         sprintf('%d', n), 'FontName', label_font, ...
@@ -75,14 +75,15 @@ text(ax, 0, -1.68, 'consumer demand', ...
     'FontName', label_font, 'FontSize', label_size, ...
     'HorizontalAlignment', 'center');
 axis(ax, 'equal');
-xlim(ax, [-1.95 1.95]);
-ylim(ax, [-1.85 2.30]);
+xlim(ax, [-1.78 1.78]);
+ylim(ax, [-1.87 2.18]);
 axis(ax, 'off');
+scatter(ax,[-1.78 1.78],[-1.87 2.18],1,'w','filled', ...
+    'MarkerEdgeColor','none'); % retain whitespace when exporting axes-off
 
-exportgraphics(fig, fullfile(output_dir, 'reference_schematic.png'), ...
-    'Resolution', 600);
-exportgraphics(fig, fullfile(output_dir, 'reference_schematic.svg'), ...
-    'ContentType', 'vector');
+set(fig,'PaperPositionMode','auto');
+print(fig,fullfile(output_dir,'reference_schematic.png'),'-dpng','-r600');
+print(fig,fullfile(output_dir,'reference_schematic.svg'),'-dsvg');
 close(fig);
 
 generated_dir = fullfile(root, 'manuscript', 'generated', 'figures');

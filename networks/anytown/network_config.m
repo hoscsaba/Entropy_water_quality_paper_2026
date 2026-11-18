@@ -32,7 +32,7 @@ end
 cfg.design_link_ids = cellstr(string(2:2:76));
 cfg.fixed_link_diameters = struct();
 cfg.entropy_excluded_link_ids = {'78','80','82'};
-cfg.minimum_diameter = 1;
+cfg.minimum_diameter = 0.1;
 cfg.maximum_diameter = 64;
 cfg.numeric_tolerance = 1e-9;
 cfg.diameter_to_inches = 1;
@@ -41,9 +41,11 @@ cfg.length_cost_factor = 1;
 cfg.pressure_node_ids = { ...
     '20','30','40','50','55','60','70','75','80','90', ...
     '100','110','115','120','130','140','150','160','170'};
+% PA65/PA165 have zero demand and a separate fixed-head anchor constraint;
+% applying the 10-m consumer-pressure floor to them would be inconsistent.
 cfg.quality_node_ids = cfg.pressure_node_ids;
-cfg.minimum_pressure = 33;
-cfg.maximum_pressure = 165;
+cfg.minimum_pressure = 10;
+cfg.maximum_pressure = 120;
 cfg.pressure_to_head = 2.30666; % ft of water per psi
 cfg.pressure_anchor_node_ids = {'65','165'};
 cfg.pressure_anchor_target_heads = [215, 215]; % ft
@@ -64,6 +66,8 @@ cfg.source_node_ids = {'10'};
 cfg.stress.failed_link_ids = cfg.design_link_ids;
 cfg.stress.node_ids = cfg.pressure_node_ids;
 cfg.stress.minimum_chlorine = 0.2;
+% Dashed pipes at or below 1 in are treated as removed during fault replay.
+cfg.stress.removal_diameter_threshold = 1;
 
 cfg.objectives = {'cost','hydraulic_entropy','chlorine_concentration', ...
     'chlorine_entropy','todini'};
@@ -88,6 +92,7 @@ cfg.plot.minimum_line_width = 0.45;
 cfg.plot.maximum_line_width = 5.5;
 cfg.plot.fixed_link_width = 2.0;
 cfg.plot.minimum_diameter_tolerance = 0.05;
+cfg.plot.dashed_diameter_threshold = 1; % inches; threshold is independent of Dmin
 cfg.plot.node_size = 55;
 % Journal figures are cropped into two portrait panels.  These source sizes
 % give approximately 10-pt lettering after inclusion at column width.
@@ -99,7 +104,7 @@ cfg.plot.diameter_label_link_ids = cfg.design_link_ids;
 cfg.plot.link_id_labels_on_original = true;
 cfg.plot.link_id_label_font_size = 11;
 cfg.plot.pressure_limits = [cfg.minimum_pressure, cfg.maximum_pressure];
-cfg.plot.pressure_label = 'Pressure [psi]';
+cfg.plot.pressure_label = 'Pressure [m]';
 cfg.plot.chlorine_limits = [0, cfg.source_chlorine];
 cfg.plot.resolution = 600;
 cfg.plot.source_reservoir_node_ids = {'10'};

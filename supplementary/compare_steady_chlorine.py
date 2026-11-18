@@ -189,7 +189,8 @@ def material_consumers(source, network):
     return [name for name in order if demands[name] * unit_to_m3s > threshold]
 
 
-def epanet_trajectory(epanet, case, out, max_days, nodes):
+def epanet_trajectory(epanet, case, out, max_days, nodes,
+                      trajectory_filename="trajectory.csv"):
     epanet.call("ENopen", str(case).encode(), str(out / "eps.rpt").encode(),
                 str(out / "eps.bin").encode())
     try:
@@ -235,7 +236,7 @@ def epanet_trajectory(epanet, case, out, max_days, nodes):
         finally:
             epanet.call("ENcloseQ")
         elapsed = time.perf_counter() - started
-        with (out / "trajectory.csv").open("w", newline="") as stream:
+        with (out / trajectory_filename).open("w", newline="") as stream:
             writer = csv.DictWriter(stream, fieldnames=["hours", *nodes])
             writer.writeheader()
             writer.writerows(trajectory)

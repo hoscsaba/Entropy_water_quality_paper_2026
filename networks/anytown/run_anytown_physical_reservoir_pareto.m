@@ -1,10 +1,14 @@
 function result=run_anytown_physical_reservoir_pareto( ...
-        paper_root,staci_root,mex_dir,nominal_variant)
+        paper_root,staci_root,mex_dir,nominal_variant,result_dir_override, ...
+        make_plot,force_optimization)
 %RUN_ANYTOWN_PHYSICAL_RESERVOIR_PARETO Cost/branch-hop front, selected variant.
 addpath(paper_root,fullfile(staci_root,'matlab'),mex_dir);
 network_dir=fullfile(paper_root,'networks','anytown');
 addpath(network_dir);
 if nargin<4,nominal_variant="physical_reservoirs";end
+if nargin<5,result_dir_override=[];end
+if nargin<6,make_plot=true;end
+if nargin<7,force_optimization=false;end
 if string(nominal_variant)=="anchor_replay"
     cfg=network_config_anchor_replay(network_dir);
 else
@@ -12,9 +16,22 @@ else
         'Unknown nominal variant');
     cfg=network_config_physical_reservoirs(network_dir);
 end
+if ~isempty(result_dir_override)
+    cfg.results_dir=char(result_dir_override);
+    cfg.figures_dir=fullfile(cfg.results_dir,'figures');
+end
 file=fullfile(cfg.results_dir,'multiobjective_cost_entropy.mat');
-if isfile(file)
+if isfile(file) && ~force_optimization
     saved=load(file,'result');result=saved.result;
+    assert(isfield(result,'constraint_set_id') && ...
+        strcmp(result.constraint_set_id, ...
+        'pressure_10_120m_chlorine_mass_split_v2'), ...
+        'Saved Pareto archive predates the common chlorine constraint');
+    assert(isfield(result,'minimum_diameter') && ...
+        abs(result.minimum_diameter-cfg.minimum_diameter)<1e-12 && ...
+        isfield(result,'maximum_diameter') && ...
+        abs(result.maximum_diameter-cfg.maximum_diameter)<1e-12, ...
+        'Saved Pareto archive uses other diameter bounds');
 else
     result=wdn.optimize_staci_cost_entropy_front(cfg,cfg.inp_file);
     save(file,'result','-v7.3');
@@ -58,6 +75,8 @@ for j=1:numel(fields)
 end
 save(fullfile(cfg.results_dir,'pareto_plot_archive.mat'), ...
     'plot_result','-v7.3');
-wdn.plot_cost_entropy_front(plot_result,cfg, ...
-    fullfile(cfg.figures_dir,'figure7_cost_entropy.png'));
+if make_plot
+    wdn.plot_cost_entropy_front(plot_result,cfg, ...
+        fullfile(cfg.figures_dir,'figure7_cost_entropy.png'));
+end
 end

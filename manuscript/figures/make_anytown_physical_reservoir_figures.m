@@ -1,8 +1,8 @@
 function make_anytown_physical_reservoir_figures(nominal_variant)
 %MAKE_ANYTOWN_PHYSICAL_RESERVOIR_FIGURES Redraw the six Anytown panels.
-% Reads the six saved designs optimized with both 215-ft reservoirs present.
-% No GA or outage calculation is launched. Output remains in a separate
-% physical-reservoir figure directory until the manuscript is synchronized.
+% Reads six saved designs; the selected nominal variant determines whether
+% the auxiliary reservoirs are physical reservoirs or pressure anchors.
+% No GA or outage calculation is launched.
 root=fileparts(fileparts(fileparts(mfilename('fullpath'))));
 addpath(root);
 network_dir=fullfile(root,'networks','anytown');

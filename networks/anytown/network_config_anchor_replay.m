@@ -3,12 +3,12 @@ function cfg = network_config_anchor_replay(network_dir)
 % R65/R165 are zero-demand terminal junctions in the nominal INP. Their
 % target total heads (215 +/- 0.5 ft) are nonlinear design constraints;
 % R10/pump 82 must supply all nominal demand. Failure replay restores the
-% fixed-head reservoirs. Keep these results separate from both earlier runs.
+% fixed-head reservoirs. The final results use this nominal boundary model.
 if nargin<1, network_dir=fileparts(mfilename('fullpath')); end
 cfg=network_config(network_dir);
 % EPANET 2.2 reports 1 psi as 2.30787 ft of water in this INP. The
-% archived 2.30666 factor makes an STACI 33-psi limit about 0.017 psi too
-% permissive on independent EPANET replay, so this variant uses its factor.
+% older 2.30666 factor caused small cross-engine pressure differences;
+% retain the EPANET-consistent factor for converted INP quantities.
 cfg.pressure_to_head=2.30787;
 source=fullfile(network_dir,'input','network_staci_fixed_load.inp');
 cfg.inp_file=fullfile(network_dir,'input','network_anchor_replay.inp');
@@ -30,7 +30,7 @@ cfg.ga.maximum_wall_seconds=7200;
 % Small interior margins keep final cross-engine replay away from active
 % constraint boundaries and absorb hydraulic-solver roundoff.
 cfg.ga.anchor_numerical_guard_ft=0.02;
-cfg.ga.pressure_numerical_guard_psi=0.03;
+cfg.ga.pressure_numerical_guard_m=0.02;
 cfg.plot.source_reservoir_node_ids={'10'};
 cfg.plot.pressure_anchor_node_ids={'65','165'};
 assert(isequal(string(cfg.source_node_ids),"10") && ...

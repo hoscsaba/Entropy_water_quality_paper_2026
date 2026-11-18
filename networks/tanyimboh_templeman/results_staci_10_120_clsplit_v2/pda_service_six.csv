@@ -1,0 +1,7 @@
+Objective,Topology,FailedPipeCount,RequestedDemand,MeanDeliveredDemandFraction,WorstDeliveredDemandFraction,MeanQualityCompliantDemandFraction,WorstQualityCompliantDemandFraction,MeanPressureViolationFraction,MaxOverdelivery,NonconvergentScenarioCount
+cost,Cost,8,0.0152777777777778,0.761413228192197,0.363636363636364,0.761413228192197,0.363636363636364,0.28125,0,0
+hydraulic_entropy,Flow entropy,8,0.0152777777777778,0.964968389999933,0.772937979268636,0.964968389999933,0.772937979268636,0.125,0,0
+branch_hop_weighted_entropy,Branch-hop entropy,8,0.0152777777777778,1,1,1,1,0,0,0
+chlorine_concentration,Cl concentration,8,0.0152777777777778,0.840931787631284,0.363636363636364,0.840931787631284,0.363636363636364,0.21875,0,0
+chlorine_entropy,Cl entropy,8,0.0152777777777778,0.943487009865473,0.770761892279115,0.943487009865473,0.770761892279115,0.3125,0,0
+todini,Todini,8,0.0152777777777778,1,1,1,1,0,0,0

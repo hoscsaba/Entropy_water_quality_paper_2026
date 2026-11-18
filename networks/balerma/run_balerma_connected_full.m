@@ -9,6 +9,8 @@ addpath(paper_root,fullfile(staci_root,'matlab'),mex_dir);
 network_dir=fullfile(paper_root,'networks','balerma');
 addpath(network_dir);
 cfg=network_config(network_dir);
+assert(cfg.minimum_diameter==10 && cfg.maximum_diameter==500, ...
+    'Legacy Balerma runner is for 10--500 mm; use run_balerma_uniform_diameter_stage');
 assert(isequal(sort(string(cfg.source_node_ids(:))), ...
     sort(["38";"43";"44";"88"])), ...
     'Expected all four physical Balerma reservoirs');
@@ -32,7 +34,7 @@ cfg.ga.max_generations=10000;
 cfg.ga.max_stall_generations=max(150,cfg.ga.max_stall_generations);
 cfg.ga.maximum_wall_seconds=7200;
 cfg.ga.use_hybrid_patternsearch=false;
-run_id='balerma_four_connected_reservoirs_v1';
+run_id='balerma_four_connected_reservoirs_uniform_chlorine_v2';
 old_dir=fullfile(network_dir,'results_staci');
 for objective=string(cfg.objectives)
     target=fullfile(cfg.results_dir,objective+'.mat');

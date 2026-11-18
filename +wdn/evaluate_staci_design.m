@@ -39,9 +39,6 @@ assert(all([found_quality; found_pressure; found_assessment; found_links]), ...
     'Configured STACI node or link ID is missing');
 chlorine = 1000 * double(quality.node_concentration_kgm3(qi));
 pressure = double(nodes.pressure_head_m(:));
-if strcmp(cfg.id, 'anytown')
-    pressure = pressure / (0.3048 * cfg.pressure_to_head);
-end
 lengths = staci.getLinkProperty(design_ids, 'length_m');
 metrics.cost = wdn.pipe_cost(x, double(lengths(:)) * length_scale, cfg);
 metrics.hydraulic_entropy = wdn.staci_flow_entropy(staci, cfg, []);
@@ -63,8 +60,12 @@ metrics.heads = metrics.heads_m / head_scale;
 metrics.flows_m3s = double(links.flow_rate_m3s(:));
 metrics.flows = metrics.flows_m3s(li) / flow_scale;
 metrics.chlorine = chlorine;
-metrics.minimum_consumer_chlorine_mgL = ...
-    min(chlorine(double(nodes.demand_m3s(:)) > pi/4*0.010^2*0.01));
+chlorine_guard=0;
+if isfield(cfg.ga,'chlorine_numerical_guard_mgL')
+    chlorine_guard=cfg.ga.chlorine_numerical_guard_mgL;
+end
+[chlorine_constraints, ~, metrics.minimum_consumer_chlorine_mgL] = ...
+    wdn.consumer_chlorine_constraint(nodes, quality, chlorine_guard);
 full_diameters = double(original_diameters(:)');
 [found_design, di] = ismember(design_ids, string(link_order(:)));
 assert(all(found_design), 'Design link missing from output link order');
@@ -72,9 +73,9 @@ full_diameters(di) = x;
 metrics.full_diameters = full_diameters;
 lower_pressure=cfg.minimum_pressure;
 upper_pressure=cfg.maximum_pressure;
-if isfield(cfg.ga,'pressure_numerical_guard_psi')
-    lower_pressure=lower_pressure+cfg.ga.pressure_numerical_guard_psi;
-    upper_pressure=upper_pressure-cfg.ga.pressure_numerical_guard_psi;
+if isfield(cfg.ga,'pressure_numerical_guard_m')
+    lower_pressure=lower_pressure+cfg.ga.pressure_numerical_guard_m;
+    upper_pressure=upper_pressure-cfg.ga.pressure_numerical_guard_m;
 end
 constraints = lower_pressure - pressure(pidx);
 if isfinite(cfg.maximum_pressure)
@@ -93,5 +94,5 @@ if isfield(cfg, 'pressure_anchor_node_ids') && ...
     constraints = [constraints; abs(anchor_ft(:) - ...
         cfg.pressure_anchor_target_heads(:)) - anchor_limit];
 end
-violation = max([0; constraints(:)]);
+violation = max([0; constraints(:); chlorine_constraints(:)]);
 end

@@ -1,35 +1,12 @@
 function make_portrait_submission_figures()
-%MAKE_PORTRAIT_SUBMISSION_FIGURES Reflow saved art for portrait pages.
-% Visual reformatting only: no hydraulic, chlorine or optimization runs.
-% The original full-resolution composites remain the numerical source.
+%MAKE_PORTRAIT_SUBMISSION_FIGURES Reflow only the panels used by current SM.
+% The source composites and editable SVGs remain alongside these PNG crops.
+% This visual operation does not solve hydraulics or change numerical data.
 root=fileparts(fileparts(fileparts(mfilename('fullpath'))));
 folder=fullfile(root,'manuscript','generated','figures');
 assert(isfolder(folder),'Run reproduce_all_figures first.');
-wide_pair(folder,'entropy_loop_two_consumers');
 wide_pair(folder,'chlorine_entropy_loop_pair');
-wide_pair(folder,'tanyimboh_equal_entropy_pair');
-node6=fullfile(root,'networks','tanyimboh_templeman', ...
-    'experiments','node6_reservoir','node6_reservoir_equal_entropy_pair.png');
-copyfile(node6,fullfile(folder,'node6_reservoir_equal_entropy_pair.png'),'f');
-wide_pair(folder,'node6_reservoir_equal_entropy_pair');
-names={'figure3','figure4','figure5','figure10_balerma_objectives', ...
-    'figure14_balerma_chlorine'};
-for i=1:numel(names)
-    panel_pairs(folder,names{i});
-end
-ranking_names={'figure9_ranking_objectives', ...
-    'figure10_anytown_chlorine_ranking_objectives', ...
-    'figure12_balerma_ranking_objectives', ...
-    'figure12_balerma_chlorine_ranking_objectives'};
-for i=1:numel(ranking_names)
-    ranking_sections(folder,ranking_names{i});
-end
-% Two overlapping views keep the original link and node identifiers legible.
-I=imread(fullfile(folder,'anytown_schematic.png')); W=size(I,2);
-imwrite(I(:,1:round(.59*W),:), ...
-    fullfile(folder,'anytown_schematic_west.png'));
-imwrite(I(:,round(.41*W):end,:), ...
-    fullfile(folder,'anytown_schematic_east.png'));
+panel_pairs(folder,'figure5');
 fprintf('Portrait art written to %s\n',folder);
 end
 
@@ -82,35 +59,9 @@ for k=1:3
 end
 end
 
-function ranking_sections(folder,base)
-% Six one-column sections, with at most two metric rows per page, preserve
-% approximately body-sized labels after inclusion at full portrait width.
-% Retain the full MATLAB SVG as an editable source for all ten panels.
-I=imread(fullfile(folder,[base '.png']));
-W=size(I,2); H=size(I,1);
-middle=round(W/2);
-legend_end=round(.045*H); % titles are typeset in LaTeX at body size
-cut_a=round(.405*H);
-cut_b=round(.805*H);
-bottom_end=round(.967*H); % omit the shared, half-clipped x-axis caption
-parts={I(legend_end+1:cut_a,1:middle,:), ...
-       I(cut_a+1:cut_b,1:middle,:), ...
-       I(cut_b+1:bottom_end,1:middle,:), ...
-       I(legend_end+1:cut_a,middle+1:end,:), ...
-       I(cut_a+1:cut_b,middle+1:end,:), ...
-       I(cut_b+1:bottom_end,middle+1:end,:)};
-suffix={'cost_a','cost_b','cost_c', ...
-        'objective_a','objective_b','objective_c'};
-for k=1:6
-    imwrite(parts{k},fullfile(folder,[base '_' suffix{k} '.png']));
-end
-end
-
 function save_art(I,base)
+% These portrait crops are raster page layouts; the uncropped source SVG
+% beside each source PNG is the editable vector artwork. Exporting a MATLAB
+% image object as SVG produces an empty page on some graphics backends.
 imwrite(I,[base '.png']);
-fig=figure('Visible','off','Color','w','Units','pixels', ...
-    'Position',[100 100 size(I,2) size(I,1)]);
-ax=axes(fig,'Position',[0 0 1 1]); image(ax,I); axis(ax,'image'); axis(ax,'off');
-exportgraphics(fig,[base '.svg'],'ContentType','image');
-close(fig);
 end

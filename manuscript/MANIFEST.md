@@ -1,26 +1,48 @@
-# Manuscript figure and table provenance
+# Publication asset manifest
 
-All paths are relative to this repository. The current Anytown outputs come from `networks/anytown/results_staci_anchor_replay/`; the other networks use `results_staci/`. Nominal Anytown optimization uses zero-flow R65/R165 pressure anchors; failure replay restores physical 215-ft reservoirs. The numerical solver is STACI. EPANET independently checks the final single-objective designs and supplies input/figure compatibility. See [the current computational methods](../docs/METHODS.md).
+This map follows the current `draft_v3/main.tex`, `supplementary_staci.tex`,
+and `balerma_r38_section.tex`. Names in the first column are file basenames
+under `manuscript/generated/figures/`. A single call to
+`manuscript/figures/reproduce_all_figures.m` invokes the generators below
+using the released results. It performs no full-network optimization or
+new pipe-failure replay. Source SVGs are retained even where LaTeX includes
+a PNG or PDF. The exact final result folders are listed in the root README.
 
-| Manuscript item | Reproduction code | Numerical input |
+| Publication asset | Generator | Saved numerical input |
 |---|---|---|
-| Objective and performance-indicator catalogues | Companion manuscript methodology; objective implementations in `+wdn/` | Equations and run counts in the methodology; no fitted values |
-| Pressure-boundary minimum example | `manuscript/figures/make_pressure_anchor_mwe_figure.m` | Analytic equations in script |
-| Four-pipe flow-entropy and chlorine-entropy pairs | `manuscript/figures/make_two_consumer_entropy_example.m`; `make_two_consumer_chlorine_entropy_example.m` | `networks/y_two_consumers/input/network_original.inp`; saved pair CSVs |
-| Tanyimboh–Templeman reference schematic | `manuscript/figures/make_tanyimboh_reference_schematic.m` | Published Case A values |
-| Tanyimboh–Templeman node-6 reservoir equal-entropy pair (Supplementary Fig. S3) | `networks/tanyimboh_templeman/experiments/node6_reservoir/plot_node6_reservoir_pair.m`; `run_node6_reservoir_pair.m`; `check_epanet_pair.m` | `pair_result.mat`, matching INP, CSV, and EPANET check in the experiment folder; replot needs saved MAT only |
-| Tanyimboh–Templeman six optimized panels | `networks/tanyimboh_templeman/run_tanyimboh_branch_hop_optimization.m`; `manuscript/figures/make_figure3.m` | Five common objectives plus `branch_hop_weighted_entropy.mat`, using frozen weights from supply entries 1 and 2 |
-| Anytown schematic and pressure/chlorine matrices (main Fig. 4 and Supplementary Figs.) | `manuscript/figures/make_anytown_schematic.m`; `manuscript/figures/make_anytown_anchor_replay_figures.m` | `networks/anytown/input/network_anchor_replay.inp`, six `results_staci_anchor_replay/*.mat` designs, and `topology_branch_hop_weights.csv`; nominal pump supply with R65/R165 zero-flow anchors |
-| Anytown cost–branch-hop entropy archive (Supplementary Fig.) | `networks/anytown/run_anytown_anchor_replay_pareto.m`; `wdn.plot_cost_entropy_front` | `networks/anytown/results_staci_anchor_replay/multiobjective_cost_entropy.mat` and six final MAT designs |
-| Anytown cost/branch-hop and chlorine ranked-subset matrices (Supplementary Figs.) | `networks/anytown/run_anytown_anchor_replay_rankings.m` | Anytown `results_staci_anchor_replay/ranking_*_study.mat` and independent per-point cache files |
-| Balerma schematic and pressure/chlorine six-panel matrices | `manuscript/figures/make_balerma_schematic.m`; `make_balerma_figures.m` | Balerma fixed-load INP, five full-network MAT designs, and `branch_hop_weighted_entropy_rank45.mat` |
-| Balerma cost/branch-hop and chlorine ranked-subset matrices | `run_staci_ranking_studies.m`; `manuscript/figures/reproduce_all_figures.m` | Balerma `results_staci/ranking_*_study.mat` |
-| Six-design cross-effect heat maps and trajectory-correlation table | `manuscript/tables/make_objective_relationship_summary.m`; `manuscript/figures/plot_cross_effects_portrait.m` | Released six-design CSVs, saved K=0 references, and final/ranking MAT files |
-| Cross-evaluation, stress, PDA service and vulnerability tables | `networks/anytown/summarize_anytown_anchor_replay_results.m`; `run_anytown_anchor_replay_outages.m`; `summarize_anytown_anchor_replay_vulnerability.m`; `networks/balerma/refresh_balerma_branch_hop_tables.m` | Anytown nominal-anchor `results_staci_anchor_replay/*.csv` (114 equally weighted source/fault cases per design), Balerma `results_staci/*.csv` |
-| Supplementary EPANET verification | `supplementary/validate_staci_final_designs.m` | Six nominal-anchor Anytown MAT designs, the other final designs, and matching INPs |
+| `pressure_anchor_mwe.png` | `make_pressure_anchor_mwe_figure.m` | Equations in the script |
+| `entropy_loop_two_consumers.png` | `make_two_consumer_entropy_example.m`, `plot_two_consumer_pair.m` | `networks/y_two_consumers/input/network_original.inp` |
+| `chlorine_entropy_loop_pair_portrait.png` | `make_two_consumer_chlorine_entropy_example(false)`, `make_portrait_submission_figures.m` | `networks/y_two_consumers/results/chlorine_entropy_pair.csv` and the same INP |
+| `tanyimboh_schemtic.png`, `tanyimboh_epanet_model.png` | `make_tanyimboh_reference_schematic.m`, `make_tanyimboh_epanet_model.m` | Published directed reference flows and released TT INP |
+| `figure3.png` | `make_figure3.m` | TT six final MAT designs and nominal STACI metrics |
+| `tanyimboh_ranking_objectives.png`, `tanyimboh_hydraulic_todini_rankings.png`, `tanyimboh_chlorine_rankings.png` | `make_tanyimboh_ranking_matrix.m`, `make_tanyimboh_remaining_rankings.m` | TT saved K=0–8 ranking MAT studies |
+| `tanyimboh_cost_branch_hop_failure_pareto.png` | `make_pareto_failure_figures.m` | TT saved Pareto archive and eight-case PDA replay per point |
+| `anytown_schematic.png` | `make_anytown_schematic.m` | Anchor INP and topology-only branch-hop weights |
+| `anytown_objectives_flow_3x2.png` | `make_anytown_flow_matrix.m` | Anytown six final MAT designs |
+| `figure5_portrait_1.png` to `figure5_portrait_3.png` | `make_anytown_anchor_replay_figures.m`, `make_portrait_submission_figures.m` | Anytown six final MAT designs |
+| `figure9_ranking_objectives.png`, `figure10_anytown_chlorine_ranking_objectives.png`, `anytown_hydraulic_todini_rankings.png` | `reproduce_all_figures.m`, `+wdn/plot_ranking_*` | Anytown saved ranking MAT studies, including refined Todini |
+| `anytown_cost_branch_hop_failure_pareto.pdf` | `make_pareto_failure_figures.m` | Anytown saved Pareto archive and 114-case PDA replay per point |
+| `balerma_r38_anchor_schematic.png` | `make_balerma_r38_schematic.m` | Balerma original geometry and R38 nominal boundary definition |
+| `figure10_balerma_objectives_r38_anchor_3x2.png`, `figure14_balerma_chlorine_r38_anchor_3x2.png` | `make_balerma_figures.m` | Balerma R38-anchor six final MAT designs |
+| `balerma_r38_anchor_pipe_diameters_only.png` | `make_balerma_pipe_only_figures.m` | `optimal_pipe_diameters_six_in.csv` and original INP geometry |
+| `balerma_r38_cost_branch_rankings.png`, `balerma_r38_hydraulic_todini_rankings.png`, `balerma_r38_chlorine_rankings.png` | `reproduce_all_figures.m`, `+wdn/plot_ranking_*` | Balerma R38-anchor saved ranking MAT studies, K≤90 |
+| `balerma_r38_unavailable_protected_failure_profiles.pdf` | `make_balerma_r38_unavailable_failure_profiles.m` | Balerma `r38_unavailable_protected/cases.csv`, 448 cases per design |
+| `balerma_common_cost_branch_hop_failure_pareto_r38_anchor_r38_unavailable.pdf` | `make_balerma_common_pareto.m` | Balerma `pareto_r38_unavailable_study/pareto_failure_replay_r38_unavailable/pareto_failure_service.csv` |
+| `steady_chlorine_trajectories.png` | `supplementary/plot_steady_chlorine_trajectories.m` | `supplementary/results/` EPANET trajectories and STACI steady values |
+| `cross_effects_three_networks.pdf` | `plot_cross_effects_three_networks.m` | Three six-design cross-evaluation CSVs |
 
-`make_anytown_anchor_replay_figures.m` replots the six current Anytown panels without a new network GA. The four-pipe chlorine script accepts `false` to replot its saved pair without a new small GA. Each current Anytown ranked-subset point is cached separately so a longer pipe-count range can resume without repeating completed points.
+The main article and Supplementary Material include some of the same files;
+these are listed once. Replotting rankings evaluates other objectives on the
+**same saved diameter designs**; only the top panel in each ranking column
+shows the optimized objective. `make_portrait_submission_figures.m` crops the
+two listed SM layouts for readable portrait pages. Its source PNG and SVG
+composites remain available for editing.
 
-Portrait journal-page variants of the wide two-design and six-design figures are produced by `manuscript/figures/make_portrait_submission_figures.m` from the saved full-resolution composites. This is a visual-only operation; no hydraulic or optimization results are recomputed.
-
-The same script slices each dense ranking matrix into six legible portrait sections (`*_cost_{a,b,c}.png` and `*_objective_{a,b,c}.png`). The Supplementary LaTeX file supplies their common 11-pt title, legend, and x-axis text. The complete matrix SVG remains available for editing; the sections are visual crops of it and retain the same numerical data.
+Nominal cross-evaluation and failure-service tables are exported from saved
+CSVs by `manuscript/tables/export_manuscript_tables.m` and the network-specific
+`export_*_sm_data.m` / `supplementary/build_balerma_r38_sm_tables.py`
+procedures. Their numerical provenance is described alongside each table in
+the Supplementary Material. TT's direct EPANET comparisons live in
+`supplementary/results/validation_tt_10_120_clsplit_v2/`, Anytown's in
+`supplementary/results/validation_anytown_10_120_clsplit_final/`, and
+Balerma's in its final result directory under `epanet_validation/`.

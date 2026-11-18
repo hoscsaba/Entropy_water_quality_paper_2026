@@ -6,9 +6,12 @@ root = fileparts(fileparts(fileparts(mfilename('fullpath'))));
 addpath(root);
 network_dir = fullfile(root, 'networks', 'balerma');
 addpath(network_dir);
-cfg = network_config(network_dir);
-cfg.results_dir = fullfile(network_dir,'results_staci');
-cfg.figures_dir = fullfile(network_dir,'figures_staci');
+% Default to the released R38-anchor design set. Older Balerma studies can
+% still be drawn by passing their result and figure directories explicitly.
+cfg = network_config_r38_anchor(network_dir);
+cfg.results_dir = fullfile(network_dir, ...
+    'results_staci_r38_anchor_r44_physical_0p1_64in_v1');
+cfg.figures_dir = fullfile(network_dir,'figures_staci_r38_anchor_v1');
 publish=true;
 if nargin>=1 && ~isempty(result_dir_override)
     cfg.results_dir=char(result_dir_override);
@@ -17,14 +20,37 @@ end
 if nargin>=2 && ~isempty(figure_dir_override)
     cfg.figures_dir=char(figure_dir_override);
 end
+r38_anchor=contains(string(cfg.results_dir),'r38_anchor');
 wdn.setup_toolkit(cfg);
 
-result_names = {'cost','hydraulic_entropy', ...
-    'branch_hop_weighted_entropy_rank45','chlorine_concentration', ...
-    'chlorine_entropy','todini'};
-panel_titles = {'(a) Cost','(b) Flow entropy', ...
-    '(c) Branch-hop entropy (45 pipes)','(d) Chlorine concentration', ...
-    '(e) Chlorine entropy','(f) Todini index'};
+common_bound=isfile(fullfile(cfg.results_dir, ...
+    'branch_hop_weighted_entropy.mat'));
+if common_bound
+    result_names={'cost','hydraulic_entropy', ...
+        'branch_hop_weighted_entropy','chlorine_concentration', ...
+        'chlorine_entropy','todini'};
+    panel_titles={'(a) Cost','(b) Flow entropy', ...
+        '(c) Branch-hop entropy','(d) Chlorine concentration', ...
+        '(e) Chlorine entropy','(f) Todini index'};
+    layout_shape=[3,2];
+    diameter_reference=1625.6;
+    dashed_limit=25.4; % 1 in in the common-bound study
+    filename_suffix='_common_3x2';
+else
+    result_names={'cost','hydraulic_entropy', ...
+        'branch_hop_weighted_entropy_rank45','chlorine_concentration', ...
+        'chlorine_entropy','todini'};
+    panel_titles={'(a) Cost','(b) Flow entropy', ...
+        '(c) Branch-hop entropy (45 pipes)','(d) Chlorine concentration', ...
+        '(e) Chlorine entropy','(f) Todini index'};
+    layout_shape=[2,3];
+    diameter_reference=500;
+    dashed_limit=50;
+    filename_suffix='';
+end
+if r38_anchor
+    filename_suffix='_r38_anchor_3x2';
+end
 
 [d, model] = wdn.open_network(cfg);
 cleanup = onCleanup(@() d.unload);
@@ -34,6 +60,11 @@ geometry.node_y = cell2mat(coordinates(:, 2));
 geometry.link_nodes = d.getLinkNodesIndex;
 geometry.node_types = d.getNodeTypeIndex;
 geometry.node_ids = string(d.getNodeNameID);
+geometry.anchor_index=[];
+if r38_anchor
+    geometry.anchor_index=find(geometry.node_ids=="38");
+    assert(isscalar(geometry.anchor_index),'R38 node missing from map');
+end
 
 data = cell(size(result_names));
 all_pressure = [];
@@ -75,68 +106,93 @@ y_limits = [min(y) - y_padding, max(y) + y_padding];
 pressure_limits = [min(0, floor(min(all_pressure) / 5) * 5), ...
     ceil(max(all_pressure) / 5) * 5];
 
-fig = figure('Color', 'w', 'Position', [80 40 1900 1320]);
-layout = tiledlayout(fig, 2, 3, 'TileSpacing', 'compact', 'Padding', 'compact');
+if common_bound
+    figure_units='centimeters';figure_size=[2 2 18 22];
+    title_font=12.5;colorbar_font=12.5;output_dpi=350;
+else
+    figure_units='pixels';figure_size=[80 40 1900 1320];
+    title_font=20;colorbar_font=18;output_dpi=cfg.plot.resolution;
+end
+fig = figure('Color','w','Units',figure_units,'Position',figure_size);
+layout = tiledlayout(fig, layout_shape(1), layout_shape(2), ...
+    'TileSpacing', 'compact', 'Padding', 'compact');
 colormap(fig, jet(256));
 for index = 1:numel(data)
     ax = nexttile(layout);
     draw_network(ax, data{index}, x_limits, y_limits, pressure_limits, ...
-        'pressure');
-    title(ax, panel_titles{index}, 'FontSize', 20, 'FontWeight', 'normal');
+        'pressure',diameter_reference,dashed_limit);
+    title(ax, panel_titles{index}, 'FontSize', title_font, 'FontWeight', 'normal');
 end
 cb = colorbar(ax);
 cb.Layout.Tile = 'east';
-cb.FontSize = 18;
-ylabel(cb, 'Pressure [m]', 'FontSize', 18);
+cb.FontSize = colorbar_font;
+ylabel(cb, 'Pressure [m]', 'FontSize', colorbar_font);
 
 if ~isfolder(cfg.figures_dir), mkdir(cfg.figures_dir); end
-png_file = fullfile(cfg.figures_dir, 'figure10_balerma_objectives.png');
-svg_file = fullfile(cfg.figures_dir, 'figure10_balerma_objectives.svg');
-exportgraphics(fig, png_file, 'Resolution', cfg.plot.resolution);
-exportgraphics(fig, svg_file, 'ContentType', 'image', 'Resolution', 300);
+png_file = fullfile(cfg.figures_dir, ...
+    ['figure10_balerma_objectives' filename_suffix '.png']);
+svg_file = fullfile(cfg.figures_dir, ...
+    ['figure10_balerma_objectives' filename_suffix '.svg']);
+exportgraphics(fig, png_file, 'Resolution', output_dpi);
+if common_bound
+    exportgraphics(fig, svg_file, 'ContentType', 'vector');
+else
+    exportgraphics(fig, svg_file, 'ContentType', 'image', 'Resolution', 300);
+end
 close(fig);
 
 generated_dir = fullfile(root, 'manuscript', 'generated', 'figures');
 if publish
     if ~isfolder(generated_dir), mkdir(generated_dir); end
-    copyfile(png_file, fullfile(generated_dir, ...
-        'figure10_balerma_objectives.png'), 'f');
-    copyfile(svg_file, fullfile(generated_dir, ...
-        'figure10_balerma_objectives.svg'), 'f');
+    [~,name,ext]=fileparts(png_file);
+    copyfile(png_file,fullfile(generated_dir,[name ext]),'f');
+    [~,name,ext]=fileparts(svg_file);
+    copyfile(svg_file,fullfile(generated_dir,[name ext]),'f');
 end
 
 % A matching six-panel water-quality map uses the same diameter encoding.
-fig = figure('Color','w','Position',[80 40 1900 1320]);
-layout = tiledlayout(fig,2,3,'TileSpacing','compact','Padding','compact');
+fig = figure('Color','w','Units',figure_units,'Position',figure_size);
+layout = tiledlayout(fig,layout_shape(1),layout_shape(2), ...
+    'TileSpacing','compact','Padding','compact');
 colormap(fig,jet(256));
 for index=1:numel(data)
     ax=nexttile(layout);
-    draw_network(ax,data{index},x_limits,y_limits,[0 1],'chlorine');
-    title(ax,panel_titles{index},'FontSize',20,'FontWeight','normal');
+    draw_network(ax,data{index},x_limits,y_limits,[0 1], ...
+        'chlorine',diameter_reference,dashed_limit);
+    title(ax,panel_titles{index},'FontSize',title_font,'FontWeight','normal');
 end
 cb=colorbar(ax);
 cb.Layout.Tile='east';
-cb.FontSize=18;
-ylabel(cb,'Chlorine [mg/L]','FontSize',18);
-cl_png=fullfile(cfg.figures_dir,'figure14_balerma_chlorine.png');
-cl_svg=fullfile(cfg.figures_dir,'figure14_balerma_chlorine.svg');
-exportgraphics(fig,cl_png,'Resolution',cfg.plot.resolution);
-exportgraphics(fig,cl_svg,'ContentType','image','Resolution',300);
+cb.FontSize=colorbar_font;
+ylabel(cb,'Chlorine [mg/L]','FontSize',colorbar_font);
+cl_png=fullfile(cfg.figures_dir, ...
+    ['figure14_balerma_chlorine' filename_suffix '.png']);
+cl_svg=fullfile(cfg.figures_dir, ...
+    ['figure14_balerma_chlorine' filename_suffix '.svg']);
+exportgraphics(fig,cl_png,'Resolution',output_dpi);
+if common_bound
+    exportgraphics(fig,cl_svg,'ContentType','vector');
+else
+    exportgraphics(fig,cl_svg,'ContentType','image','Resolution',300);
+end
 close(fig);
 if publish
-    copyfile(cl_png,fullfile(generated_dir,'figure14_balerma_chlorine.png'),'f');
-    copyfile(cl_svg,fullfile(generated_dir,'figure14_balerma_chlorine.svg'),'f');
+    [~,name,ext]=fileparts(cl_png);
+    copyfile(cl_png,fullfile(generated_dir,[name ext]),'f');
+    [~,name,ext]=fileparts(cl_svg);
+    copyfile(cl_svg,fullfile(generated_dir,[name ext]),'f');
 end
 output_files = {png_file, svg_file, cl_png, cl_svg};
 end
 
-function draw_network(ax, item, x_limits, y_limits, color_limits, color_metric)
+function draw_network(ax, item, x_limits, y_limits, color_limits, ...
+    color_metric,diameter_reference,dashed_limit)
 hold(ax, 'on');
 for link = 1:size(item.link_nodes, 1)
     diameter = item.diameters(link);
-    line_width = 0.35 + 3.65 * min(max(diameter / 500, 0), 1);
+    line_width = 0.35 + 3.65 * min(max(diameter / diameter_reference, 0), 1);
     line_style = '-';
-    if diameter < 50, line_style = '--'; end
+    if diameter <= dashed_limit, line_style = '--'; end
     plot(ax, item.node_x(item.link_nodes(link, :)), ...
         item.node_y(item.link_nodes(link, :)), 'Color', [0.08 0.08 0.08], ...
         'LineWidth', line_width, 'LineStyle', line_style);
@@ -144,8 +200,14 @@ end
 scatter(ax, item.node_x, item.node_y, 15, item.(color_metric), 'filled', ...
     'MarkerEdgeColor', [0.15 0.15 0.15], 'LineWidth', 0.35);
 reservoirs = find(item.node_types == 1);
+reservoirs=setdiff(reservoirs,item.anchor_index);
 scatter(ax, item.node_x(reservoirs), item.node_y(reservoirs), 70, ...
     [0.10 0.28 0.75], 's', 'filled', 'MarkerEdgeColor', 'k', 'LineWidth', 1.1);
+if ~isempty(item.anchor_index)
+    scatter(ax,item.node_x(item.anchor_index),item.node_y(item.anchor_index), ...
+        70,[0.55 0.22 0.62],'d','filled', ...
+        'MarkerEdgeColor','k','LineWidth',1.1);
+end
 axis(ax, 'equal');
 xlim(ax, x_limits);
 ylim(ax, y_limits);

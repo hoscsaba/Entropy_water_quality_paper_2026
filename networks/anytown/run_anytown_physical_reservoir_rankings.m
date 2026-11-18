@@ -1,15 +1,19 @@
 function run_anytown_physical_reservoir_rankings( ...
-        paper_root,staci_root,mex_dir,objectives,nominal_variant)
+        paper_root,staci_root,mex_dir,objectives,nominal_variant, ...
+        result_dir_override,make_plots)
 %RUN_ANYTOWN_PHYSICAL_RESERVOIR_RANKINGS Resumable ranked-subset study.
 % The optional nominal variant selects physical R65/R165 sources or
 % zero-flow anchors. Each criterion/objective/K has an independent cached
 % optimization in the variant result directory; extending K reuses it.
 if nargin<4 || isempty(objectives)
-    objectives=["cost","branch_hop_weighted_entropy", ...
-        "chlorine_concentration","chlorine_entropy"];
+    objectives=["cost","hydraulic_entropy", ...
+        "branch_hop_weighted_entropy", ...
+        "chlorine_concentration","chlorine_entropy","todini"];
 end
 objectives=string(objectives);
 if nargin<5,nominal_variant="physical_reservoirs";end
+if nargin<6,result_dir_override=[];end
+if nargin<7,make_plots=true;end
 addpath(paper_root,fullfile(staci_root,'matlab'),mex_dir);
 network_dir=fullfile(paper_root,'networks','anytown');
 addpath(network_dir);
@@ -19,6 +23,22 @@ else
     assert(string(nominal_variant)=="physical_reservoirs", ...
         'Unknown nominal variant');
     cfg=network_config_physical_reservoirs(network_dir);
+end
+canonical=cfg.results_dir;
+if nargin>=6 && ~isempty(result_dir_override)
+    cfg.results_dir=char(result_dir_override);
+    cfg.figures_dir=fullfile(cfg.results_dir,'figures');
+    cfg.ranking.cache_dir=fullfile(cfg.results_dir,'ranking_cache');
+    if ~isfolder(cfg.results_dir),mkdir(cfg.results_dir);end
+    % A new pressure/objective stage must recompute rankings. The archived
+    % K=2 diameter vector is only a warm start and is rechecked in memory.
+    for file="k2_feasibility_seed.mat"
+        source=fullfile(canonical,file);
+        target=fullfile(cfg.results_dir,file);
+        if isfile(source) && ~isfile(target)
+            copyfile(source,target);
+        end
+    end
 end
 branch=load(fullfile(cfg.results_dir, ...
     'branch_hop_weighted_entropy.mat'),'result');
@@ -36,10 +56,12 @@ for q=1:numel(ranking.criterion_keys)
         string(ranking.ordered_link_ids(1:20,q));
 end
 writetable(rank_table,fullfile(cfg.results_dir,'pipe_rankings_top20.csv'));
-fprintf('Original reference max constraint violation: %.5g psi\n', ...
+fprintf('Original reference max constraint violation: %.5g m\n', ...
     ranking.reference_constraint_violation);
 if string(nominal_variant)=="anchor_replay" && ...
         ~isfile(fullfile(cfg.results_dir,'k2_feasibility_seed.mat'))
+    assert(isempty(result_dir_override), ...
+        'Supply the archived K=2 feasibility seed in the staging folder');
     find_anytown_anchor_replay_k2_seed(paper_root,staci_root,mex_dir);
 end
 for objective=objectives
@@ -51,17 +73,26 @@ for objective=objectives
     wdn.write_ranking_study_csv(cfg,study, ...
         'ranking_'+objective+'_study.csv');
 end
-cost_file=fullfile(cfg.results_dir,'ranking_cost_study.mat');
-branch_file=fullfile(cfg.results_dir, ...
-    'ranking_branch_hop_weighted_entropy_study.mat');
-if isfile(cost_file) && isfile(branch_file)
-    a=load(cost_file,'study');b=load(branch_file,'study');
-    wdn.plot_ranking_objective_matrix(cfg,a.study,b.study,struct());
-end
-cl_file=fullfile(cfg.results_dir,'ranking_chlorine_concentration_study.mat');
-clent_file=fullfile(cfg.results_dir,'ranking_chlorine_entropy_study.mat');
-if isfile(cl_file) && isfile(clent_file)
-    a=load(cl_file,'study');b=load(clent_file,'study');
-    wdn.plot_ranking_chlorine_matrix(cfg,a.study,b.study);
+if make_plots
+    cost_file=fullfile(cfg.results_dir,'ranking_cost_study.mat');
+    branch_file=fullfile(cfg.results_dir, ...
+        'ranking_branch_hop_weighted_entropy_study.mat');
+    if isfile(cost_file) && isfile(branch_file)
+        a=load(cost_file,'study');b=load(branch_file,'study');
+        wdn.plot_ranking_objective_matrix(cfg,a.study,b.study,struct());
+    end
+    cl_file=fullfile(cfg.results_dir,'ranking_chlorine_concentration_study.mat');
+    clent_file=fullfile(cfg.results_dir,'ranking_chlorine_entropy_study.mat');
+    if isfile(cl_file) && isfile(clent_file)
+        a=load(cl_file,'study');b=load(clent_file,'study');
+        wdn.plot_ranking_chlorine_matrix(cfg,a.study,b.study);
+    end
+    hyd_file=fullfile(cfg.results_dir,'ranking_hydraulic_entropy_study.mat');
+    tod_file=fullfile(cfg.results_dir,'ranking_todini_study.mat');
+    if isfile(hyd_file) && isfile(tod_file)
+        a=load(hyd_file,'study');b=load(tod_file,'study');
+        wdn.plot_ranking_pair_matrix(cfg,a.study,b.study, ...
+            'anytown_hydraulic_todini_rankings');
+    end
 end
 end

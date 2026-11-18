@@ -1,0 +1,49 @@
+Objective,Topology,FailedLinkID,DeliveredDemandFraction,QualityCompliantDemandFraction,PressureViolationFraction,OverdeliveryNodeCount,MaxOverdelivery,Nonconvergent,SolverToleranceFallback,ContinuityToleranceKgS,ErrorMessage,EpanetFallback
+cost,Cost,P1,0.636363636363636,0.636363636363636,0.5,0,0,0,0,1e-08,,0
+cost,Cost,P4,0.364033098264851,0.364033098264851,0.5,0,0,0,0,1e-08,STACI nonconverged; EPANET 2.2 PDA/EPS rescue,1
+cost,Cost,P7,0.818181818181818,0.818181818181818,0.5,0,0,0,0,1e-08,,0
+cost,Cost,P6,0.909090909090909,0.909090909090909,0.25,0,0,0,0,1e-08,,0
+cost,Cost,P2,0.363636363636364,0.363636363636364,0.5,0,0,0,0,1e-08,,0
+cost,Cost,P3,1,1,0,0,0,0,0,1e-08,,0
+cost,Cost,P8,1,1,0,0,0,0,0,1e-08,,0
+cost,Cost,P5,1,1,0,0,0,0,0,1e-08,,0
+hydraulic_entropy,Flow entropy,P1,0.993288915315407,0.993288915315407,0.25,0,0,0,0,1e-08,,0
+hydraulic_entropy,Flow entropy,P4,1,1,0,0,0,0,0,1e-08,,0
+hydraulic_entropy,Flow entropy,P7,0.772937979268636,0.772937979268636,0.5,0,0,0,0,1e-08,,0
+hydraulic_entropy,Flow entropy,P6,1,1,0,0,0,0,0,1e-08,,0
+hydraulic_entropy,Flow entropy,P2,1,1,0,0,0,0,0,1e-08,,0
+hydraulic_entropy,Flow entropy,P3,1,1,0,0,0,0,0,1e-08,,0
+hydraulic_entropy,Flow entropy,P8,0.953520225415418,0.953520225415418,0.25,0,0,0,0,1e-08,,0
+hydraulic_entropy,Flow entropy,P5,1,1,0,0,0,0,0,1e-08,,0
+branch_hop_weighted_entropy,Branch-hop entropy,P1,1,1,0,0,0,0,0,1e-08,,0
+branch_hop_weighted_entropy,Branch-hop entropy,P4,1,1,0,0,0,0,0,1e-08,,0
+branch_hop_weighted_entropy,Branch-hop entropy,P7,1,1,0,0,0,0,0,1e-08,,0
+branch_hop_weighted_entropy,Branch-hop entropy,P6,1,1,0,0,0,0,0,1e-08,,0
+branch_hop_weighted_entropy,Branch-hop entropy,P2,1,1,0,0,0,0,0,1e-08,,0
+branch_hop_weighted_entropy,Branch-hop entropy,P3,1,1,0,0,0,0,0,1e-08,,0
+branch_hop_weighted_entropy,Branch-hop entropy,P8,1,1,0,0,0,0,0,1e-08,,0
+branch_hop_weighted_entropy,Branch-hop entropy,P5,1,1,0,0,0,0,0,1e-08,,0
+chlorine_concentration,Cl concentration,P1,0.636545210141181,0.636545210141181,0.5,0,0,0,0,1e-08,STACI nonconverged; EPANET 2.2 PDA/EPS rescue,1
+chlorine_concentration,Cl concentration,P4,0.363636363636364,0.363636363636364,0.5,0,0,0,1,0.01,,0
+chlorine_concentration,Cl concentration,P7,0.818181818181818,0.818181818181818,0.5,0,0,0,1,0.001,,0
+chlorine_concentration,Cl concentration,P6,0.909090909090909,0.909090909090909,0.25,0,0,0,1,0.001,,0
+chlorine_concentration,Cl concentration,P2,1,1,0,0,0,0,0,1e-08,,0
+chlorine_concentration,Cl concentration,P3,1,1,0,0,0,0,0,1e-08,,0
+chlorine_concentration,Cl concentration,P8,1,1,0,0,0,0,0,1e-08,,0
+chlorine_concentration,Cl concentration,P5,1,1,0,0,0,0,0,1e-08,,0
+chlorine_entropy,Cl entropy,P1,0.890953837450252,0.890953837450252,0.75,0,0,0,0,1e-08,,0
+chlorine_entropy,Cl entropy,P4,1,1,0,0,0,0,0,1e-08,,0
+chlorine_entropy,Cl entropy,P7,0.770761892279115,0.770761892279115,0.5,0,0,0,0,1e-08,,0
+chlorine_entropy,Cl entropy,P6,0.994058513661464,0.994058513661464,0.25,0,0,0,0,1e-08,,0
+chlorine_entropy,Cl entropy,P2,0.994731702141069,0.994731702141069,0.25,0,0,0,0,1e-08,,0
+chlorine_entropy,Cl entropy,P3,1,1,0,0,0,0,0,1e-08,,0
+chlorine_entropy,Cl entropy,P8,0.949694644577292,0.949694644577292,0.25,0,0,0,0,1e-08,,0
+chlorine_entropy,Cl entropy,P5,0.947695488814588,0.947695488814588,0.5,0,0,0,0,1e-08,,0
+todini,Todini,P1,1,1,0,0,0,0,0,1e-08,,0
+todini,Todini,P4,1,1,0,0,0,0,0,1e-08,,0
+todini,Todini,P7,1,1,0,0,0,0,0,1e-08,,0
+todini,Todini,P6,1,1,0,0,0,0,0,1e-08,,0
+todini,Todini,P2,1,1,0,0,0,0,0,1e-08,,0
+todini,Todini,P3,1,1,0,0,0,0,0,1e-08,,0
+todini,Todini,P8,1,1,0,0,0,0,0,1e-08,,0
+todini,Todini,P5,1,1,0,0,0,0,0,1e-08,,0

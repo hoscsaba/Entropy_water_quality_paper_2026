@@ -1,14 +1,11 @@
 function result = optimize_staci_single_objective(cfg, objective_name, input_file, output_file)
 %OPTIMIZE_STACI_SINGLE_OBJECTIVE In-memory STACI GA for paper objectives.
-% Chlorine objectives constrain concentration at material-demand consumers.
+% Every objective constrains concentration at material-demand consumers.
 % No candidate evaluation writes an INP, RPT, BIN or other sidecar file.
-% For chlorine-directed searches, 0.2 mg/L is required only at junctions
-% above the demand of a 10 mm pipe carrying water at 1 cm/s. The other
-% searches report chlorine as a metric without imposing this floor.
+% The shared 0.2 mg/L floor applies at junctions above the demand of a
+% 10 mm pipe carrying water at 1 cm/s, independently of the objective.
 
 assert(ismember(string(objective_name), string(cfg.objectives)));
-chlorine_objective = ismember(string(objective_name), ...
-    ["chlorine_concentration", "chlorine_entropy"]);
 if strcmp(cfg.id, 'anytown')
     diameter_scale_m = 0.0254; % inches
     length_scale = 1 / 0.3048; % metres -> feet for paper cost
@@ -125,6 +122,7 @@ options = optimoptions('ga', ...
     'PopulationSize', cfg.ga.population_size, ...
     'MaxGenerations', cfg.ga.max_generations, ...
     'MaxStallGenerations', cfg.ga.max_stall_generations, ...
+    'MaxTime', maximum_wall_seconds, ...
     'FunctionTolerance', cfg.ga.function_tolerance, ...
     'ConstraintTolerance', cfg.ga.constraint_tolerance, ...
     'NonlinearConstraintAlgorithm', 'penalty', ...
@@ -168,6 +166,17 @@ result.metrics = state.metrics;
 result.constraint_consumer_ids = cellstr(consumer_ids);
 result.minimum_constraint_demand_m3s = threshold_m3s;
 result.minimum_constraint_chlorine_mgL = 0.2;
+if isfield(cfg.ga,'chlorine_numerical_guard_mgL')
+    result.chlorine_numerical_guard_mgL= ...
+        cfg.ga.chlorine_numerical_guard_mgL;
+end
+if isfield(cfg,'constraint_set_id')
+    result.constraint_set_id = cfg.constraint_set_id;
+else
+    result.constraint_set_id = 'pressure_10_120m_chlorine_mass_split_v2';
+end
+result.minimum_diameter = cfg.minimum_diameter;
+result.maximum_diameter = cfg.maximum_diameter;
 result.model = 'staci_steady_first_order';
 result.optimizer = 'matlab_ga_staci_mex';
 if strcmp(cfg.id,'anytown')
@@ -196,8 +205,8 @@ if isfield(cfg.ga, 'anchor_numerical_guard_ft')
 else
     result.anchor_numerical_guard_ft = 0;
 end
-if isfield(cfg.ga,'pressure_numerical_guard_psi')
-    result.pressure_guard_psi=cfg.ga.pressure_numerical_guard_psi;
+if isfield(cfg.ga,'pressure_numerical_guard_m')
+    result.pressure_guard_m=cfg.ga.pressure_numerical_guard_m;
 end
 % Published plotting and tables use the INP's EPANET link order. The
 % template comes directly from the input, never from an archived result.
@@ -273,16 +282,13 @@ fprintf('%s/%s: best %.9g, violation %.3g, source %s, %.1f s\n', ...
             hydraulic = staci.nodeResults();
             [~, pidx] = ismember(pressure_ids, string(hydraulic.id(:)));
             pressure = double(hydraulic.pressure_head_m(:));
-            if strcmp(cfg.id, 'anytown')
-                pressure = pressure / (0.3048 * cfg.pressure_to_head);
-            end
             lower_pressure=cfg.minimum_pressure;
             upper_pressure=cfg.maximum_pressure;
-            if isfield(cfg.ga,'pressure_numerical_guard_psi')
+            if isfield(cfg.ga,'pressure_numerical_guard_m')
                 lower_pressure=lower_pressure+ ...
-                    cfg.ga.pressure_numerical_guard_psi;
+                    cfg.ga.pressure_numerical_guard_m;
                 upper_pressure=upper_pressure- ...
-                    cfg.ga.pressure_numerical_guard_psi;
+                    cfg.ga.pressure_numerical_guard_m;
             end
             constraints = lower_pressure - pressure(pidx);
             if isfinite(cfg.maximum_pressure)
@@ -304,16 +310,25 @@ fprintf('%s/%s: best %.9g, violation %.3g, source %s, %.1f s\n', ...
             q_mgL = [];
             cidx = [];
             concentration_sum = NaN;
-            if chlorine_objective || with_metrics
-                quality = staci.solveSteadyQuality('chemical');
-                q_mgL = 1000 * double(quality.node_concentration_kgm3(:));
-                [~, cidx] = ismember(consumer_ids, string(quality.node_ids(:)));
-                [~, qidx] = ismember(quality_ids, string(quality.node_ids(:)));
-                concentration_sum = sum(q_mgL(qidx).^2);
-                if chlorine_objective
-                    constraints = [constraints; 0.2 - q_mgL(cidx)];
-                end
+            quality = staci.solveSteadyQuality('chemical');
+            q_mgL = 1000 * double(quality.node_concentration_kgm3(:));
+            [found_consumer, cidx] = ismember(consumer_ids, ...
+                string(quality.node_ids(:)));
+            [found_quality, qidx] = ismember(quality_ids, ...
+                string(quality.node_ids(:)));
+            assert(all(found_consumer) && all(found_quality), ...
+                'Configured quality node missing');
+            chlorine_guard=0;
+            if isfield(cfg.ga,'chlorine_numerical_guard_mgL')
+                chlorine_guard=cfg.ga.chlorine_numerical_guard_mgL;
             end
+            [chlorine_constraints, checked_ids] = ...
+                wdn.consumer_chlorine_constraint( ...
+                    hydraulic, quality, chlorine_guard);
+            assert(isequal(checked_ids, consumer_ids), ...
+                'Consumer chlorine selection changed during optimization');
+            constraints = [constraints; chlorine_constraints];
+            concentration_sum = sum(q_mgL(qidx).^2);
             switch string(objective_name)
                 case "cost"
                     score = wdn.pipe_cost(x, lengths, cfg);
@@ -326,7 +341,10 @@ fprintf('%s/%s: best %.9g, violation %.3g, source %s, %.1f s\n', ...
                 case "chlorine_concentration"
                     score = concentration_sum;
                 case "chlorine_entropy"
-                    score = wdn.staci_chlorine_entropy(staci, cfg, q_mgL);
+                    [~, ordered_q] = ismember(string(hydraulic.id(:)), ...
+                        string(quality.node_ids(:)));
+                    score = wdn.staci_chlorine_entropy(staci, cfg, ...
+                        q_mgL(ordered_q));
                 case "todini"
                     score = wdn.staci_todini_index(staci, cfg);
             end
@@ -347,8 +365,10 @@ fprintf('%s/%s: best %.9g, violation %.3g, source %s, %.1f s\n', ...
                 link_state = staci.linkResults();
                 state_now.metrics.cost = wdn.pipe_cost(x, lengths, cfg);
                 state_now.metrics.chlorine_concentration = concentration_sum;
+                [~, ordered_q] = ismember(string(hydraulic.id(:)), ...
+                    string(quality.node_ids(:)));
                 state_now.metrics.chlorine_entropy = ...
-                    wdn.staci_chlorine_entropy(staci, cfg, q_mgL);
+                    wdn.staci_chlorine_entropy(staci, cfg, q_mgL(ordered_q));
                 state_now.metrics.hydraulic_entropy = ...
                     wdn.staci_flow_entropy(staci, cfg, []);
                 if ~isempty(weighting_field)

@@ -2,10 +2,10 @@ function results = make_two_consumer_chlorine_entropy_example(run_optimization)
 %MAKE_TWO_CONSUMER_CHLORINE_ENTROPY_EXAMPLE Nonunique near-optimal diameters.
 % With no argument, rerun seeded GA; false replots the saved verified pair.
 % Unequal demands (0.8,1.3 L/s) rule out consumer-swap symmetry.
-% A second diameter set is obtained by inverse STACI sizing: keep P0/P1
-% and the full flow vector fixed, change P3, then solve P2 for the same Q3.
-% Terminal D2 has no outgoing split in this flow direction, so changing its
-% chlorine concentration does not change the implemented chlorine entropy.
+% A second diameter set is obtained by inverse STACI sizing. Change P3,
+% solve P2 for the same loop cross-flow, and solve the common upstream P0
+% for the same chlorine-mass-splitting entropy. P1 is held fixed. This
+% procedure has two constraints and three free diameters.
 if nargin<1,run_optimization=true;end
 root=fileparts(fileparts(fileparts(mfilename('fullpath'))));addpath(root,'-begin');
 mini_dir=fullfile(root,'networks','y_two_consumers');
@@ -22,25 +22,46 @@ if run_optimization
    'UseParallel',false);
  [best,~,exit_flag,output]=ga(@penalized_objective,4,[],[],[],[], ...
    40*ones(1,4),200*ones(1,4),[],opts);
- [best_entropy,~,~,best_flow]=measure(best);
- target_q3=best_flow(4);
+ [best_entropy,~,~,~]=measure(best);
+ reference_set=[best;seed;150 120 90 100;160 130 100 120];
  candidates=zeros(0,4);
- for d3=40:10:200
-  x=best;x(4)=d3;
-  try
-   x(3)=fzero(@(d2)cross_flow([x(1:2),d2,x(4)])-target_q3,[40,200]);
-   if x(3)<40||x(3)>200,continue;end
-   [s,c,h]=measure(x);
-   if min(h(3:4))>=20 && min(c(3:4))>=0.2 && ...
-      abs(s-best_entropy)<1e-6
-    candidates(end+1,:)=x; %#ok<AGROW>
+ for base_index=1:size(reference_set,1)
+  reference=reference_set(base_index,:);
+  [reference_entropy,reference_cl,reference_head,reference_flow]= ...
+      measure(reference);
+  if min(reference_head(3:4))<20 || ...
+      min(reference_cl(3:4))<0.2,continue;end
+  target_q3=reference_flow(4);
+  candidates=reference;
+  for d3=40:10:200
+   if abs(d3-reference(4))<15,continue;end
+   x=reference;x(4)=d3;
+   try
+    x(3)=fzero(@(d2)cross_flow([reference(1:2),d2,d3])-target_q3, ...
+        [40,200]);
+    if x(3)<40 || x(3)>200,continue;end
+    low=x;low(1)=40;high=x;high(1)=200;
+    s_low=measure(low)-reference_entropy;
+    s_high=measure(high)-reference_entropy;
+    if s_low*s_high>0,continue;end
+    x(1)=fzero(@(d0)entropy_at_d0(x,d0)-reference_entropy, ...
+        [40,200]);
+    [s,c,h,q]=measure(x);
+    if min(h(3:4))>=20 && min(c(3:4))>=0.2 && ...
+       abs(s-reference_entropy)<1e-6 && ...
+       max(abs(q-reference_flow))<1e-5 && ...
+       abs(c(4)-reference_cl(4))>0.02
+     candidates(end+1,:)=x; %#ok<AGROW>
+    end
+   catch
+    % This candidate did not provide bracketed inverse solves.
    end
-  catch
-   % Candidate did not give a bracketed inverse flow solution.
   end
+  if size(candidates,1)>=2,break;end
  end
  assert(size(candidates,1)>=2,'No distinct feasible entropy-matched pair.');
- diameter=candidates([1,end],:);
+ [~,furthest]=max(vecnorm(candidates(2:end,:)-reference,2,2));
+ diameter=[reference;candidates(furthest+1,:)];
 else
  saved=readtable(fullfile(results_dir,'chlorine_entropy_pair.csv'));
  diameter=[saved.D0_mm,saved.D1_mm,saved.D2_mm,saved.D3_mm];
@@ -104,6 +125,10 @@ clear cleanup
  function q3=cross_flow(x)
   state=wdn.evaluate_two_consumer_staci(st,x);
   q3=state.flow_Lps(4);
+ end
+ function s=entropy_at_d0(x,d0)
+  x(1)=d0;
+  s=measure(x);
  end
  function [s,c,h,q,sh,node_s]=measure(x)
   state=wdn.evaluate_two_consumer_staci(st,x);

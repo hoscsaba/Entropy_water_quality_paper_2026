@@ -9,16 +9,13 @@ id = string(nodes.id(:));
 head = double(nodes.total_head_m(:));
 demand = double(nodes.demand_m3s(:));
 elevation = double(nodes.elevation_m(:));
-if strcmp(cfg.id, 'anytown')
-    minimum_head = cfg.minimum_pressure * cfg.pressure_to_head * 0.3048;
-else
-    minimum_head = cfg.minimum_pressure;
-end
+minimum_head = cfg.minimum_pressure;
 required = elevation + minimum_head;
-consumer = ismember(id, string(cfg.pressure_node_ids(:)));
-positive = max(demand(consumer), 0);
-numerator = sum(positive .* (head(consumer) - required(consumer)));
-required_energy = sum(positive .* required(consumer));
+% Todini's demand energy includes every withdrawal, regardless of whether
+% that node is part of the separate pressure-constraint assessment set.
+positive = max(demand, 0);
+numerator = sum(positive .* (head - required));
+required_energy = sum(positive .* required);
 supply_energy = sum(max(-demand, 0) .* head);
 link_type = string(links.type(:));
 link_from = string(links.from_node(:));
@@ -30,10 +27,14 @@ for k = find(boundary(:))'
     assert(found, 'Boundary link has no source node');
     supply_energy = supply_energy + max(-flow(k), 0) * head(idx);
 end
-pump = link_type == "Szivattyu";
+% STACI imports both curve-defined and fixed-power EPANET pumps. In both
+% cases headloss_m is negative when the pump adds head in its flow direction.
+pump = link_type == "Szivattyu" | link_type == "EpanetPowerPump";
 pump_energy = sum(max(flow(pump), 0) .* max(-double(links.headloss_m(pump)), 0));
 denominator = supply_energy + pump_energy - required_energy;
 if denominator <= 0
+    % Undefined normalization is assigned a zero fitness for maximization.
+    % All released nominal designs have a strictly positive denominator.
     value = 0;
 else
     value = numerator / denominator;

@@ -1,4 +1,4 @@
-function output_files = make_balerma_pipe_only_figures(output_dir)
+function output_files = make_balerma_pipe_only_figures(output_dir,result_dir)
 %MAKE_BALERMA_PIPE_ONLY_FIGURES Plot the six saved Balerma diameter designs.
 %   Pipe diameter controls both color and line width. Nodes and reservoir
 %   markers are omitted. The six panels follow the pressure/chlorine map
@@ -6,21 +6,23 @@ function output_files = make_balerma_pipe_only_figures(output_dir)
 %   scale. This function reads the original INP and the full-precision
 %   diameter CSV; it does not run hydraulics, quality, or optimization.
 %
-%   make_balerma_pipe_only_figures() writes PNG and editable SVG files to
-%   networks/balerma/figures_staci_uniform_0p1_64in_staging and copies
-%   them to manuscript/generated/figures.
+%   The optional result_dir selects a versioned six-design diameter CSV.
+%   The plot writes PNG and editable SVG files to output_dir.
 
 root = fileparts(fileparts(fileparts(mfilename('fullpath'))));
 network_dir = fullfile(root,'networks','balerma');
 if nargin < 1 || isempty(output_dir)
     output_dir = fullfile(network_dir, ...
-        'figures_staci_uniform_0p1_64in_staging');
+        'figures_staci_r38_anchor_v1');
 end
 if ~isfolder(output_dir), mkdir(output_dir); end
 inp_file = fullfile(network_dir,'input','network_original.inp');
-csv_file = fullfile(network_dir, ...
-    'results_staci_uniform_0p1_64in_staging', ...
-    'optimal_pipe_diameters_six_in.csv');
+publish = nargin < 2 || isempty(result_dir);
+if publish
+    result_dir = fullfile(network_dir, ...
+        'results_staci_r38_anchor_r44_physical_0p1_64in_v1');
+end
+csv_file = fullfile(result_dir,'optimal_pipe_diameters_six_in.csv');
 [pipe_id,from_id,to_id,node_id,node_x,node_y] = read_inp_map(inp_file);
 T = readtable(csv_file,'TextType','string');
 assert(height(T)==454 && numel(pipe_id)==454, ...
@@ -32,8 +34,14 @@ assert(all(found) && numel(unique(row))==454, ...
 [found_to,to_ix] = ismember(to_id,node_id);
 assert(all(found_from & found_to), ...
     'Some pipe endpoints have no INP coordinates.');
-column_names = {'Cost_in','FlowEntropy_in','BranchHopEntropy_in', ...
-    'ChlorineConcentration_in','ChlorineEntropy_in','Todini_in'};
+if ismember('Cost_in',T.Properties.VariableNames)
+    column_names = {'Cost_in','FlowEntropy_in','BranchHopEntropy_in', ...
+        'ChlorineConcentration_in','ChlorineEntropy_in','Todini_in'};
+else
+    column_names = {'cost','hydraulic_entropy', ...
+        'branch_hop_weighted_entropy','chlorine_concentration', ...
+        'chlorine_entropy','todini'};
+end
 titles = {'(a) Cost','(b) Flow entropy','(c) Branch-hop entropy', ...
     '(d) Chlorine concentration','(e) Chlorine entropy','(f) Todini index'};
 D = table2array(T(row,column_names));
@@ -78,6 +86,9 @@ cb.TickLabels = {'0.1','1','4','16','64'};
 ylabel(cb,'Pipe diameter [in]','FontSize',11);
 
 basename = 'balerma_common_pipe_diameters_only';
+if contains(string(result_dir),'r38_anchor')
+    basename='balerma_r38_anchor_pipe_diameters_only';
+end
 output_files = {fullfile(output_dir,[basename '.png']), ...
     fullfile(output_dir,[basename '.svg'])};
 exportgraphics(fig,output_files{1},'Resolution',350);
@@ -85,10 +96,12 @@ exportgraphics(fig,output_files{2},'ContentType','vector');
 close(fig);
 
 % The versioned manuscript assets are copied from the same rendering.
-generated_dir = fullfile(root,'manuscript','generated','figures');
-if ~isfolder(generated_dir), mkdir(generated_dir); end
-copyfile(output_files{1},fullfile(generated_dir,[basename '.png']),'f');
-copyfile(output_files{2},fullfile(generated_dir,[basename '.svg']),'f');
+if publish
+    generated_dir = fullfile(root,'manuscript','generated','figures');
+    if ~isfolder(generated_dir), mkdir(generated_dir); end
+    copyfile(output_files{1},fullfile(generated_dir,[basename '.png']),'f');
+    copyfile(output_files{2},fullfile(generated_dir,[basename '.svg']),'f');
+end
 end
 
 function [pipe_id,from_id,to_id,node_id,node_x,node_y] = read_inp_map(inp_file)

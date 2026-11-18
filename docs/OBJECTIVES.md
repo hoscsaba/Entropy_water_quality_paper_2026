@@ -1,25 +1,38 @@
 # Objective definitions and sign conventions
 
-The shared functions always return physical, positive quantities. MATLAB `ga`
-minimizes, so `wdn.objective_value` negates only quantities that are maximized.
-Saved result tables never contain this optimizer sign convention.
+MATLAB `ga` minimizes the returned fitness. The code negates maximized
+quantities internally; saved tables report the physical quantities with
+their usual signs. The nominal full-network Anytown and
+Tanyimboh–Templeman searches share the 0.1–64 in diameter bounds, 10–120 m
+assessment-junction pressure bounds, and a stationary 0.2 mg/L chlorine
+floor at material-demand consumers. These constraints also apply to cost
+and Todini searches. Anytown adds 215 ± 0.5 ft zero-flow pressure anchors
+at R65/R165. The final Balerma R38-anchor designs use these same three
+common limits. They additionally constrain the zero-flow R38 junction to
+the head of its original 117 m reservoir; R43, R44 and R88 remain physical
+nominal supplies. Failure replay restores all four physical reservoirs.
 
-- **Cost:** `sum(230 * D.^0.48 .* L)`, with network-specific unit conversion
-  defined in `network_config.m`.
-- **Hydraulic entropy:** natural-log Tanyimboh–Templeman flow entropy evaluated
-  on the physical network graph. Artificial EPANET pressure-anchor adapters are
-  excluded and their flow is collapsed onto the adjacent physical node.
-- **Chlorine concentration:** sum of squared terminal node concentrations,
-  `sum(C.^2)`, over the configured quality nodes after the 48 h EPANET run.
-- **Chlorine entropy:** the same flow-entropy expression with terminal node
-  chlorine concentration as the node multiplier (numerically normalized to the
-  1 mg/L source concentration in the reported calculations). The source-mixing
-  term is weighted likewise. This is not a downstream-concentration
-  renormalization of each outgoing branch probability.
-- **Todini index:** the positive resilience index returned by
-  `wdn.todini_index`.
+- **Cost (minimize):** sum of `230 * D.^0.48 .* L`, with the network-specific
+  unit conversion in `network_config.m`.
+- **Hydraulic entropy (maximize):** Tanyimboh–Templeman flow entropy using
+  natural logarithms and nominal flow-throughput weighting. Artificial
+  anchor connectors are excluded from the physical branching graph.
+- **Branch-hop entropy (maximize):** the same local hydraulic splitting
+  measure, weighted by `1/(1+b)`, where `b` counts undirected branching
+  junctions from the nearest potential supply entry. A demand exit counts
+  as a branch. The weight is frozen before optimization and does not use
+  nominal flow directions.
+- **Chlorine concentration (maximize):** `sum(C_i.^2)` over the configured
+  quality-assessment junctions, computed from STACI's direct stationary
+  chlorine solution. This is separate from the 0.2 mg/L consumer floor.
+- **Chlorine entropy (maximize):** outgoing **chlorine-mass** branch
+  probabilities at physical junctions, including consumer withdrawal as
+  an exit branch. See `+wdn/staci_chlorine_entropy.m` and the paper's
+  equation. This is not the older nodal-concentration multiplier.
+- **Todini index (maximize):** the positive resilience index implemented
+  in `+wdn/staci_todini_index.m`.
 
-Cost is minimized; all other metrics are maximized. Cross-evaluation reports
-cost relative to the smallest saved cost and every maximized metric relative to
-the largest saved value. A valid set therefore has ones on the diagonal (ties
-are allowed).
+The six-design cross-evaluation divides cost by the smallest saved cost
+and every maximized metric by the largest saved value. A diagonal value
+of one means that the saved endpoint attains the best value **among those
+six designs**. A finite GA run does not certify a global optimum.

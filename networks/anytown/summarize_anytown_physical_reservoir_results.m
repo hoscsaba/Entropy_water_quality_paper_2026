@@ -1,5 +1,5 @@
 function [normalized,raw] = summarize_anytown_physical_reservoir_results( ...
-        paper_root,staci_root,mex_dir,nominal_variant)
+        paper_root,staci_root,mex_dir,nominal_variant,result_dir_override)
 %SUMMARIZE_ANYTOWN_PHYSICAL_RESERVOIR_RESULTS Six-design objective audit.
 % Every saved diameter vector is evaluated on the same nominal INP for the
 % selected source variant. The fixed topology branch-hop weights are
@@ -9,12 +9,16 @@ addpath(paper_root,fullfile(staci_root,'matlab'),mex_dir);
 network_dir=fullfile(paper_root,'networks','anytown');
 addpath(network_dir);
 if nargin<4,nominal_variant="physical_reservoirs";end
+if nargin<5,result_dir_override=[];end
 if string(nominal_variant)=="anchor_replay"
     cfg=network_config_anchor_replay(network_dir);
 else
     assert(string(nominal_variant)=="physical_reservoirs", ...
         'Unknown nominal variant');
     cfg=network_config_physical_reservoirs(network_dir);
+end
+if ~isempty(result_dir_override)
+    cfg.results_dir=char(result_dir_override);
 end
 folder=cfg.results_dir;
 names=["cost","hydraulic_entropy", ...
@@ -71,7 +75,7 @@ normalized=movevars(normalized,'OptimizedFor','Before',1);
 ga=table(labels',generations,evaluations,wall,violation, ...
     min_pressure,min_chlorine,'VariableNames', ...
     {'OptimizedFor','Generations','Evaluations','WallSeconds', ...
-    'MaxConstraintViolation','MinimumConsumerPressure_psi', ...
+    'MaxConstraintViolation','MinimumConsumerPressure_m', ...
     'MinimumMaterialConsumerChlorine_mgL'});
 writetable(raw,fullfile(folder,'cross_evaluation_six_raw.csv'));
 writetable(normalized,fullfile(folder,'cross_evaluation_six.csv'));

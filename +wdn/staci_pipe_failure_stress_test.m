@@ -44,9 +44,6 @@ for k = 1:n_fail
             [found, ni] = ismember(node_ids, string(state.id(:)));
             assert(all(found), 'Assessment node missing');
             p = double(state.pressure_head_m(ni));
-            if strcmp(cfg.id, 'anytown')
-                p = p / (0.3048 * cfg.pressure_to_head);
-            end
             quality = st.solveSteadyQuality('chemical');
             [found_quality, qi] = ismember(node_ids, string(quality.node_ids(:)));
             assert(all(found_quality), 'Quality node missing');
@@ -83,13 +80,13 @@ summary.mean_chlorine_mg_L = mean(finite_c);
 summary.std_chlorine_mg_L = std(finite_c, 0);
 summary.chlorine_cv_fraction = summary.std_chlorine_mg_L / summary.mean_chlorine_mg_L;
 summary.nonconvergent_scenario_count = nnz(failed);
-summary.minimum_pressure_psi = min(pressures, [], 'all');
+summary.minimum_pressure_m = min(pressures, [], 'all');
 summary.minimum_chlorine_mg_L = min(chlorine, [], 'all');
 scenarios = table(repmat(string(label),n_fail,1), failed_ids, failed, ...
     sum(pressure_bad,2), sum(chlorine_bad,2), mean(chlorine,2), ...
     min(pressures,[],2), min(chlorine,[],2), messages, ...
     'VariableNames', {'Topology','FailedLinkID','Nonconvergent', ...
     'PressureViolationCount','ChlorineViolationCount','MeanChlorine_mg_L', ...
-    'MinimumPressure_psi','MinimumChlorine_mg_L','ErrorMessage'});
+    'MinimumPressure_m','MinimumChlorine_mg_L','ErrorMessage'});
 clear restore cleanup
 end

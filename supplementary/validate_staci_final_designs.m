@@ -19,7 +19,7 @@ end
 if nargin < 5, objective_filter = []; end
 if nargin < 6, anytown_variant = "anchor_replay"; end
 if nargin < 7, result_dir_override = []; end
-rows = cell(0, 18);
+rows = cell(0, 19);
 row = 0;
 for network = networks
     network_dir = char(fullfile(root, 'networks', network));
@@ -31,11 +31,14 @@ for network = networks
     elseif network == "anytown" && string(anytown_variant) == "physical_reservoirs"
         cfg = network_config_physical_reservoirs(network_dir);
         input_file = cfg.inp_file;
+    elseif network == "balerma" && string(anytown_variant) == "r38_anchor"
+        cfg = network_config_r38_anchor(network_dir);
+        input_file = cfg.inp_file;
     else
         cfg = network_config(network_dir);
         input_file = fullfile(network_dir, 'input', 'network_staci_fixed_load.inp');
     end
-    if network == "balerma" && ~isempty(result_dir_override)
+    if ~isempty(result_dir_override)
         cfg.results_dir=char(result_dir_override);
     end
     wdn.setup_toolkit(cfg);
@@ -56,6 +59,18 @@ for network = networks
         result = saved.result;
         assert(strcmp(result.model, 'staci_steady_first_order'), ...
             'Result is not a STACI design');
+        if ~isempty(result_dir_override)
+            expected_constraint_set='pressure_10_120m_chlorine_mass_split_v2';
+            if isfield(cfg,'constraint_set_id')
+                expected_constraint_set=cfg.constraint_set_id;
+            end
+            assert(isfield(result,'constraint_set_id') && ...
+                strcmp(result.constraint_set_id,expected_constraint_set), ...
+                'Staged design uses another constraint set');
+            assert(abs(result.minimum_diameter-cfg.minimum_diameter)<1e-8 && ...
+                abs(result.maximum_diameter-cfg.maximum_diameter)<1e-8, ...
+                'Staged design uses another diameter range');
+        end
         case_dir = fullfile(output_dir, 'cases', char(network), char(objective));
         if ~isfolder(case_dir), mkdir(case_dir); end
         copyfile(input_file, fullfile(case_dir, 'fixed_load.inp'), 'f');
@@ -85,6 +100,9 @@ for network = networks
         ep.solveCompleteHydraulics;
         ep_head = double(ep.getNodeHydraulicHead); ep_head = ep_head(:);
         ep_pressure = double(ep.getNodePressure); ep_pressure = ep_pressure(:);
+        if network == "anytown"
+            ep_pressure = ep_pressure * 0.3048 * cfg.pressure_to_head;
+        end
         ep_flow = double(ep.getLinkFlows); ep_flow = ep_flow(:);
         ep.solveCompleteQuality;
         ep_chlorine = double(ep.getNodeActualQuality); ep_chlorine = ep_chlorine(:);
@@ -116,6 +134,13 @@ for network = networks
         dq = abs(ep_flow * flow_scale - double(sl.flow_rate_m3s(li))) * 1000;
         dc = abs(ep_chlorine - 1000 * double(sq.node_concentration_kgm3(qi)));
         assert(all(isfinite([dh; dq; dc])), 'Non-finite engine difference');
+        node_detail=table(ep_nodes,ep_head*head_scale, ...
+            double(sn.total_head_m(ni)),dh,ep_chlorine, ...
+            1000*double(sq.node_concentration_kgm3(qi)),dc, ...
+            'VariableNames',{'NodeID','EPANETHead_m','STACIHead_m', ...
+            'AbsoluteHeadDifference_m','EPANETChlorine_mgL', ...
+            'STACIChlorine_mgL','AbsoluteChlorineDifference_mgL'});
+        writetable(node_detail,fullfile(case_dir,'node_differences.csv'));
         anchor_head_error_ft = NaN;
         anchor_flow_gpm = NaN;
         if network == "anytown" && ~isempty(cfg.pressure_anchor_node_ids)
@@ -124,16 +149,27 @@ for network = networks
             anchor_head_error_ft = max(abs(ep_head(ai) - ...
                 double(cfg.pressure_anchor_target_heads(:))));
             anchor_flow_gpm = max(abs(ep_flow(fi)));
+        elseif network == "balerma" && ...
+                string(anytown_variant) == "r38_anchor"
+            [found_anchor, ai] = ismember("38",ep_nodes);
+            assert(found_anchor,'R38 anchor missing from EPANET validation');
+            anchor_head_error_ft = abs(ep_head(ai)/0.3048 - ...
+                cfg.pressure_anchor_target_heads);
+            % R38 has two connector pipes, which can carry opposite flows.
+            % Their individual magnitudes are not the anchor's net supply.
+            anchor_flow_gpm = NaN;
         end
         demand_threshold = pi/4 * 0.010^2 * 0.01;
         material = double(sn.demand_m3s(ni)) > demand_threshold;
         min_consumer_chlorine = min(ep_chlorine(material));
+        ep_chlorine_violation = max(0,0.2-min_consumer_chlorine);
         row = row + 1;
         rows(row,:) = {network, objective, result.ga_last_generation, ...
             result.exitflag, result.elapsed_time_seconds, numel(dh), numel(dq), ...
             max(dh), mean(dh), max(dq), mean(dq), max(dc), mean(dc), ...
             anchor_head_error_ft, anchor_flow_gpm, min_consumer_chlorine, ...
-            result.max_constraint_violation, ep_pressure_violation};
+            result.max_constraint_violation, ep_pressure_violation, ...
+            ep_chlorine_violation};
         fprintf('%s/%s: max |dH| %.6g m, |dQ| %.6g L/s, |dCl| %.6g mg/L\n', ...
             network, objective, max(dh), max(dq), max(dc));
         clear st_cleanup ep_cleanup cd_cleanup st ep;
@@ -146,8 +182,11 @@ comparison = cell2table(rows, 'VariableNames', ...
      'max_abs_flow_Lps','mean_abs_flow_Lps','max_abs_chlorine_mgL', ...
      'mean_abs_chlorine_mgL','max_anchor_head_deviation_ft', ...
      'max_anchor_connector_flow_GPM','minimum_epanet_consumer_chlorine_mgL', ...
-     'staci_max_constraint_violation','epanet_max_pressure_violation'});
-if network == "balerma" && ~isempty(result_dir_override)
+     'staci_max_constraint_violation','epanet_max_pressure_violation', ...
+     'epanet_max_chlorine_violation_mgL'});
+if network == "balerma" && string(anytown_variant)=="r38_anchor"
+    filename='staci_epanet_balerma_r38_anchor_six.csv';
+elseif network == "balerma" && ~isempty(result_dir_override)
     filename='staci_epanet_balerma_connected_six.csv';
 elseif network == "anytown" && string(anytown_variant)=="anchor_replay"
     filename = 'staci_epanet_anytown_anchor_replay_six.csv';

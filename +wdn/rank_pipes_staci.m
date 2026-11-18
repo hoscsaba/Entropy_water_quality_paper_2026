@@ -11,8 +11,16 @@ else
     length_scale = 1;
 end
 x_original = double(st.getLinkProperty(design_ids, 'diameter_m')) / scale;
-if isfield(cfg, 'pressure_anchor_node_ids') && ...
-        ~isempty(cfg.pressure_anchor_node_ids)
+if isfield(cfg,'ranking') && ...
+        isfield(cfg.ranking,'reference_design') && ...
+        ~isempty(cfg.ranking.reference_design)
+    x_ref=double(cfg.ranking.reference_design(:));
+    assert(numel(x_ref)==numel(x_original), ...
+        'Ranking reference design has wrong pipe count');
+    reference_method='staci_anchor_feasible_reference_design';
+elseif isfield(cfg, 'pressure_anchor_node_ids') && ...
+        ~isempty(cfg.pressure_anchor_node_ids) && ...
+        isfield(cfg.ga,'feasible_interpolation_to_upper')
     x_ref = x_original + cfg.ga.feasible_interpolation_to_upper * ...
         (cfg.maximum_diameter - x_original);
     reference_method = 'staci_pressure_anchor_interpolation';
@@ -32,11 +40,7 @@ assert(all(found_design) && all(found_pressure), 'Ranking IDs missing');
 flow_score = abs(double(links.flow_rate_m3s(li)));
 [entropy_ref, details] = wdn.staci_flow_entropy(st, cfg, []);
 pressure_ref = double(nodes.pressure_head_m(pidx));
-if strcmp(cfg.id, 'anytown')
-    pressure_checked = pressure_ref / (0.3048 * cfg.pressure_to_head);
-else
-    pressure_checked = pressure_ref;
-end
+pressure_checked = pressure_ref;
 reference_constraints = cfg.minimum_pressure - pressure_checked;
 if isfinite(cfg.maximum_pressure)
     reference_constraints = [reference_constraints; ...

@@ -41,7 +41,7 @@ one_node_boundary = ~found_to & physical_mask(from_index);
 for k = find(one_node_boundary(:))'
     supply(from_index(k)) = supply(from_index(k)) + max(-flow(k), 0);
 end
-% For adapters such as Anytown pump 82 and Tanyimboh P_input_2, move only
+% For adapters such as Anytown pump 82, move only
 % entering flow into the physical graph. Zero-flow pressure stubs add zero.
 destination_physical = false(size(found_to));
 destination_physical(found_to) = physical_mask(oriented_to(found_to));

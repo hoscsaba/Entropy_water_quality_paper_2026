@@ -4,7 +4,7 @@ function plot_cost_entropy_front(result, cfg, output_file)
 if ~strcmp(result.network_id, cfg.id) || ...
         ~isequal(string(result.objectives), ["cost", "branch_hop_weighted_entropy"])
     error('wdn:ResultObjectiveMismatch', ...
-        'Expected an Anytown cost--branching-hop-entropy Pareto result.');
+        'Expected a cost--branching-hop-entropy Pareto result.');
 end
 if any(result.max_constraint_violation > cfg.ga.constraint_tolerance)
     error('wdn:InvalidMultiobjectiveResult', ...
@@ -15,6 +15,11 @@ cost_million = result.cost(:) / 1e6;
 branch_hop_entropy = result.branch_hop_entropy(:);
 chlorine_objective = result.chlorine_concentration(:);
 chlorine_entropy = result.chlorine_entropy(:);
+[~,order]=sort(cost_million);
+cost_million=cost_million(order);
+branch_hop_entropy=branch_hop_entropy(order);
+chlorine_objective=chlorine_objective(order);
+chlorine_entropy=chlorine_entropy(order);
 
 entropy_min = min(chlorine_entropy);
 entropy_max = max(chlorine_entropy);
@@ -24,14 +29,20 @@ entropy_fraction = (chlorine_entropy - entropy_min) ./ ...
 % more clearly while retaining a visible minimum marker area.
 marker_area_min = 20;
 marker_area_max = 240;
+if strcmp(cfg.id,'tanyimboh_templeman')
+    marker_area_min=9;
+    marker_area_max=95;
+end
 marker_area = marker_area_min + (marker_area_max - marker_area_min) * ...
     entropy_fraction.^1.45;
 
 fig = figure('Color', 'w', 'Position', [100 100 1040 700]);
 ax = axes(fig); hold(ax, 'on');
-plot(ax, cost_million, branch_hop_entropy, '-', ...
-    'Color', [0.32 0.32 0.32], 'LineWidth', 1.25, ...
-    'HandleVisibility', 'off');
+if ~strcmp(cfg.id,'tanyimboh_templeman')
+    plot(ax, cost_million, branch_hop_entropy, '-', ...
+        'Color', [0.32 0.32 0.32], 'LineWidth', 1.25, ...
+        'HandleVisibility', 'off');
+end
 scatter(ax, cost_million, branch_hop_entropy, marker_area, ...
     chlorine_objective, 'filled', 'MarkerEdgeColor', 'k', ...
     'LineWidth', 0.75, 'HandleVisibility', 'off');
@@ -52,7 +63,13 @@ legend(ax, legend_handles, legend_labels, 'Location', 'southeast', ...
 
 xlabel(ax, 'Cost [10^6 relative cost units]');
 ylabel(ax, 'Branching-hop entropy [-]');
-title(ax, 'Anytown cost versus branching-hop entropy', 'FontSize', 17);
+if strcmp(cfg.id,'tanyimboh_templeman')
+    title(ax,'Tanyimboh--Templeman: cost versus branch-hop entropy', ...
+        'FontSize',14);
+else
+    title(ax, sprintf('%s: cost versus branch-hop entropy', ...
+        strrep(cfg.id,'_',' ')), 'FontSize', 17);
+end
 grid(ax, 'on'); box(ax, 'on');
 ax.FontSize = 15;
 cb.FontSize = 14;

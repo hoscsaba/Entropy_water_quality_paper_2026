@@ -1,0 +1,7 @@
+Objective,FeasibleDesignsChecked,MissingK1Criteria,MaxRelativeMetricError,MaxConstraintViolation
+cost,76,4,0.000324694389017762,3.61865595448485e-05
+hydraulic_entropy,76,4,9.44582135688004e-05,5.24143620284079e-06
+branch_hop_weighted_entropy,76,4,0.000136327631210753,0
+chlorine_concentration,76,4,0.000713610634398724,0
+chlorine_entropy,76,4,0.000158893106185258,4.92622904926243e-05
+todini,76,4,0.000267408392047552,1.0806942033259e-05

@@ -231,11 +231,14 @@ for n = 1:numel(network_ids)
         end
         result_dir=fullfile(project_root,'networks','anytown',folder);
         files_now={'ranking_cost_study.mat', ...
+            'ranking_hydraulic_entropy_study.mat', ...
             'ranking_branch_hop_weighted_entropy_study.mat', ...
             'ranking_chlorine_concentration_study.mat', ...
-            'ranking_chlorine_entropy_study.mat'};
-        objectives_now={'cost','branch_hop_weighted_entropy', ...
-            'chlorine_concentration','chlorine_entropy'};
+            'ranking_chlorine_entropy_study.mat', ...
+            'ranking_todini_study.mat'};
+        objectives_now={'cost','hydraulic_entropy', ...
+            'branch_hop_weighted_entropy', ...
+            'chlorine_concentration','chlorine_entropy','todini'};
     end
     if n==2
         % The reported Balerma ranking panel optimizes branch-hop entropy.
@@ -247,11 +250,16 @@ for n = 1:numel(network_ids)
     for s = 1:numel(files_now)
         loaded = load(fullfile(result_dir, files_now{s}));
         study = local_find_study(loaded, objectives_now{s});
+        [present,metric_index]=ismember(string(metric_names), ...
+            string(study.metric_names));
+        assert(all(present),'Ranking study misses a correlation metric');
         for criterion = 1:size(study.metrics, 1)
             feasible = reshape(logical(study.is_feasible(criterion, :)), 1, []);
             for p = 1:size(pairs, 1)
-                x = reshape(study.metrics(criterion, :, pairs(p, 1)), 1, []);
-                y = reshape(study.metrics(criterion, :, pairs(p, 2)), 1, []);
+                x = reshape(study.metrics(criterion, :, ...
+                    metric_index(pairs(p, 1))), 1, []);
+                y = reshape(study.metrics(criterion, :, ...
+                    metric_index(pairs(p, 2))), 1, []);
                 valid = feasible & isfinite(x) & isfinite(y);
                 if nnz(valid) < 3, continue; end
                 if pairs(p, 1) == 1, x = -x; end

@@ -1,7 +1,6 @@
 function report = validate_environment(staci_root, mex_dir)
-%VALIDATE_ENVIRONMENT Check tools, inputs, and the 17 archived full-network designs.
-% Read-only preflight: no optimizer or EPANET run is performed. The restricted
-% 45-pipe Balerma design is a separate ranked-subset result.
+%VALIDATE_ENVIRONMENT Check software, fixed-load inputs and 18 final designs.
+% Read-only preflight: no optimization, hydraulic solve or EPANET run.
 root = fileparts(mfilename('fullpath'));
 addpath(root);
 if nargin >= 1 && ~isempty(staci_root)
@@ -30,19 +29,27 @@ for k = 1:numel(ids)
     network_dir = fullfile(root,'networks',char(ids(k)));
     addpath(network_dir,'-begin');
     clear network_config
-    cfg = network_config(network_dir);
-    names = string(cfg.objectives);
-    if ids(k) == "tanyimboh_templeman"
-        names(end+1) = "branch_hop_weighted_entropy";
+    switch ids(k)
+        case "tanyimboh_templeman"
+            cfg=network_config(network_dir);
+            results_dir=fullfile(network_dir, ...
+                'results_staci_10_120_clsplit_v2');
+            input_file=fullfile(network_dir,'input', ...
+                'network_staci_fixed_load.inp');
+        case "anytown"
+            cfg=network_config_anchor_replay(network_dir);
+            results_dir=fullfile(network_dir,'results_staci_anchor_replay');
+            input_file=fullfile(network_dir,'input', ...
+                'network_anchor_replay.inp');
+        case "balerma"
+            cfg=network_config_r38_anchor(network_dir);
+            results_dir=fullfile(network_dir, ...
+                'results_staci_r38_anchor_r44_physical_0p1_64in_v1');
+            input_file=fullfile(network_dir,'input', ...
+                'network_r38_anchor_fixed_load.inp');
     end
-    if ids(k) == "anytown"
-        names(end+1) = "branch_hop_weighted_entropy";
-        results_dir = fullfile(network_dir,'results_staci_anchor_replay');
-        input_file = fullfile(network_dir,'input','network_anchor_replay.inp');
-    else
-        results_dir = fullfile(network_dir,'results_staci');
-        input_file = fullfile(network_dir,'input','network_staci_fixed_load.inp');
-    end
+    names=["cost","hydraulic_entropy","branch_hop_weighted_entropy", ...
+        "chlorine_concentration","chlorine_entropy","todini"];
     complete = true;
     for name = names
         result_file = fullfile(results_dir,char(name)+".mat");
@@ -60,11 +67,11 @@ for k = 1:numel(ids)
 end
 assert(all(report.networks.InputFound) && all(report.networks.ResultsComplete), ...
     'A fixed-load input or full-precision final design is missing or invalid.');
-report.has_balerma_rank45_design = isfile(fullfile(root, ...
-    'networks','balerma','results_staci', ...
-    'branch_hop_weighted_entropy_rank45.mat'));
-assert(report.has_balerma_rank45_design, ...
-    'The released Balerma 45-pipe branch-hop design is missing.');
+report.has_balerma_rankings = isfile(fullfile(root,'networks','balerma', ...
+    'results_staci_r38_anchor_r44_physical_0p1_64in_v1', ...
+    'ranking_branch_hop_study.mat'));
+assert(report.has_balerma_rankings, ...
+    'The released Balerma R38-anchor ranking archive is missing.');
 fprintf('MATLAB %s (%s); STACI MEX ready.\n', ...
     report.matlab_version,report.matlab_release);
 disp(report.networks);

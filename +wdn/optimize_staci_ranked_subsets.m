@@ -9,8 +9,6 @@ if isfield(cfg,'branch_hop_weighting')
     names{end+1}='branch_hop_weighted_entropy';
 end
 assert(ismember(objective, string(names)), 'Unknown objective');
-chlorine_objective = ismember(objective, ...
-    ["chlorine_concentration","chlorine_entropy"]);
 st = StaciModel(input_file);
 cleanup = onCleanup(@() st.release());
 design_ids = string(cfg.design_link_ids(:));
@@ -18,6 +16,12 @@ if strcmp(cfg.id, 'anytown'), scale = 0.0254;
 else, scale = 0.001;
 end
 x_original = double(st.getLinkProperty(design_ids, 'diameter_m'))' / scale;
+if isfield(cfg.ranking,'reference_design') && ...
+        ~isempty(cfg.ranking.reference_design)
+    x_original=double(cfg.ranking.reference_design(:)');
+    assert(numel(x_original)==numel(design_ids), ...
+        'Ranked-subset reference design has wrong pipe count');
+end
 [~,pressure_index] = ismember(string(cfg.pressure_node_ids(:)),st.nodeIds());
 assert(all(pressure_index>0),'Configured pressure node missing');
 lengths = double(st.getLinkProperty(design_ids,'length_m'))';
@@ -36,12 +40,12 @@ is_feasible = false(n_criteria,numel(k_values));
 elapsed_seconds = zeros(n_criteria,numel(k_values));
 [original_metrics, original_violation] = wdn.evaluate_staci_design( ...
     st,cfg,x_original,link_order,full_original);
-if chlorine_objective
-    original_violation = max(original_violation, ...
-        0.2 - original_metrics.minimum_consumer_chlorine_mgL);
-end
 study_started = tic;
 first_candidate_error_reported=false;
+ranking_wall_budget=7200;
+if isfield(cfg.ranking,'maximum_wall_seconds')
+    ranking_wall_budget=cfg.ranking.maximum_wall_seconds;
+end
 if isfield(cfg.ranking,'max_generations')
     ranking_maxgen = cfg.ranking.max_generations;
 else
@@ -57,23 +61,50 @@ for q = 1:n_criteria
     previous_feasible_entry = [];
     previous_feasible_k = NaN;
     for j = 1:numel(k_values)
-        if toc(study_started) > 7200
+        if toc(study_started) > ranking_wall_budget
             error('wdn:RankingWallBudget', ...
-                'STACI ranking objective exceeded two hours; completed cache entries are reusable.');
+                'STACI ranking objective exceeded its wall budget; completed cache entries are reusable.');
         end
         k = k_values(j);
         cache_dir = fullfile(cfg.results_dir,'ranking_cache',char(objective), ...
             ranking.criterion_keys{q});
         if ~isfolder(cache_dir), mkdir(cache_dir); end
         cache_file = fullfile(cache_dir,sprintf('k_%03d.mat',k));
-        signature_base = sprintf('staci-v1|%s|%s|%s|%d|%d|%d|%d|%d|%.9g', ...
+        cache_tag='staci-v3-bounded';
+        if objective=="branch_hop_weighted_entropy" && ...
+                isfield(cfg.branch_hop_weighting,'version')
+            cache_tag=[cache_tag '-' char(cfg.branch_hop_weighting.version)];
+        end
+        if objective=="todini"
+            % Earlier ranked-subset caches used a constant fallback fitness
+            % because fast_measure omitted Todini. Recompute only this objective.
+            cache_tag='staci-v4-todini-scored';
+        end
+        signature_base = sprintf('%s|%s|%s|%s|%d|%d|%d|%d|%d|%.9g|%.9g|%.9g', ...
+            cache_tag, ...
             cfg.id,objective,ranking.criterion_keys{q},k, ...
             cfg.ga.random_seed,cfg.ga.population_size, ...
             ranking_maxgen,ranking_stall, ...
-            sum(ranking.orders(:,q).*(1:numel(design_ids))'));
+            sum(ranking.orders(:,q).*(1:numel(design_ids))'), ...
+            cfg.minimum_diameter,cfg.maximum_diameter);
+        if isfield(cfg.ranking,'reference_design') && ...
+                ~isempty(cfg.ranking.reference_design)
+            signature_base=sprintf('%s|%.9g',signature_base, ...
+                sum(x_original.^2));
+        end
         signature = sprintf('%s|%.9g',signature_base, ...
             sum(full_result.design_diameters.^2));
         reuse_cache=isfile(cache_file) && k < numel(x_original);
+        if reuse_cache
+            checked=load(cache_file,'entry');
+            reuse_cache=startsWith(checked.entry.cache_signature, ...
+                [signature_base '|']);
+            if reuse_cache && objective=="todini"
+                % Re-evaluate corrected Todini subsets when their full-GA
+                % warm start changes; the previous cache used that seed.
+                reuse_cache=strcmp(checked.entry.cache_signature,signature);
+            end
+        end
         small_seed_file=fullfile(cfg.results_dir,'k2_feasibility_seed.mat');
         if reuse_cache && k==2 && isfile(small_seed_file)
             checked=load(cache_file,'entry');
@@ -105,11 +136,6 @@ for q = 1:n_criteria
                 [entry.metrics,entry.max_constraint_violation] = ...
                     wdn.evaluate_staci_design(st,cfg,entry.design_diameters, ...
                     link_order,full_original);
-                if chlorine_objective
-                    entry.max_constraint_violation=max( ...
-                        entry.max_constraint_violation, ...
-                        0.2-entry.metrics.minimum_consumer_chlorine_mgL);
-                end
                 entry.is_feasible = entry.max_constraint_violation <= ...
                     cfg.ga.constraint_tolerance;
                 entry.exitflag = full_result.exitflag;
@@ -175,13 +201,36 @@ for q = 1:n_criteria
                 if ~isempty(best_y), candidates(end+1,:) = best_y; end
                 best_candidate = [];
                 best_value = inf;
+                best_metrics = struct();
+                best_violation = inf;
                 for candidate_index = 1:size(candidates,1)
                     [value, violation_now] = ...
                         evaluate_y(candidates(candidate_index,:));
                     if violation_now <= cfg.ga.constraint_tolerance && ...
                             value < best_value
-                        best_value = value;
-                        best_candidate = candidates(candidate_index,:);
+                        % The GA may leave the resident Newton solver at a
+                        % nonconvergent trial point. Confirm an accepted
+                        % incumbent on a clean model before checkpointing.
+                        candidate_design=map_design(candidates(candidate_index,:));
+                        fresh=StaciModel(input_file);
+                        try
+                            [confirmed,confirmed_violation]= ...
+                                wdn.evaluate_staci_design(fresh,cfg, ...
+                                candidate_design,link_order,full_original);
+                        catch confirmation_error
+                            fprintf(2,'Skip unconfirmed ranking incumbent %s/%s k=%d: %s\n', ...
+                                objective,ranking.criterion_keys{q},k, ...
+                                confirmation_error.message);
+                            confirmed_violation=inf;
+                            confirmed=struct();
+                        end
+                        fresh.release();
+                        if confirmed_violation<=cfg.ga.constraint_tolerance
+                            best_value=value;
+                            best_candidate=candidates(candidate_index,:);
+                            best_metrics=confirmed;
+                            best_violation=confirmed_violation;
+                        end
                     end
                 end
                 if isempty(best_candidate)
@@ -191,15 +240,8 @@ for q = 1:n_criteria
                     entry.is_feasible = false;
                 else
                     entry.design_diameters = map_design(best_candidate);
-                    x_best = map_design(best_candidate);
-                    [entry.metrics,entry.max_constraint_violation] = ...
-                        wdn.evaluate_staci_design(st,cfg,x_best, ...
-                        link_order,full_original);
-                    if chlorine_objective
-                        entry.max_constraint_violation = max( ...
-                            entry.max_constraint_violation, ...
-                            0.2-entry.metrics.minimum_consumer_chlorine_mgL);
-                    end
+                    entry.metrics=best_metrics;
+                    entry.max_constraint_violation=best_violation;
                     entry.is_feasible = true;
                 end
                 entry.exitflag = exitflag;
@@ -227,6 +269,13 @@ for q = 1:n_criteria
                     worse = current_value > previous_value;
                 else
                     worse = current_value < previous_value;
+                end
+                if worse && objective=="todini" && k==numel(x_original)
+                    % Differences below the GA objective tolerance are
+                    % numerically tied; keep the independently saved full
+                    % endpoint instead of treating this as a failed search.
+                    worse=(previous_value-current_value) > ...
+                        cfg.ga.function_tolerance;
                 end
             else
                 worse = true;
@@ -268,6 +317,13 @@ end
 study.network_id = cfg.id;
 study.objective = char(objective);
 study.model = 'staci_fixed_load';
+if isfield(cfg,'constraint_set_id')
+    study.constraint_set_id = cfg.constraint_set_id;
+else
+    study.constraint_set_id = 'pressure_10_120m_chlorine_mass_split_v2';
+end
+study.minimum_diameter = cfg.minimum_diameter;
+study.maximum_diameter = cfg.maximum_diameter;
 study.pressure_anchor_method = isfield(cfg,'pressure_anchor_node_ids') && ...
     ~isempty(cfg.pressure_anchor_node_ids);
 study.k = k_values;
@@ -317,22 +373,18 @@ study.created_at = datetime('now','TimeZone','local');
     end
 
     function [m,v] = fast_measure(x)
-        % Candidate solves only the optimized objective and its constraints.
-        % The other four metrics, including chlorine when not optimized,
-        % are computed once for each selected feasible cache entry.
+        % Every candidate solves chlorine for the common residual constraint.
+        % Full cross-objective metrics are computed for accepted cache entries.
         st.setLinkProperty(design_ids,'diameter_m',x(:)*scale);
         status=st.solveHydraulics();
         assert(status.converged,'STACI candidate hydraulics failed');
         nodes=st.nodeResults();
         pressure=double(nodes.pressure_head_m(:));
-        if strcmp(cfg.id,'anytown')
-            pressure=pressure/(0.3048*cfg.pressure_to_head);
-        end
         lower_pressure=cfg.minimum_pressure;
         upper_pressure=cfg.maximum_pressure;
-        if isfield(cfg.ga,'pressure_numerical_guard_psi')
-            lower_pressure=lower_pressure+cfg.ga.pressure_numerical_guard_psi;
-            upper_pressure=upper_pressure-cfg.ga.pressure_numerical_guard_psi;
+        if isfield(cfg.ga,'pressure_numerical_guard_m')
+            lower_pressure=lower_pressure+cfg.ga.pressure_numerical_guard_m;
+            upper_pressure=upper_pressure-cfg.ga.pressure_numerical_guard_m;
         end
         c=lower_pressure-pressure(pressure_index);
         if isfinite(cfg.maximum_pressure)
@@ -352,6 +404,14 @@ study.created_at = datetime('now','TimeZone','local');
                 cfg.pressure_anchor_target_heads(:)) - anchor_limit;
             c=[c;anchor_violation(:)];
         end
+        quality=st.solveSteadyQuality('chemical');
+        chlorine_guard=0;
+        if isfield(cfg.ga,'chlorine_numerical_guard_mgL')
+            chlorine_guard=cfg.ga.chlorine_numerical_guard_mgL;
+        end
+        [chlorine_constraints,~,~]= ...
+            wdn.consumer_chlorine_constraint(nodes,quality,chlorine_guard);
+        c=[c;chlorine_constraints];
         m=struct();
         switch objective
             case "cost"
@@ -366,18 +426,13 @@ study.created_at = datetime('now','TimeZone','local');
                 m.branch_hop_weighted_entropy= ...
                     wdn.source_distance_weighted_entropy(st,cfg, ...
                     cfg.branch_hop_weighting.weights(wi));
+            case "todini"
+                m.todini=wdn.staci_todini_index(st,cfg);
             otherwise
-                quality=st.solveSteadyQuality('chemical');
                 chlorine=1000*double(quality.node_concentration_kgm3(:));
                 [found,qi]=ismember(string(cfg.quality_node_ids(:)), ...
                     string(quality.node_ids(:)));
                 assert(all(found),'STACI quality assessment node missing');
-                consumer=double(nodes.demand_m3s(:)) > ...
-                    pi/4*0.010^2*0.01;
-                [found,ci]=ismember(string(nodes.id(consumer)), ...
-                    string(quality.node_ids(:)));
-                assert(all(found),'STACI material-demand node missing');
-                c=[c;0.2-chlorine(ci)];
                 if objective=="chlorine_concentration"
                     m.chlorine_concentration=sum(chlorine(qi).^2);
                 else
@@ -414,7 +469,7 @@ study.created_at = datetime('now','TimeZone','local');
     function [ga_state,opts,changed] = budget_callback(opts,ga_state,flag)
         changed = false;
         if strcmp(flag,'iter'), generations = ga_state.Generation; end
-        if toc(study_started) > 7200
+        if toc(study_started) > ranking_wall_budget
             ga_state.StopFlag = 'ranking study wall-clock budget reached';
         end
     end

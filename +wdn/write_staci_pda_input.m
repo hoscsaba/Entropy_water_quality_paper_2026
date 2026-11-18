@@ -15,10 +15,18 @@ end
 header = sprintf('[OPTIONS]\n');
 assert(count(string(content), "[OPTIONS]") == 1, ...
     'Expected one [OPTIONS] section');
+required_pressure = cfg.minimum_pressure;
+if strcmp(cfg.id,'anytown')
+    required_pressure = required_pressure/(0.3048*cfg.pressure_to_head);
+end
 options = sprintf(['[OPTIONS]\n DEMAND MODEL PDA\n' ...
     ' MINIMUM PRESSURE 0\n REQUIRED PRESSURE %.12g\n' ...
-    ' PRESSURE EXPONENT 0.5\n'], cfg.minimum_pressure);
+    ' PRESSURE EXPONENT 0.5\n'], required_pressure);
 content = strrep(content, header, options);
+% Failure states with nearly isolated branches need more Newton steps than
+% the intact benchmark's 40-trial default. This changes only the solver
+% iteration ceiling, never the model boundary or accepted tolerance.
+content = regexprep(content, '(?m)^(\s*TRIALS\s+)\d+(\s*)$', '$1 200$2');
 assert(contains(string(content), ' DEMAND MODEL PDA'), ...
     'Failed to insert PDA options');
 if ~isfolder(fileparts(output_file)), mkdir(fileparts(output_file)); end
