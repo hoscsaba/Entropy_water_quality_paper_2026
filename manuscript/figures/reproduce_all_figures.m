@@ -1,8 +1,8 @@
 function reproduce_all_figures(staci_root,mex_dir)
-%REPRODUCE_ALL_FIGURES Redraw figures used by the current article and SM.
-%   Reuses the released design vectors, rankings and pipe-failure replay.
-%   It does not run a network GA or new failure scenarios. The small
-%   four-pipe examples solve their nominal hydraulics from the released INP.
+%REPRODUCE_ALL_FIGURES Regenerate article and supplementary figures.
+%   Uses saved design vectors, rankings, and pipe-failure results. It does
+%   not rerun the network searches or failure cases. The four-pipe examples
+%   solve their nominal hydraulics from the network input.
 %
 %   See manuscript/MANIFEST.md for each figure's numerical source. Build
 %   STACI's MATLAB MEX interface before calling this function.
@@ -19,8 +19,8 @@ addpath(root,fullfile(root,'manuscript','figures'), ...
 generated=fullfile(root,'manuscript','generated','figures');
 if ~isfolder(generated),mkdir(generated);end
 
-% Analytical and small-network illustrations. The chlorine pair is read
-% from its saved CSV: false explicitly disables its exploratory GA.
+% Analytical and small-network illustrations. The false argument loads the
+% saved chlorine example instead of starting its optional search.
 make_pressure_anchor_mwe_figure;
 make_two_consumer_entropy_example;
 make_two_consumer_chlorine_entropy_example(false);
@@ -66,7 +66,7 @@ copy_art(fullfile(root,'supplementary','results', ...
     'steady_chlorine_trajectories.png'),generated);
 plot_cross_effects_three_networks(generated);
 make_portrait_submission_figures;
-fprintf('Current publication figures written to %s\n',generated);
+fprintf('Figures written to %s\n',generated);
 end
 
 function replot_anytown_rankings(root,generated)
