@@ -3,7 +3,9 @@ function output_files = make_balerma_pipe_only_figures(output_dir,result_dir)
 %   Pipe diameter controls both color and line width. Nodes and reservoir
 %   markers are omitted. The six panels follow the pressure/chlorine map
 %   order in the Supplementary Material and share one logarithmic color
-%   scale. This function reads the original INP and the full-precision
+%   scale from 8 to 64 in. Pipes at or below 8 in use the same blue; their
+%   actual diameters still determine width and the <=1-in dashed style. This
+%   function reads the original INP and the full-precision
 %   diameter CSV; it does not run hydraulics, quality, or optimization.
 %
 %   The optional result_dir selects a versioned six-design diameter CSV.
@@ -51,8 +53,10 @@ span_x = max(node_x)-min(node_x);
 span_y = max(node_y)-min(node_y);
 x_limits = [min(node_x)-0.025*span_x,max(node_x)+0.025*span_x];
 y_limits = [min(node_y)-0.025*span_y,max(node_y)+0.025*span_y];
-color_limits = log10([0.1 64]);
-cmap = turbo(256);
+color_limits = log10([8 64]);
+% Start the continuous Turbo scale in its blue range rather than purple.
+full_cmap = turbo(320);
+cmap = full_cmap(52:307,:);
 
 fig = figure('Color','w','Units','centimeters','Position',[2 2 18 22]);
 layout = tiledlayout(fig,3,2,'TileSpacing','compact','Padding','compact');
@@ -65,7 +69,7 @@ for panel = 1:6
         % Sqrt scaling keeps small pipes visible while distinguishing
         % large pipes without obscuring neighboring links.
         line_width = 0.35 + 2.8*sqrt(diameter/64);
-        u = (log10(diameter)-color_limits(1))/diff(color_limits);
+        u = (log10(max(diameter,8))-color_limits(1))/diff(color_limits);
         ci = max(1,min(256,1+round(255*u)));
         line_style = '-';
         if diameter<=1, line_style='--'; end
@@ -76,13 +80,13 @@ for panel = 1:6
     end
     axis(ax,'equal'); axis(ax,'off');
     xlim(ax,x_limits); ylim(ax,y_limits); clim(ax,color_limits);
-    title(ax,titles{panel},'FontSize',12.5,'FontWeight','normal');
+    title(ax,titles{panel},'FontSize',11,'FontWeight','normal');
 end
 cb = colorbar(ax);
 cb.Layout.Tile = 'east';
 cb.FontSize = 11;
-cb.Ticks = log10([0.1 1 4 16 64]);
-cb.TickLabels = {'0.1','1','4','16','64'};
+cb.Ticks = log10([8 16 32 64]);
+cb.TickLabels = {'8','16','32','64'};
 ylabel(cb,'Pipe diameter [in]','FontSize',11);
 
 basename = 'balerma_common_pipe_diameters_only';

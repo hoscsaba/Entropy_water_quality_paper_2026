@@ -4,9 +4,11 @@ This repository contains the MATLAB calculations, EPANET-compatible inputs,
 saved full-precision designs, failure replays, tables, and editable figure
 sources for the accompanying article and Supplementary Material. The
 hydraulic and stationary chlorine evaluator is
-[STACI](https://github.com/hoscsaba/staci) revision `74d3660`; final nominal designs are also
-checked independently with EPANET 2.2. The saved design vectors are the
-published numerical record: rerunning a stochastic GA is unnecessary to
+[STACI](https://github.com/hoscsaba/staci) revision `74d3660`. Every
+optimized nominal diameter vector displayed in the current paper and Supplementary
+Material has a post-search EPANET 2.2 comparison; flagged differences are
+recorded rather than treated as exact agreement. The saved design vectors are
+the published numerical record: rerunning a stochastic GA is unnecessary to
 redraw the figures.
 
 ## Software and quick start
@@ -74,16 +76,25 @@ model; temporary INP files appear only in the independent EPANET validation
 and some failed-state replays. Exact saved diameters should be used: rounding
 can change feasibility near an active pressure or chlorine bound.
 
-The final STACI–EPANET comparison files are in `supplementary/results/` for
-TT and Anytown and in the Balerma final result directory's
-`epanet_validation/`. The stationary-quality comparison advances EPANET
-quality until a fixed-load near-steady field is reached. Neither solver
-represents diurnal tank-level evolution in the nominal optimization.
-Supplementary Section 2 also reports an earlier four-source, 10–500 mm
-Balerma solver-validation set; its exact archived vectors are retained in
-`networks/balerma/results_staci/` solely to reproduce that historical
-numerical cross-check. They do not supply the current Balerma design figures
-or service tables.
+Before releasing new figures or tables, run the mandatory post-search
+audit on every displayed nominal diameter vector:
+
+```matlab
+addpath('supplementary')
+validate_reported_nominal_designs(staci_root,mex_dir)
+```
+
+The script reconstructs fresh EPANET 2.2 and STACI models from each matched
+fixed-load INP, checks heads, signed flows, consumer chlorine and design
+constraints by node/link ID, and writes a resumable checkpoint and CSV to
+`supplementary/results/nominal_design_validation/`. The released
+[1,369-row audit and interpretation guide](supplementary/results/nominal_design_validation/README.md)
+cover the 18 final single-objective designs, plotted ranked subsets, the TT
+and Anytown Pareto archives, and 20 selected Balerma Pareto points. Numerical
+flags remain visible in the CSV. The older six-design comparison CSVs remain
+the detailed source for the Supplementary solver-comparison tables. This
+nominal audit does not replay PDA pipe-failure states; neither solver
+represents diurnal tank-level evolution in the nominal calculation.
 
 ## Repository map
 

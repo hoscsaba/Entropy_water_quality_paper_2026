@@ -14,6 +14,9 @@ rows=cell(numel(objectives),1);
 for k=1:numel(objectives)
     saved=load(fullfile(folder,objectives(k)+'.mat'),'result');
     st=StaciModel(inp);release=onCleanup(@()st.release());
+    % Oversized TT pipes have head losses below the default 1e-4 m RMS
+    % residual limit. Use a strict fresh solve for saved-vector scoring.
+    st.setSolverTolerances(1e-11,1e-12);
     [order,original]=wdn.staci_input_link_template(inp,st,0.001);
     [m,v]=wdn.evaluate_staci_design(st,cfg, ...
         saved.result.design_diameters,order,original);

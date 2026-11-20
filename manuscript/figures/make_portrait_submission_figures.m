@@ -5,21 +5,8 @@ function make_portrait_submission_figures()
 root=fileparts(fileparts(fileparts(mfilename('fullpath'))));
 folder=fullfile(root,'manuscript','generated','figures');
 assert(isfolder(folder),'Run reproduce_all_figures first.');
-wide_pair(folder,'chlorine_entropy_loop_pair');
 panel_pairs(folder,'figure5');
 fprintf('Portrait art written to %s\n',folder);
-end
-
-function wide_pair(folder,base)
-I=imread(fullfile(folder,[base '.png']));
-W=size(I,2); mid=round(W/2); H=size(I,1);
-A=I(:,1:mid,:); B=I(:,mid+1:end,:);
-width=max(size(A,2),size(B,2));
-canvas=uint8(255*ones(2*H+round(.025*H),width,3));
-canvas(1:H,1:size(A,2),:)=A;
-y0=H+round(.025*H)+1;
-canvas(y0:y0+H-1,1:size(B,2),:)=B;
-save_art(canvas,fullfile(folder,[base '_portrait']));
 end
 
 function panel_pairs(folder,base)

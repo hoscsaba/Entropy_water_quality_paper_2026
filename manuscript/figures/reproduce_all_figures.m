@@ -19,11 +19,9 @@ addpath(root,fullfile(root,'manuscript','figures'), ...
 generated=fullfile(root,'manuscript','generated','figures');
 if ~isfolder(generated),mkdir(generated);end
 
-% Analytical and small-network illustrations. The false argument loads the
-% saved chlorine example instead of starting its optional search.
+% Analytical and small-network illustrations.
 make_pressure_anchor_mwe_figure;
 make_two_consumer_entropy_example;
-make_two_consumer_chlorine_entropy_example(false);
 make_tanyimboh_reference_schematic;
 make_tanyimboh_epanet_model;
 
@@ -61,9 +59,12 @@ copy_art(make_balerma_common_pareto(root, ...
 % S1 is the saved EPANET time history versus stationary STACI; the final
 % cross-effect heat map reads the three published six-design CSV files.
 plot_steady_chlorine_trajectories( ...
+    fullfile(root,'supplementary','results','current_chlorine'), ...
     fullfile(root,'supplementary','results'));
 copy_art(fullfile(root,'supplementary','results', ...
     'steady_chlorine_trajectories.png'),generated);
+copy_art(fullfile(root,'supplementary','results', ...
+    'steady_chlorine_trajectories.svg'),generated);
 plot_cross_effects_three_networks(generated);
 make_portrait_submission_figures;
 fprintf('Figures written to %s\n',generated);

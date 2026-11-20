@@ -1,7 +1,9 @@
 function benchmark_staci_epanet_matlab(results_dir, staci_root, mex_dir)
 %BENCHMARK_STACI_EPANET_MATLAB Time in-memory steady chemistry vs EPANET EPS.
-% Use the same fixed-load INP for both engines. The EPS duration is the first
-% hour at which all node concentrations stayed within 1e-4 mg/L for 24 h.
+% Use the current final design for each objective and network. First run
+% compare_steady_chlorine.py into results_dir to create the fixed-load INPs.
+% The EPS duration is the first hour at which all node concentrations stayed
+% within 1e-4 mg/L for a final tail of at least 24 h.
 
 root = fileparts(fileparts(mfilename('fullpath')));
 addpath(fullfile(root, 'third_party', 'epanet_matlab_toolkit'));
@@ -10,7 +12,8 @@ addpath(fullfile(staci_root, 'matlab'));
 addpath(mex_dir);
 library = fullfile(root, 'third_party', 'epanet22_arm64', 'libepanet2');
 if nargin < 1 || strlength(string(results_dir)) == 0
-    results_dir = fullfile(root, 'supplementary', 'results');
+    results_dir = fullfile(root, 'supplementary', 'results', ...
+        'current_chlorine');
 end
 summary = readtable(fullfile(results_dir, 'summary.csv'), 'TextType', 'string');
 rows = cell(height(summary), 9);
@@ -19,6 +22,8 @@ for case_number = 1:height(summary)
     design = summary.design(case_number);
     folder = fullfile(results_dir, network, design);
     source = fullfile(folder, 'fixed_load.inp');
+    assert(isfile(source), ...
+        'Run compare_steady_chlorine.py into results_dir before timing.');
     duration_h = summary.convergence_h(case_number);
     if isnan(duration_h)
         duration_h = summary.duration_h(case_number);

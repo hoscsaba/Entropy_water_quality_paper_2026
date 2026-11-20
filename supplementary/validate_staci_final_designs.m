@@ -31,7 +31,7 @@ for network = networks
     elseif network == "anytown" && string(anytown_variant) == "physical_reservoirs"
         cfg = network_config_physical_reservoirs(network_dir);
         input_file = cfg.inp_file;
-    elseif network == "balerma" && string(anytown_variant) == "r38_anchor"
+    elseif network == "balerma"
         cfg = network_config_r38_anchor(network_dir);
         input_file = cfg.inp_file;
     else
@@ -85,6 +85,11 @@ for network = networks
         ep_cleanup = onCleanup(@() ep.unload());
         st = StaciModel(fullfile(case_dir, 'fixed_load.inp'));
         st_cleanup = onCleanup(@() st.release());
+        if network == "tanyimboh_templeman"
+            % Near-flat head losses require a tighter residual than the
+            % STACI INP default for independent EPANET comparison.
+            st.setSolverTolerances(1e-11,1e-12);
+        end
         design_ids = string(cfg.design_link_ids(:));
         x = double(result.design_diameters(:));
         ep_links = string(ep.getLinkNameID);

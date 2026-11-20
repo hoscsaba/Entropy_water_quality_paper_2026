@@ -1,4 +1,4 @@
-function plot_pareto_failure_service(archive, service, output_file, style)
+function plot_pareto_failure_service(archive, service, output_file, style, callout_centers)
 %PLOT_PARETO_FAILURE_SERVICE Cost/branch-hop front with PDA failure service.
 % Color encodes minimum water delivery across the network's specified pipe
 % failure scenarios. Marker area encodes the minimum chlorine-compliant
@@ -7,7 +7,13 @@ function plot_pareto_failure_service(archive, service, output_file, style)
 % for low water service and green for 100%, and larger markers for lower
 % chlorine-compliant service.
 if nargin<4 || isempty(style),style="standard";end
+if nargin<5,callout_centers=[];end
 style=string(style);
+if ~isempty(callout_centers)
+    assert(style=="tt_inverse_cl" && isequal(size(callout_centers),[2 2]) ...
+        && all(isfinite(callout_centers(:))), ...
+        'Callout centers must be finite [cost, entropy] pairs for 75%% and 90%%');
+end
 assert(ismember(style,["standard","tt_inverse_cl"]), ...
     'Unknown Pareto service display style');
 n=size(archive.designs,1);
@@ -109,6 +115,10 @@ cb.Label.String='Worst water service [%]';
 cb.FontName='Times New Roman';cb.FontSize=font_size;
 cb.Label.FontSize=font_size;
 if style=="tt_inverse_cl"
+    % Lock the service scale: low service is red at the bottom, and 100%%
+    % is green at the top in PNG, PDF, and SVG exports.
+    cb.Limits=[water_low 100];
+    cb.Direction='normal';
     cb.Ticks=[water_low 75 85 100];
     cb.TickLabels={sprintf('%.1f',water_low),'75','85','100'};
 end
@@ -137,10 +147,28 @@ if style=="tt_inverse_cl"
             (threshold_cost(t)-axis_x(1))/diff(axis_x);
         tip_y=ax.Position(2)+ax.Position(4)* ...
             (threshold_entropy(t)-axis_y(1))/diff(axis_y);
-        if thresholds(t)==75
-            box_position=[callout_x 0.57 0.18 0.125];
+        if isempty(callout_centers)
+            if thresholds(t)==75
+                box_position=[callout_x 0.57 0.18 0.125];
+            else
+                box_position=[callout_x 0.73 0.18 0.125];
+            end
         else
-            box_position=[callout_x 0.73 0.18 0.125];
+            % The requested location is the midpoint of the label box's
+            % left edge, specified in the plot's cost--entropy coordinates.
+            point=callout_centers(t,:);
+            left=ax.Position(1)+ax.Position(3)* ...
+                (point(1)-axis_x(1))/diff(axis_x);
+            middle=ax.Position(2)+ax.Position(4)* ...
+                (point(2)-axis_y(1))/diff(axis_y);
+            box_position=[left middle-0.125/2 0.17 0.125];
+            assert(box_position(1)>=ax.Position(1) && ...
+                box_position(1)+box_position(3)<= ...
+                    ax.Position(1)+ax.Position(3) && ...
+                box_position(2)>=ax.Position(2) && ...
+                box_position(2)+box_position(4)<= ...
+                    ax.Position(2)+ax.Position(4), ...
+                'Requested callout box does not fit inside the data axes');
         end
         % Begin just left of the callout's vertical midpoint, so the
         % leader is visually attached to its own three-line label.

@@ -7,8 +7,7 @@ output_dir = fullfile(root, 'manuscript', 'generated', 'tables');
 if ~isfolder(output_dir), mkdir(output_dir); end
 
 % Only files used to audit the current three-network article are copied.
-% The Balerma rows refer to the R38-anchor run, never the older four-source
-% or 10--500-mm stages.
+% The Balerma rows refer to the current R38-anchor run.
 tt=fullfile(root,'networks','tanyimboh_templeman', ...
     'results_staci_10_120_clsplit_v2');
 anytown=fullfile(root,'networks','anytown','results_staci_anchor_replay');

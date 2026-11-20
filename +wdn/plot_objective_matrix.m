@@ -70,7 +70,27 @@ for k = first_result:numel(names)
         error('wdn:InvalidResult', 'Result %s is missing feasibility validation.', result_file);
     end
     diameters{k} = loaded.result.full_diameters;
-    metric_sets{k} = loaded.result.metrics;
+    if isfield(cfg.plot,'strict_fresh_head_tolerance_m')
+        assert(isfield(cfg.plot,'strict_fresh_mass_tolerance_kgs'), ...
+            'Fresh scoring requires both STACI solver tolerances');
+        fresh=StaciModel(cfg.inp_file);
+        fresh_cleanup=onCleanup(@() fresh.release());
+        fresh.setSolverTolerances( ...
+            cfg.plot.strict_fresh_head_tolerance_m, ...
+            cfg.plot.strict_fresh_mass_tolerance_kgs);
+        if strcmp(cfg.id,'anytown'), diameter_scale=0.0254;
+        else, diameter_scale=0.001; end
+        [link_order,original_diameters]= ...
+            wdn.staci_input_link_template(cfg.inp_file,fresh,diameter_scale);
+        [metric_sets{k},fresh_violation]=wdn.evaluate_staci_design( ...
+            fresh,cfg,loaded.result.design_diameters, ...
+            link_order,original_diameters);
+        assert(fresh_violation<=cfg.ga.constraint_tolerance, ...
+            'Strictly scored saved design is infeasible: %s',result_file);
+        clear fresh_cleanup fresh
+    else
+        metric_sets{k} = loaded.result.metrics;
+    end
 end
 
 edge_flows = cell(1,numel(names));
@@ -283,7 +303,7 @@ for k = 1:numel(names)
                 sprintf('%g',round(source_flow,1)), ...
                 'HorizontalAlignment','center','VerticalAlignment','middle', ...
                 'FontSize',cfg.plot.diameter_label_font_size, ...
-                'Color','k','Clipping','on');
+                'FontAngle','italic','Color','k','Clipping','on');
         end
     elseif isfield(cfg.plot,'inlet_arrow_node_id')
         inlet_idx=find(model.node_ids==string(cfg.plot.inlet_arrow_node_id),1);
@@ -299,6 +319,34 @@ for k = 1:numel(names)
             'HorizontalAlignment','center','VerticalAlignment','middle', ...
             'FontSize',cfg.plot.diameter_label_font_size, ...
             'Color','k','Clipping','on');
+    end
+    if isfield(cfg.plot,'demand_outlet_arrow_node_ids')
+        % Read the fixed consumer withdrawals from the same INP used for
+        % the saved hydraulic designs; draw equal-length outward arrows.
+        categories=d.getNodeBaseDemands;
+        base_demand=zeros(numel(model.node_ids),1);
+        for category=1:numel(categories)
+            base_demand=base_demand+double(categories{category}(:));
+        end
+        outlet_ids=string(cfg.plot.demand_outlet_arrow_node_ids);
+        network_center=0.5*(min(node_x)+max(node_x));
+        for outlet_id=outlet_ids(:)'
+            outlet_idx=find(model.node_ids==outlet_id,1);
+            assert(~isempty(outlet_idx) && base_demand(outlet_idx)>0, ...
+                'Demand-arrow node %s has no positive demand',outlet_id);
+            side=sign(node_x(outlet_idx)-network_center);
+            assert(side~=0,'A demand arrow requires an outer node');
+            outlet_x=node_x(outlet_idx);outlet_y=node_y(outlet_idx);
+            quiver(ax,outlet_x+side*0.17,outlet_y-0.03, ...
+                side*0.42,-0.25,0, ...
+                'Color','k','LineWidth',1.5,'MaxHeadSize',1.4, ...
+                'AutoScale','off','HandleVisibility','off');
+            text(ax,outlet_x+side*0.73,outlet_y-0.25, ...
+                sprintf('%g',base_demand(outlet_idx)), ...
+                'HorizontalAlignment','center','VerticalAlignment','middle', ...
+                'FontSize',cfg.plot.diameter_label_font_size, ...
+                'FontAngle','italic','Color','k','Clipping','on');
+        end
     end
     if isfield(cfg.plot, 'source_reservoir_node_ids')
         wdn.mark_hydraulic_equipment(ax, node_x, node_y, links, model, cfg, 1);

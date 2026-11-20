@@ -79,8 +79,8 @@ cfg.ga.constraint_tolerance = 5e-5;
 cfg.ga.use_hybrid_patternsearch = false;
 cfg.ga.display = 'iter';
 
-% Default archived ranked-subset study (0--45 pipes). The common-bound
-% supplementary study overrides these points with 0,5,20,45,70,90.
+% Default ranked-subset settings. The R38-anchor study overrides these
+% points with 0,5,20,45,70,90.
 % Each objective--ranking--K point has its own checkpoint, so larger K
 % values can be added without recomputing completed subsets.
 cfg.ranking.perturbation_fraction = 0.10;

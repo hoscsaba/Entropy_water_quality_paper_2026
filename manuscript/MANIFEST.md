@@ -12,9 +12,8 @@ a PNG or PDF. The exact final result folders are listed in the root README.
 |---|---|---|
 | `pressure_anchor_mwe.png` | `make_pressure_anchor_mwe_figure.m` | Equations in the script |
 | `entropy_loop_two_consumers.png` | `make_two_consumer_entropy_example.m`, `plot_two_consumer_pair.m` | `networks/y_two_consumers/input/network_original.inp` |
-| `chlorine_entropy_loop_pair_portrait.png` | `make_two_consumer_chlorine_entropy_example(false)`, `make_portrait_submission_figures.m` | `networks/y_two_consumers/results/chlorine_entropy_pair.csv` and the same INP |
 | `tanyimboh_schemtic.png`, `tanyimboh_epanet_model.png` | `make_tanyimboh_reference_schematic.m`, `make_tanyimboh_epanet_model.m` | Published directed reference flows and released TT INP |
-| `figure3.png` | `make_figure3.m` | TT six final MAT designs and nominal STACI metrics |
+| `figure3.png` | `make_figure3.m` | TT six final MAT diameter vectors, strictly re-solved on fresh STACI models for flows and chlorine |
 | `tanyimboh_ranking_objectives.png`, `tanyimboh_hydraulic_todini_rankings.png`, `tanyimboh_chlorine_rankings.png` | `make_tanyimboh_ranking_matrix.m`, `make_tanyimboh_remaining_rankings.m` | TT saved K=0–8 ranking MAT studies |
 | `tanyimboh_cost_branch_hop_failure_pareto.png` | `make_pareto_failure_figures.m` | TT saved Pareto archive and eight-case PDA replay per point |
 | `anytown_schematic.png` | `make_anytown_schematic.m` | Anchor INP and topology-only branch-hop weights |
@@ -34,8 +33,8 @@ a PNG or PDF. The exact final result folders are listed in the root README.
 The main article and Supplementary Material include some of the same files;
 these are listed once. Replotting rankings evaluates other objectives on the
 **same saved diameter designs**; only the top panel in each ranking column
-shows the optimized objective. `make_portrait_submission_figures.m` crops the
-two listed SM layouts for readable portrait pages. Its source PNG and SVG
+shows the optimized objective. `make_portrait_submission_figures.m` arranges the
+Anytown chlorine panels for readable portrait pages. Its source PNG and SVG
 composites remain available for editing.
 
 Nominal cross-evaluation and failure-service tables are exported from saved
@@ -46,7 +45,9 @@ the Supplementary Material. TT's direct EPANET comparisons live in
 `supplementary/results/validation_tt_10_120_clsplit_v2/`, Anytown's in
 `supplementary/results/validation_anytown_10_120_clsplit_final/`, and
 Balerma's in its final result directory under `epanet_validation/`.
-The separate Balerma comparison in Supplementary Section 2 uses the
-four-source, 10–500 mm archive `networks/balerma/results_staci/` and its
-saved validation CSV. It is an earlier solver benchmark, not a current
-diameter-design result.
+These directories contain the six current nominal designs for each network.
+The broader `supplementary/results/nominal_design_validation/nominal_design_comparison.csv`
+records fresh-model EPANET versus STACI checks for all 1,369 nominal vectors
+used by the current final-design, ranking and selected Pareto figures. Its
+README explains the flagged numerical differences and one marginal pressure
+exception. The nominal audit does not cover pressure-driven outage states.

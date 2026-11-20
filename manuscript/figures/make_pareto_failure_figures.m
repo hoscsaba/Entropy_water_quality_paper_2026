@@ -29,7 +29,15 @@ for k=1:size(entries,1)
     % normalized-objective arclength. Color and circle size encode each
     % point's own PDA replay; no hydraulics is rerun for rendering.
     style="tt_inverse_cl";
-    wdn.plot_pareto_failure_service(archive,service,output_file,style);
+    if string(entries{k,1})=="anytown"
+        % [cost in 10^6 units, branch-hop entropy] for the 75%% and 90%%
+        % labels, respectively; TT retains its original label positions.
+        callout_centers=[45 6; 60 7.5];
+    else
+        callout_centers=[];
+    end
+    wdn.plot_pareto_failure_service( ...
+        archive,service,output_file,style,callout_centers);
     if ~isfolder(generated_dir),mkdir(generated_dir);end
     [~,name]=fileparts(output_file);
     copyfile(output_file,fullfile(generated_dir,[name '.png']),'f');

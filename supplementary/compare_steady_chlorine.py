@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Compare STACI steady chlorine with EPANET EPS on final fixed-load designs.
+"""Compare STACI steady chlorine with EPANET EPS on current fixed-load designs.
 
 Requires the STACI executable and EPANET 2.2 shared library. Inputs are
 generated from the common fixed-load INPs and final STACI MAT designs.
@@ -10,9 +10,10 @@ import argparse
 import csv
 import ctypes as ct
 import json
-import math
+import os
 from pathlib import Path
 import re
+import shutil
 import subprocess
 import sys
 import time
@@ -22,8 +23,19 @@ sys.path.insert(0, str(Path(__file__).resolve().parent))
 from read_paper_mat import read as read_design
 
 NETWORKS = ("tanyimboh_templeman", "anytown", "balerma")
-DESIGNS = ("original", "cost", "hydraulic_entropy", "chlorine_concentration",
-           "chlorine_entropy", "todini")
+DESIGNS = ("cost", "hydraulic_entropy", "branch_hop_weighted_entropy",
+           "chlorine_concentration", "chlorine_entropy", "todini")
+CASES = {
+    "tanyimboh_templeman": ("network_staci_fixed_load.inp",
+                            "results_staci_10_120_clsplit_v2", {"1", "2"},
+                            ("4", "6", "5")),
+    "anytown": ("network_anchor_replay.inp", "results_staci_anchor_replay",
+                {"10"}, ("20", "100", "170", "140", "80", "90")),
+    "balerma": ("network_r38_anchor_fixed_load.inp",
+                "results_staci_r38_anchor_r44_physical_0p1_64in_v1",
+                {"43", "44", "88"},
+                ("179001", "246", "422", "337", "72", "336")),
+}
 
 
 class Epanet:
@@ -103,33 +115,28 @@ def design_ids(network, source):
             if line.strip() and not line.lstrip().startswith(";")]
 
 
-def write_case(epanet, network, design, out, max_days, design_source):
-    input_name = ("network_physical_reservoirs.inp" if
-                  network == "anytown" and design_source == "results_staci_physical_reservoirs"
-                  else "network_staci_fixed_load.inp")
+def write_case(epanet, network, design, out, max_days):
+    input_name, result_dir, sources, _ = CASES[network]
     source = ROOT / "networks" / network / "input" / input_name
-    raw = out / "original_fixed_load.inp"
-    static_input(source, raw, network)
+    raw = out / "base_fixed_load.inp"
+    if network == "anytown":
+        static_input(source, raw, network)
+    else:
+        shutil.copyfile(source, raw)
     epanet.call("ENopen", str(raw).encode(), str(out / "setup.rpt").encode(),
                 str(out / "setup.bin").encode())
     try:
-        if design != "original":
-            diameters = read_design(ROOT / "networks" / network /
-                                    design_source / f"{design}.mat").ravel()
-            ids = design_ids(network, source)
-            if len(ids) != len(diameters):
-                raise RuntimeError(f"{network}/{design}: diameter count mismatch")
-            for link_id, diameter in zip(ids, diameters):
-                index = ct.c_int()
-                epanet.call("ENgetlinkindex", link_id.encode(), ct.byref(index))
-                epanet.call("ENsetlinkvalue", index.value, 0, ct.c_float(float(diameter)))
+        diameters = read_design(ROOT / "networks" / network /
+                                result_dir / f"{design}.mat").ravel()
+        ids = design_ids(network, source)
+        if len(ids) != len(diameters):
+            raise RuntimeError(f"{network}/{design}: diameter count mismatch")
+        for link_id, diameter in zip(ids, diameters):
+            index = ct.c_int()
+            epanet.call("ENgetlinkindex", link_id.encode(), ct.byref(index))
+            epanet.call("ENsetlinkvalue", index.value, 0, ct.c_float(float(diameter)))
         epanet.call("ENsetqualtype", 1, b"Chlorine", b"mg/L", b"")
         ids = epanet.node_ids()
-        sources = ({"10", "65", "165"} if network == "anytown" and
-                   design_source == "results_staci_physical_reservoirs" else
-                   {"10"} if network == "anytown" else
-                   {"8", "2"} if network == "tanyimboh_templeman" else
-                   set(_section_ids(source, "RESERVOIRS")))
         for index, node_id in enumerate(ids, 1):
             epanet.call("ENsetnodevalue", index, 4, ct.c_float(1.0 if node_id in sources else 0.0))
             if node_id in sources:
@@ -154,39 +161,6 @@ def write_case(epanet, network, design, out, max_days, design_source):
     case.write_text(text)
     return case
 
-
-def _section_ids(source, section):
-    data = re.search(rf"(?ms)^\[{section}\]\s*\n(.*?)(?=^\[)", source.read_text()).group(1)
-    return [line.split()[0] for line in data.splitlines()
-            if line.strip() and not line.lstrip().startswith(";")]
-
-
-def material_consumers(source, network):
-    source_text = source.read_text()
-    data = re.search(r"(?ms)^\[JUNCTIONS\]\s*\n(.*?)(?=^\[)", source_text).group(1)
-    unit_to_m3s = {"anytown": 6.30901964e-5,
-                   "tanyimboh_templeman": 1 / 3600,
-                   "balerma": 0.001}[network]
-    threshold = math.pi / 4 * 0.010**2 * 0.01
-    demands = {}
-    order = []
-    for line in data.splitlines():
-        fields = line.split()
-        if len(fields) >= 2 and not line.lstrip().startswith(";"):
-            order.append(fields[0])
-            demands[fields[0]] = float(fields[2]) if len(fields) > 2 else 0.0
-    additional = re.search(r"(?ms)^\[DEMANDS\]\s*\n(.*?)(?=^\[)", source_text)
-    if additional is not None:
-        overridden = set()
-        for line in additional.group(1).splitlines():
-            fields = line.split()
-            if len(fields) < 2 or line.lstrip().startswith(";"):
-                continue
-            if fields[0] not in overridden:
-                demands[fields[0]] = 0.0
-                overridden.add(fields[0])
-            demands[fields[0]] += float(fields[1])
-    return [name for name in order if demands[name] * unit_to_m3s > threshold]
 
 
 def epanet_trajectory(epanet, case, out, max_days, nodes,
@@ -283,41 +257,40 @@ def main():
     parser = argparse.ArgumentParser()
     parser.add_argument("--staci", type=Path, required=True)
     parser.add_argument("--epanet", type=Path, default=ROOT / "third_party/epanet22_arm64/libepanet2.dylib")
-    parser.add_argument("--output", type=Path, default=ROOT / "supplementary/results")
+    parser.add_argument("--output", type=Path,
+                        default=ROOT / "supplementary/results/current_chlorine")
     parser.add_argument("--max-days", type=int, default=14)
     parser.add_argument("--designs", nargs="*", default=list(DESIGNS))
     parser.add_argument("--networks", nargs="*", choices=NETWORKS,
                         default=list(NETWORKS))
-    parser.add_argument("--design-source", choices=("results_staci", "results_staci_physical_reservoirs"),
-                        default="results_staci")
     args = parser.parse_args()
+    args.output = args.output.resolve()
     args.output.mkdir(parents=True, exist_ok=True)
     epanet = Epanet(args.epanet)
     summaries = []
     for network in args.networks:
-        input_name = ("network_physical_reservoirs.inp" if
-                      network == "anytown" and args.design_source == "results_staci_physical_reservoirs"
-                      else "network_staci_fixed_load.inp")
-        source = ROOT / "networks" / network / "input" / input_name
-        candidates = material_consumers(source, network)
-        sample = [candidates[i] for i in sorted(set((0, len(candidates)//2, len(candidates)-1)))]
+        input_name, _, _, figure_nodes = CASES[network]
+        sample = list(figure_nodes[:3])
         for design in args.designs:
             out = args.output / network / design
             out.mkdir(parents=True, exist_ok=True)
-            case = write_case(epanet, network, design, out, args.max_days,
-                              args.design_source)
-            steady, staci_cli_s = staci_steady(args.staci, case, out)
-            trajectory, epanet_s, final_all, daily_change, convergence_h = epanet_trajectory(
-                epanet, case, out, args.max_days, sample)
+            previous_cwd = Path.cwd()
+            try:
+                # EPANET writes its hydraulics sidecar in the process CWD.
+                os.chdir(out)
+                case = write_case(epanet, network, design, out, args.max_days)
+                steady, staci_cli_s = staci_steady(args.staci, case, out)
+                trajectory, epanet_s, final_all, daily_change, convergence_h = epanet_trajectory(
+                    epanet, case, out, args.max_days, figure_nodes)
+            finally:
+                os.chdir(previous_cwd)
             final = trajectory[-1]
-            discrepancy = max(abs(final[node] - steady[node]) for node in sample)
             all_discrepancy = max(abs(final_all[node] - steady[node])
                                   for node in final_all)
             summary = {"network": network, "design": design,
                        "representative_nodes": ",".join(sample),
                        "duration_h": final["hours"],
                        "convergence_h": convergence_h,
-                       "max_sample_abs_difference_mgL": discrepancy,
                        "max_all_node_abs_difference_mgL": all_discrepancy,
                        "last_day_all_node_change_mgL": daily_change,
                        "epanet_eps_s": epanet_s, "staci_cli_s": staci_cli_s}

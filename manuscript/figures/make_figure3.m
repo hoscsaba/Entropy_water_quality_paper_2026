@@ -45,9 +45,17 @@ cfg.plot.rotate_diagonal_edge_labels = true;
 % Node 1 is the fixed-head reservoir; node 2 is the fixed-flow inlet.
 % Horizontal arrows enter from outside the network on opposite sides.
 cfg.plot.source_inlet_arrow_node_ids = ["2","1"];
+% The four positive consumer demands leave the graph at these nodes.
+% Their values and the two source labels are read from the fixed-load INP.
+cfg.plot.demand_outlet_arrow_node_ids = ["4","3","6","5"];
 % In S3 alone, dashes denote flows displayed as 0.0 m^3/h (one decimal),
 % rather than the diameter <= 1 in convention used in other figures.
 cfg.plot.dash_zero_display_flow_only = true;
+% Score each saved diameter vector on a fresh, tightly converged STACI
+% model before drawing flow labels and chlorine colors. TT's large
+% diameters can have head losses below STACI's default 1e-4 m limit.
+cfg.plot.strict_fresh_head_tolerance_m = 1e-11;
+cfg.plot.strict_fresh_mass_tolerance_kgs = 1e-12;
 % In the displayed coordinates, put vertical-link labels outside the columns,
 % horizontal-link labels below the pipes, and diagonal labels above the
 % links near their source ends. Arrows sit farther down each pipe.
