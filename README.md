@@ -58,6 +58,11 @@ undirected topology and all *potential* supply entries; flow direction does
 not enter the weights. See [objective definitions](docs/OBJECTIVES.md) and
 [methods](docs/METHODS.md).
 
+The released Anytown nominal input derives from `network_initial_feasible.inp`.
+Compared with the preserved benchmark, only P6 (20–110) changes, from 12 to
+14.88 in. This makes the initial K=0 candidate feasible; it does
+not change the 0.1–64 in optimization bounds or any other initial pipe.
+
 The ranked-subset and Pareto studies are separate searches on the saved
 nominal feasible set. Balerma's ranked subsets use up to 90 of 454 pipes;
 its Pareto search also varies a fixed top-90 subset. Search checkpoints are
@@ -78,8 +83,11 @@ Read [the calculation sequence](docs/REPRODUCIBILITY.md) for TT and Anytown
 and [the R38-anchor run guide](networks/balerma/R38_ANCHOR_RUN.md) for Balerma.
 The latter documents the six full-network searches, feasible-seed
 refinements, ranked subsets, Pareto search, 448-case PDA replays, and
-independent EPANET checks. Each fitness call updates an in-memory STACI
-model; temporary INP files appear only in the independent EPANET validation
+independent EPANET checks. Anytown’s released Todini endpoint includes a
+post-GA, full-network SQP refinement seeded by a 35-pipe ranked result. Its
+GA and SQP evaluations and times are reported separately in
+`networks/anytown/results_staci_anchor_replay/ga_stop_six.csv`. Each
+fitness call updates an in-memory STACI model; temporary INP files appear only in the independent EPANET validation
 and some failed-state replays. Exact saved diameters should be used: rounding
 can change feasibility near an active pressure or chlorine bound.
 

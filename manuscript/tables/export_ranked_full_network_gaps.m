@@ -12,8 +12,8 @@ function [all_rows, summary_rows] = export_ranked_full_network_gaps(paper_root, 
 % The denominator is the saved full-network single-objective result for the
 % SAME network, objective and nominal constraints. A negative gap is kept
 % when a finite subset search happens to outperform the saved full search;
-% neither search certifies a global optimum. Anytown K=0 has no feasible
-% result and is retained in the all-K CSV with NaN score and gap.
+% neither search certifies a global optimum. Anytown K=0 is the feasible
+% one-pipe-repaired initial candidate and provides a valid baseline score.
 %
 % The outputs are ranked_full_network_gaps_all.csv and
 % ranked_full_network_gaps_representative.csv. The latter contains TT K=2,4;

@@ -98,17 +98,21 @@ for q = 1:n_criteria
         if reuse_cache
             checked=load(cache_file,'entry');
             reuse_cache=startsWith(checked.entry.cache_signature, ...
-                [signature_base '|']);
+                [signature_base '|']) && ...
+                isfield(checked.entry,'design_diameters');
+            if reuse_cache
+                % A different initial vector may leave the ranking order
+                % unchanged. Reuse only if every frozen pipe still matches.
+                fixed=setdiff(1:numel(x_original),ranking.orders(1:k,q));
+                cached_x=double(checked.entry.design_diameters(:)');
+                reuse_cache=numel(cached_x)==numel(x_original) && ...
+                    all(abs(cached_x(fixed)-x_original(fixed))<1e-9);
+            end
             if reuse_cache && objective=="todini"
                 % Re-evaluate corrected Todini subsets when their full-GA
                 % warm start changes; the previous cache used that seed.
                 reuse_cache=strcmp(checked.entry.cache_signature,signature);
             end
-        end
-        small_seed_file=fullfile(cfg.results_dir,'k2_feasibility_seed.mat');
-        if reuse_cache && k==2 && isfile(small_seed_file)
-            checked=load(cache_file,'entry');
-            reuse_cache=checked.entry.is_feasible;
         end
         if reuse_cache && objective=="branch_hop_weighted_entropy"
             checked=load(cache_file,'entry');
@@ -166,16 +170,6 @@ for q = 1:n_criteria
                 if ~isempty(current_feasible)
                     seed_count=seed_count+1;
                     population(seed_count,:) = current_feasible(selected);
-                end
-                if k==2 && isfile(small_seed_file)
-                    feasible_seed=load(small_seed_file,'seed');
-                    candidate=double(feasible_seed.seed.design_diameters(:)');
-                    fixed=setdiff(1:numel(x_original),selected);
-                    if numel(candidate)==numel(x_original) && ...
-                            all(abs(candidate(fixed)-x_original(fixed))<1e-8)
-                        seed_count=seed_count+1;
-                        population(seed_count,:)=candidate(selected);
-                    end
                 end
                 last_y = [];
                 last_metric = struct();

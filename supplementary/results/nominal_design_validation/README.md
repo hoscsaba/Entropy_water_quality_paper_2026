@@ -32,21 +32,21 @@ The numerical agreement thresholds are audit flags, not optimization tolerances.
 
 ## Released nominal audit
 
-The current CSV was generated with a fresh matched EPANET and STACI model for every distinct saved diameter vector; all 1,369 rows have `FreshModel=1`. The 24 `compare_only` rows are infeasible Anytown ranked-subset references. No model call failed.
+The current CSV covers all 1,369 displayed nominal vectors. An independent matched EPANET/STACI solve was made for each of the 1,054 distinct vectors; duplicate vectors inherit the first checked result. The feasible Anytown K=0 candidate uses P6 = 14.88 in, so every one of its 510 ranked-subset rows is now an actual feasible design. No model call failed.
 
-| Network | `ok` | `compare_only` | `discrepancy` | `epanet_infeasible` |
-|---|---:|---:|---:|---:|
-| Tanyimboh–Templeman | 371 | 0 | 0 | 1 |
-| Anytown | 723 | 24 | 44 | 0 |
-| Balerma | 132 | 0 | 74 | 0 |
-| **Total** | **1,226** | **24** | **118** | **1** |
+| Network | `ok` | `discrepancy` | `epanet_infeasible` |
+|---|---:|---:|---:|
+| Tanyimboh–Templeman | 371 | 0 | 1 |
+| Anytown | 773 | 18 | 0 |
+| Balerma | 132 | 74 | 0 |
+| **Total** | **1,276** | **92** | **1** |
 
-Among the 18 final single-objective designs, all six TT and Anytown designs and four Balerma designs are `ok`. The strict TT solver setting reduces the largest flow difference over all 372 TT rows to 9.13×10⁻⁷ L/s. The Balerma branch-hop design differs by 0.0185 L/s on pipe 487 (EPANET 18.4470, STACI 18.4285 L/s; consumer chlorine 0.00224 mg/L); Balerma Todini differs by 0.0114 L/s on pipe 173 (24.4663 versus 24.4777 L/s; consumer chlorine 0.000831 mg/L). All 18 pass the independently checked EPANET design constraints. These two flow flags are retained even though their concentration differences are below 0.01 mg/L.
+All 18 final single-objective designs satisfy the EPANET constraints. The six TT and six Anytown final designs also pass the numerical agreement thresholds. The Balerma branch-hop and Todini final designs have small signed-flow flags (0.0185 and 0.0114 L/s), while their maximum consumer-chlorine differences are 0.00224 and 0.000831 mg/L. These flags are retained in the CSV.
 
-All 96 TT and 275 Anytown Pareto rows are `ok`. Eighteen of the 20 selected Balerma Pareto rows are `ok`; archive indices 58 and 52 have flow differences of 0.0108 and 0.0164 L/s, respectively, and consumer chlorine differences below 0.00065 mg/L. Both pass EPANET constraints.
+All 791 Anytown rows pass the independently checked pressure, chlorine, diameter, and pressure-anchor limits. Its 18 numerical flags occur in ranked subsets: each exceeds the 0.01 L/s signed-flow audit threshold, but the largest difference is 0.0456 L/s. The maximum head and material-consumer chlorine differences over Anytown are 0.000303 m and 0.000679 mg/L. The repaired K=0 baseline itself is `ok`: its maximum head, signed-flow, and consumer-chlorine differences are 1.66×10⁻⁵ m, 0.000172 L/s, and 0.000400 mg/L.
 
-Every one of the 118 `discrepancy` flags exceeds the 0.01 L/s flow threshold; two Balerma ranked-subset rows also exceed 0.01 mg/L consumer chlorine. No case exceeds the 0.1 m head threshold. The two chlorine cases are Balerma chlorine-concentration/nodal-entropy at K=20 (0.0123 mg/L) and Balerma Todini/nodal-entropy at K=20 (0.0217 mg/L). The largest isolated link-flow difference is 0.2101 L/s on a Balerma ranked subset. These are numerical cross-engine discrepancies, not evidence that EPANET pressure or chlorine constraints failed.
+All 96 TT and 275 Anytown Pareto rows are `ok`. Eighteen of the 20 selected Balerma Pareto rows are `ok`; archive indices 58 and 52 have signed-flow differences of 0.0108 and 0.0164 L/s, respectively, while both pass the EPANET constraints. Among the 74 Balerma numerical flags, two ranked subsets also exceed the 0.01 mg/L consumer-chlorine agreement threshold: chlorine-concentration/nodal-entropy at K=20 (0.0123 mg/L) and Todini/nodal-entropy at K=20 (0.0217 mg/L). The largest Balerma link-flow difference is 0.2101 L/s. No case in any network exceeds the 0.1 m head-agreement threshold.
 
-One otherwise agreed TT cost/nodal-entropy ranked subset at K=6 is `epanet_infeasible`: EPANET exceeds a pressure limit by 0.000286 m while the saved STACI constraint violation is zero. This is close to the EPANET head-reporting resolution and should remain visible rather than be rounded to zero.
+One TT cost/nodal-entropy ranked subset at K=6 is `epanet_infeasible`: EPANET exceeds a pressure limit by 0.000286 m while the saved STACI constraint violation is zero. This near-boundary exception is reported rather than rounded away; it does not affect the six final TT designs.
 
-The TT Todini and other very large-diameter layouts can have head differences of order 10⁻⁶ m across a pipe. Their solved flow splits depend on finite hydraulic tolerances; repeated solves on a resident model produced larger, history-dependent differences than fresh-model replays. The released CSV therefore uses fresh models and the same strict TT STACI tolerance as the corrected TT cross metrics. Anytown cost/volume rankings at K=8–9 have an approximately 10⁻⁹ m³/s flow at link 70 whose direction can flip under a different solver tolerance; the reported branch-hop cross metrics were separately reproduced with strict STACI settings. The audit verifies engine outputs for the saved vectors; the ranking MAT files' stored cross metrics require their own vector-to-metric consistency checks.
+The TT Todini and other very large-diameter layouts can have head differences of order 10⁻⁶ m across a pipe. Their solved flow splits depend on finite hydraulic tolerances; repeated solves on a resident model produced larger, history-dependent differences than fresh-model replays. The released CSV therefore uses fresh models and the same strict TT STACI tolerance as the corrected TT cross metrics. Some Anytown ranked layouts also contain nearly stagnant links for which small solver differences change the local split. The audit verifies the saved vectors against independent EPANET runs; it does not establish identical cross-evaluated objective values to arbitrary numerical precision or replay pipe-failure PDA states.

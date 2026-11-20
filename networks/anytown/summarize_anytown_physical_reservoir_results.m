@@ -32,6 +32,7 @@ model=StaciModel(cfg.inp_file);
 cleanup=onCleanup(@()model.release());
 values=zeros(6,6);
 generations=zeros(6,1);evaluations=zeros(6,1);wall=zeros(6,1);
+sqp_iterations=zeros(6,1);sqp_evaluations=zeros(6,1);sqp_seconds=zeros(6,1);
 violation=zeros(6,1);
 min_pressure=zeros(6,1);min_chlorine=zeros(6,1);
 for k=1:6
@@ -52,6 +53,11 @@ for k=1:6
     generations(k)=r.ga_last_generation;
     evaluations(k)=r.output.funccount;
     wall(k)=r.elapsed_time_seconds;
+    if isfield(r,'post_ga_refinement')
+        sqp_iterations(k)=r.post_ga_refinement.iterations;
+        sqp_evaluations(k)=r.post_ga_refinement.evaluations;
+        sqp_seconds(k)=r.post_ga_refinement.elapsed_seconds;
+    end
     violation(k)=r.max_constraint_violation;
     [found,pi]=ismember(string(cfg.pressure_node_ids(:)), ...
         string(m.node_ids(:)));
@@ -72,9 +78,11 @@ end
 normalized=array2table(display_values,'VariableNames',vars);
 normalized.OptimizedFor=labels';
 normalized=movevars(normalized,'OptimizedFor','Before',1);
-ga=table(labels',generations,evaluations,wall,violation, ...
-    min_pressure,min_chlorine,'VariableNames', ...
-    {'OptimizedFor','Generations','Evaluations','WallSeconds', ...
+ga=table(labels',generations,evaluations,wall,sqp_iterations, ...
+    sqp_evaluations,sqp_seconds,violation,min_pressure,min_chlorine, ...
+    'VariableNames', ...
+    {'OptimizedFor','GAGenerations','GAEvaluations','GAWallSeconds', ...
+    'SQPIterations','SQPEvaluations','SQPSeconds', ...
     'MaxConstraintViolation','MinimumConsumerPressure_m', ...
     'MinimumMaterialConsumerChlorine_mgL'});
 writetable(raw,fullfile(folder,'cross_evaluation_six_raw.csv'));

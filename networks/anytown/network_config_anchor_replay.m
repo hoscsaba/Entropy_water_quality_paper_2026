@@ -10,7 +10,9 @@ cfg=network_config(network_dir);
 % older 2.30666 factor caused small cross-engine pressure differences;
 % retain the EPANET-consistent factor for converted INP quantities.
 cfg.pressure_to_head=2.30787;
-source=fullfile(network_dir,'input','network_staci_fixed_load.inp');
+% Preserve the published input and use a one-pipe, nominally feasible K=0
+% candidate for all ranked-pipe searches. The 0.1--64 in design bounds stay fixed.
+source=fullfile(network_dir,'input','network_initial_feasible.inp');
 cfg.inp_file=fullfile(network_dir,'input','network_anchor_replay.inp');
 content=fileread(source);
 updated=regexprep(content,'(?m)^[ \t]*TRIALS[ \t]+40[ \t]*$', ...
@@ -24,6 +26,9 @@ clear release
 cfg.results_dir=fullfile(network_dir,'results_staci_anchor_replay');
 cfg.figures_dir=fullfile(network_dir,'figures_staci_anchor_replay');
 cfg.runtime_dir=fullfile(network_dir,'runtime_anchor_replay');
+% The repaired initial vector itself is feasible, so use it as the
+% ranking reference and as the K=0 fixed-pipe design.
+cfg.ga.feasible_interpolation_to_upper=0;
 cfg.ranking.cache_dir=fullfile(cfg.results_dir,'ranking_cache');
 cfg.objectives=[cfg.objectives,{'branch_hop_weighted_entropy'}];
 cfg.ga.maximum_wall_seconds=7200;

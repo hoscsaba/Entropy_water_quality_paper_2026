@@ -24,29 +24,42 @@ else
         'Unknown nominal variant');
     cfg=network_config_physical_reservoirs(network_dir);
 end
-canonical=cfg.results_dir;
 if nargin>=6 && ~isempty(result_dir_override)
     cfg.results_dir=char(result_dir_override);
     cfg.figures_dir=fullfile(cfg.results_dir,'figures');
     cfg.ranking.cache_dir=fullfile(cfg.results_dir,'ranking_cache');
     if ~isfolder(cfg.results_dir),mkdir(cfg.results_dir);end
-    % A new pressure/objective stage must recompute rankings. The archived
-    % K=2 diameter vector is only a warm start and is rechecked in memory.
-    for file="k2_feasibility_seed.mat"
-        source=fullfile(canonical,file);
-        target=fullfile(cfg.results_dir,file);
-        if isfile(source) && ~isfile(target)
-            copyfile(source,target);
-        end
-    end
 end
 branch=load(fullfile(cfg.results_dir, ...
     'branch_hop_weighted_entropy.mat'),'result');
 cfg.branch_hop_weighting=branch.result.branch_hop_weighting;
 rank_file=fullfile(cfg.results_dir,'pipe_rankings.mat');
+reference_model=StaciModel(cfg.inp_file);
+release_reference=onCleanup(@()reference_model.release());
+input_x=double(reference_model.getLinkProperty( ...
+    string(cfg.design_link_ids(:)),'diameter_m'));
+input_x=input_x(:)/0.0254;
+clear release_reference reference_model
+expected_reference=input_x;
+if isfield(cfg.ranking,'reference_design') && ...
+        ~isempty(cfg.ranking.reference_design)
+    expected_reference=double(cfg.ranking.reference_design(:));
+elseif isfield(cfg,'pressure_anchor_node_ids') && ...
+        ~isempty(cfg.pressure_anchor_node_ids) && ...
+        isfield(cfg.ga,'feasible_interpolation_to_upper')
+    expected_reference=input_x+cfg.ga.feasible_interpolation_to_upper* ...
+        (cfg.maximum_diameter-input_x);
+end
+ranking_is_current=false;
 if isfile(rank_file)
     saved=load(rank_file,'ranking');ranking=saved.ranking;
-else
+    ranking_is_current=isfield(ranking,'reference_design') && ...
+        numel(ranking.reference_design)==numel(expected_reference) && ...
+        max(abs(double(ranking.reference_design(:))- ...
+        expected_reference))<1e-10;
+end
+if ~ranking_is_current
+    % The saved pipe order is specific to its nominal diameter reference.
     ranking=wdn.rank_pipes_staci(cfg,cfg.inp_file);
     save(rank_file,'ranking','-v7');
 end
@@ -58,12 +71,6 @@ end
 writetable(rank_table,fullfile(cfg.results_dir,'pipe_rankings_top20.csv'));
 fprintf('Original reference max constraint violation: %.5g m\n', ...
     ranking.reference_constraint_violation);
-if string(nominal_variant)=="anchor_replay" && ...
-        ~isfile(fullfile(cfg.results_dir,'k2_feasibility_seed.mat'))
-    assert(isempty(result_dir_override), ...
-        'Supply the archived K=2 feasibility seed in the staging folder');
-    find_anytown_anchor_replay_k2_seed(paper_root,staci_root,mex_dir);
-end
 for objective=objectives
     saved=load(fullfile(cfg.results_dir,objective+'.mat'),'result');
     study=wdn.optimize_staci_ranked_subsets(cfg,ranking,objective, ...

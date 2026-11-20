@@ -23,7 +23,11 @@ elseif isfield(cfg, 'pressure_anchor_node_ids') && ...
         isfield(cfg.ga,'feasible_interpolation_to_upper')
     x_ref = x_original + cfg.ga.feasible_interpolation_to_upper * ...
         (cfg.maximum_diameter - x_original);
-    reference_method = 'staci_pressure_anchor_interpolation';
+    if cfg.ga.feasible_interpolation_to_upper == 0
+        reference_method = 'staci_original_design';
+    else
+        reference_method = 'staci_pressure_anchor_interpolation';
+    end
 else
     x_ref = x_original;
     reference_method = 'staci_original_design';

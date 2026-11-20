@@ -23,6 +23,13 @@ ids=string(cfg.design_link_ids(:));
 x0=double(st.getLinkProperty(ids,'diameter_m'))'/0.0254;
 [link_order,full_original]=wdn.staci_input_link_template( ...
     cfg.inp_file,st,0.0254);
+assert(numel(ranking.reference_design)==numel(x0) && ...
+    max(abs(double(ranking.reference_design(:)')-x0))<1e-8, ...
+    'Saved pipe ranking uses a different initial diameter vector');
+[~,initial_violation]=wdn.evaluate_staci_design( ...
+    st,cfg,x0,link_order,full_original);
+assert(initial_violation<=cfg.ga.constraint_tolerance, ...
+    'The current K=0 input design is not feasible');
 objectives=["cost","hydraulic_entropy", ...
     "branch_hop_weighted_entropy","chlorine_concentration", ...
     "chlorine_entropy","todini"];
@@ -44,10 +51,19 @@ for oi=1:numel(objectives)
         'Ranking criterion order differs from saved study');
     assert(study.k(1)==0 && study.k(end)==numel(ids), ...
         'Unexpected ranking pipe-count range');
+    assert(numel(study.original_design)==numel(x0) && ...
+        max(abs(double(study.original_design(:)')-x0))<1e-8, ...
+        'Ranked study uses a different initial diameter vector');
+    k0_designs=reshape(double(study.designs(:,1,:)), ...
+        numel(study.criterion_keys),numel(ids));
+    assert(all(abs(k0_designs-x0)<1e-8,'all') && ...
+        all(study.is_feasible(:,1)), ...
+        'Saved K=0 designs are not the feasible current input');
     name{oi}=char(objective);
     for q=1:numel(study.criterion_keys)
-        previous=NaN;
-        first_feasible=false;
+        % A feasible K=0 is the incumbent for every nested subset.
+        previous=study.metrics(q,1,metric_index);
+        first_feasible=true;
         for j=2:numel(study.k)
             k=study.k(j);
             if ~study.is_feasible(q,j)
@@ -81,8 +97,13 @@ for oi=1:numel(objectives)
                 end
             end
             previous=objective_value;
+            % Reload each vector independently. Near-zero-flow loops can
+            % retain a different numerical branch after a prior solve.
+            fresh=StaciModel(cfg.inp_file);
+            fresh_release=onCleanup(@()fresh.release());
             [metrics,violation]=wdn.evaluate_staci_design( ...
-                st,cfg,x,link_order,full_original);
+                fresh,cfg,x,link_order,full_original);
+            clear fresh_release fresh
             assert(violation<=cfg.ga.constraint_tolerance+1e-5, ...
                 'Saved design fails re-evaluated constraints at K=%d',k);
             observed=zeros(1,numel(study.metric_names));
