@@ -29,7 +29,7 @@ a PNG or PDF. The exact final result folders are listed in the root README.
 | `balerma_r38_unavailable_protected_failure_profiles.pdf` | `make_balerma_r38_unavailable_failure_profiles.m` | Balerma `r38_unavailable_protected/cases.csv`, 448 cases per design |
 | `balerma_common_cost_branch_hop_failure_pareto_r38_anchor_r38_unavailable.pdf` | `make_balerma_common_pareto.m` | Balerma `pareto_r38_unavailable_study/pareto_failure_replay_r38_unavailable/pareto_failure_service.csv` |
 | `steady_chlorine_trajectories.png` | `supplementary/plot_steady_chlorine_trajectories.m` | `supplementary/results/` EPANET trajectories and STACI steady values |
-| `cross_effects_three_networks.pdf` | `plot_cross_effects_three_networks.m` | Three six-design cross-evaluation CSVs |
+| `cross_effects_three_networks.png` | `plot_cross_effects_three_networks.m` | Three six-design cross-evaluation CSVs; PDF and editable SVG are also exported |
 
 The main article and Supplementary Material include some of the same files;
 these are listed once. Replotting rankings evaluates other objectives on the

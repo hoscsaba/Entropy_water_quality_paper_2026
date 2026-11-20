@@ -50,11 +50,20 @@ for k=1:3
     imagesc(ax,scaled,[-1 1]); colormap(ax,cmap);
     set(ax,'YDir','reverse','XTick',1:6,'YTick',1:6, ...
         'XTickLabel',metric_names,'YTickLabel',row_names, ...
-        'FontName','Helvetica','FontSize',8,'TickLength',[0 0]);
+        'FontName','Helvetica','FontSize',9,'TickLength',[0 0]);
     xtickangle(ax,45);
     if k>1, set(ax,'YTickLabel',[]); end
     xlim(ax,[.5 6.5]); ylim(ax,[.5 6.5]);
-    title(ax,network_names{k},'FontSize',10,'FontWeight','bold');
+    title(ax,network_names{k},'FontSize',11,'FontWeight','bold');
+    hold(ax,'on');
+    % Cell borders keep labels in the white, near-zero cells visually tied
+    % to the same six-by-six grid as the colored entries.
+    for boundary=.5:1:6.5
+        line(ax,[boundary boundary],[.5 6.5], ...
+            'Color',[.78 .78 .78],'LineWidth',.35);
+        line(ax,[.5 6.5],[boundary boundary], ...
+            'Color',[.78 .78 .78],'LineWidth',.35);
+    end
     for i=1:6
         for j=1:6
             fg=[0 0 0]; if abs(scaled(i,j))>.67,fg=[1 1 1];end
@@ -65,7 +74,7 @@ for k=1:3
             end
             text(ax,j,i,label, ...
                 'HorizontalAlignment','center','VerticalAlignment','middle', ...
-                'FontName','Helvetica','FontSize',8,'Color',fg);
+                'FontName','Helvetica','FontSize',9,'Color',fg);
         end
     end
 end
