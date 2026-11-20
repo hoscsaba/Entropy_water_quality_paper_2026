@@ -11,9 +11,10 @@
    do not copy objective formulas into the network folder.
 5. Run one unmodified-design evaluation and manually verify link/node counts,
    units, source concentrations, pressures, and objective signs.
-6. Run the five objectives, then `wdn.write_cross_evaluation`. A diagonal check
-   failure means the affected objective must be resumed with all saved elites;
-   it must not be hidden by rounding the table.
+6. Run all six objectives under the same nominal constraints. Re-evaluate every
+   saved diameter vector under all six objectives and check whether another
+   feasible saved design improves its own objective. Resume or refine an
+   affected search; do not hide a mismatch by rounding the table.
 7. Validate nominal feasibility and then run the independent pipe-failure test.
 
 For a boundary used only to prescribe head, use the article's pressure-anchor

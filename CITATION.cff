@@ -1,0 +1,10 @@
+cff-version: 1.2.0
+message: "If you use this code or data, please cite this repository and its exact Git revision."
+type: software
+title: "Entropy and water quality in pipe-diameter design"
+authors:
+  - family-names: "Hős"
+    given-names: "Csaba"
+date-released: "2026-11-20"
+repository-code: "https://github.com/hoscsaba/Entropy_water_quality_paper_2026"
+license: "GPL-2.0-only"

@@ -1,7 +1,7 @@
 # Publication asset manifest
 
-This map follows the current `draft_v3/main.tex`, `supplementary_staci.tex`,
-and `balerma_r38_section.tex`. Names in the first column are file basenames
+This map follows the article's two LaTeX sources, `draft_v3/main.tex` and
+`draft_v3/supplementary_staci.tex`. Names in the first column are file basenames
 under `manuscript/generated/figures/`. A single call to
 `manuscript/figures/reproduce_all_figures.m` invokes the generators below
 using the released results. It performs no full-network optimization or

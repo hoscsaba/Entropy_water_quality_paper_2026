@@ -11,6 +11,10 @@ recorded rather than treated as exact agreement. The saved design vectors are
 the published numerical record: rerunning a stochastic GA is unnecessary to
 redraw the figures.
 
+## Citation and manuscript sources
+
+The [citation metadata](CITATION.cff) identify this software and data release. When citing a calculation, give the repository URL and the exact Git commit; no archival DOI has yet been assigned. The article and Supplementary Material have two LaTeX source files, `main.tex` and `supplementary_staci.tex`, in the accompanying manuscript directory. This repository contains their calculation and figure sources. The GPL-2.0 license applies to article-specific code; bundled third-party components retain their own licenses.
+
 ## Software and quick start
 
 Use MATLAB R2026a with Optimization Toolbox and Global Optimization Toolbox.
