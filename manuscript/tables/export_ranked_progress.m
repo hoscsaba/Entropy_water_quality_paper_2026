@@ -1,26 +1,26 @@
-function [all_rows, summary_rows] = export_ranked_full_network_gaps(paper_root, output_dir)
-%EXPORT_RANKED_FULL_NETWORK_GAPS Compare restricted designs with full designs.
-% Reads the saved, current single-objective and ranked-subset CSV files; it
-% performs no optimization or hydraulic calculation. For each network,
-% objective and tested pipe count K, the best feasible result among the five
-% fixed pipe rankings is retained. Cost is minimized; the other five
-% objectives are maximized. The reported percentage gap is
+function [all_rows, summary_rows] = export_ranked_progress(paper_root, output_dir)
+%EXPORT_RANKED_PROGRESS Fraction of the saved initial-to-full improvement.
+% Reads current single-objective and ranked-subset CSV files; it performs no
+% optimization or hydraulic calculation. For each objective j and ranking r,
+% the reported percentage is
 %
-%   cost:       100 * (C_best(K) / C_full - 1),
-%   other:      100 * (1 - J_best(K) / J_full).
+%   P_j,r(K) = 100*abs(F_j,r(K)-F_j,0)/abs(F_j,full-F_j,0).
 %
-% The denominator is the saved full-network single-objective result for the
-% SAME network, objective and nominal constraints. A negative gap is kept
-% when a finite subset search happens to outperform the saved full search;
-% neither search certifies a global optimum. Anytown K=0 is the feasible
-% one-pipe-repaired initial candidate and provides a valid baseline score.
+% F is cost for the minimized cost objective and the corresponding metric
+% for each maximized objective. F_j,0 is the feasible K=0 reference shared
+% by the five rankings; F_j,full is the saved objective-specific full-network
+% result under the same nominal constraints. These full-network results are
+% best found by finite searches, not certified global optima. All saved
+% feasible subset objectives improve in the intended direction from K=0,
+% so a larger P means more of the attainable saved improvement was reached.
+% A value just above 100 is retained if a subset slightly exceeds its saved
+% full-network reference. This is especially relevant near numerical ties.
 %
-% The outputs are ranked_full_network_gaps_all.csv and
-% ranked_full_network_gaps_representative.csv. The latter contains TT K=2,4;
-% Anytown K=8,20; and Balerma K=45,90 for manuscript Section 3.4.
+% Outputs are ranked_progress_all.csv and ranked_progress_representative.csv.
+% The latter contains TT K=2,4; Anytown K=8,20; and Balerma K=45,90.
 %
 % Usage: addpath(fullfile(paper_root,'manuscript','tables'));
-%        export_ranked_full_network_gaps(paper_root);
+%        export_ranked_progress(paper_root);
 
 if nargin < 1 || isempty(paper_root)
     paper_root = fileparts(fileparts(fileparts(mfilename('fullpath'))));
@@ -50,10 +50,12 @@ anytown_full_labels = ["Cost";"Flow entropy";"Branch-hop entropy"; ...
     "Cl concentration";"Cl entropy";"Todini"];
 
 row_template = struct('Network',"",'Objective',"",'K',NaN, ...
-    'TotalPipes',NaN,'PipeFractionPct',NaN,'FullObjectiveValue',NaN, ...
-    'BestRanking',"",'BestObjectiveValue',NaN,'GapToFullPct',NaN, ...
+    'TotalPipes',NaN,'PipeFractionPct',NaN, ...
+    'InitialObjectiveValue',NaN,'FullObjectiveValue',NaN, ...
+    'BestRanking',"",'BestObjectiveValue',NaN,'ProgressPct',NaN, ...
     'RunnerUpRanking',"",'RunnerUpObjectiveValue',NaN, ...
-    'LeadOverRunnerUpPct',NaN,'FeasibleRankings',0);
+    'RunnerUpProgressPct',NaN, ...
+    'LeadOverRunnerUpProgressPoints',NaN,'FeasibleRankings',0);
 rows = repmat(row_template,0,1);
 for network_index = 1:numel(configs)
     cfg = configs(network_index);
@@ -87,12 +89,29 @@ for network_index = 1:numel(configs)
             rank_file = "ranking_todini_refined_study.csv";
         end
         ranked = readtable(fullfile(folder,rank_file),'TextType','string');
+        value_column = double(ranked.(rank_column));
+        k0_rows = double(ranked.K)==0 & logical(ranked.IsFeasible);
+        k0_values = value_column(k0_rows);
+        assert(numel(k0_values)==5 && all(isfinite(k0_values)), ...
+            'Expected five feasible K=0 ranking references.');
+        initial_value = k0_values(1);
+        assert(max(abs(k0_values-initial_value)) <= ...
+            1e-10*max(1,abs(initial_value)), ...
+            'K=0 reference differs between rankings.');
+        normalizer = abs(full_value-initial_value);
+        if normalizer <= 1e-10*max([1,abs(initial_value),abs(full_value)])
+            % There is no meaningful initial-to-full percentage if the
+            % reference improvement vanishes. Keep raw objective values.
+            warning('Progress undefined for %s/%s: full and K=0 agree.', ...
+                cfg.id,objective);
+            normalizer = NaN;
+        end
         counts = sort(unique(double(ranked.K)));
-        assert(all(diff(counts) > 0), 'Duplicate or unsorted K values.');
+        assert(counts(1)==0 && all(diff(counts) > 0), ...
+            'Expected K=0 and strictly increasing pipe counts.');
         for k = counts(:)'
             at_k = double(ranked.K) == k;
             feasible = at_k & logical(ranked.IsFeasible);
-            value_column = double(ranked.(rank_column));
             feasible = feasible & isfinite(value_column);
             row = row_template;
             row.Network = cfg.id;
@@ -100,6 +119,7 @@ for network_index = 1:numel(configs)
             row.K = k;
             row.TotalPipes = cfg.total_pipes;
             row.PipeFractionPct = 100*k/cfg.total_pipes;
+            row.InitialObjectiveValue = initial_value;
             row.FullObjectiveValue = full_value;
             row.FeasibleRankings = nnz(feasible);
             if row.FeasibleRankings > 0
@@ -117,22 +137,31 @@ for network_index = 1:numel(configs)
                 tied = abs(ordered-best) <= 1e-12*max(1,abs(best));
                 row.BestRanking = join(criteria(tied),"/");
                 row.BestObjectiveValue = best;
+                % The absolute-value formula is meaningful here because
+                % feasible incumbents prevent regression from the K=0 score.
                 if objective == "cost"
-                    row.GapToFullPct = 100*(best/full_value - 1);
+                    assert(best <= initial_value + ...
+                        1e-8*max(1,abs(initial_value)), ...
+                        'A cost subset is worse than K=0.');
                 else
-                    row.GapToFullPct = 100*(1 - best/full_value);
+                    assert(best >= initial_value - ...
+                        1e-8*max(1,abs(initial_value)), ...
+                        'A maximized subset is worse than K=0.');
                 end
+                row.ProgressPct = 100*abs(best-initial_value)/normalizer;
                 if row.FeasibleRankings > 1
                     next_distinct = find(~tied,1,'first');
                     if ~isempty(next_distinct)
                         second = ordered(next_distinct);
                         row.RunnerUpRanking = criteria(next_distinct);
                         row.RunnerUpObjectiveValue = second;
-                        if objective == "cost"
-                            row.LeadOverRunnerUpPct = 100*(second/best - 1);
-                        else
-                            row.LeadOverRunnerUpPct = 100*(1 - second/best);
-                        end
+                        row.RunnerUpProgressPct = ...
+                            100*abs(second-initial_value)/normalizer;
+                        row.LeadOverRunnerUpProgressPoints = ...
+                            row.ProgressPct-row.RunnerUpProgressPct;
+                        assert(isnan(row.LeadOverRunnerUpProgressPoints) || ...
+                            row.LeadOverRunnerUpProgressPoints >= -1e-8, ...
+                            'Runner-up progress exceeds the best ranking.');
                     end
                 end
             end
@@ -151,9 +180,9 @@ summary_rows = all_rows(summary_mask,:);
 assert(height(summary_rows) == 6*2*numel(configs), ...
     'Representative summary has missing network/objective/K rows.');
 writetable(all_rows,fullfile(output_dir, ...
-    'ranked_full_network_gaps_all.csv'));
+    'ranked_progress_all.csv'));
 writetable(summary_rows,fullfile(output_dir, ...
-    'ranked_full_network_gaps_representative.csv'));
+    'ranked_progress_representative.csv'));
 fprintf('Exported %d ranked comparisons (%d representative) to %s\n', ...
     height(all_rows),height(summary_rows),output_dir);
 end

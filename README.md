@@ -70,11 +70,11 @@ indexed by objective, ranking, and subset size, so larger subsets can be
 added without recomputing smaller ones. The reported GA endpoints are finite
 best-found results, not global-optimality certificates.
 
-Regenerate the ranked-pipe gap tables from the saved CSVs with
-`addpath('manuscript/tables'); export_ranked_full_network_gaps(pwd)` in MATLAB.
+Regenerate the ranked-pipe progress tables from the saved CSVs with
+`addpath('manuscript/tables'); export_ranked_progress(pwd)` in MATLAB.
 The exported all-K and representative-K CSVs in `manuscript/generated/tables/`
-compare each feasible ranked-subset result with the matching saved
-full-network single-objective result; this reference is a finite-search
+show the percentage of each objective's feasible K=0-to-full improvement
+reached by a restricted search. The full-network reference is a finite-search
 best-found design, not a certified global optimum.
 
 ## Recompute and verify
