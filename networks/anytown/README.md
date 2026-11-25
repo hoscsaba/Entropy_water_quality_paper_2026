@@ -1,0 +1,7 @@
+# Anytown calculation
+
+The [nominal input](input/network_anchor_replay.inp) uses R10 and its pump as the water source. The R65 and R165 tank sites are zero-flow pressure anchors during single-load diameter optimization: their target hydraulic head is 215 ± 0.5 ft. The 38 physical pipe diameters are the design variables. The feasible K=0 starting vector comes from [`network_initial_feasible.inp`](input/network_initial_feasible.inp); only P6 differs from the preserved benchmark input. See [the model and objective definitions](../../docs/METHODS.md) for the common pressure, diameter, and chlorine constraints.
+
+The exact six submitted single-objective vectors, ranked-subset searches, Pareto archive, and pressure-driven outage results are in [`results_staci_anchor_replay/`](results_staci_anchor_replay/). For failure replay, R65 and R165 are restored as physical reservoirs. The recorded cases close each of the 38 physical pipes under three reservoir-availability states: both auxiliary reservoirs, R65 only, and R165 only (114 cases per design). A rerun of a stochastic search is not required to redraw the figures.
+
+[The Anytown reproduction sequence](../../docs/REPRODUCIBILITY.md#current-anytown-sequence) gives the order of optimization, saved-vector audit, failure replay, and plotting. The [publication asset manifest](../../manuscript/MANIFEST.md) maps each displayed figure to its generator and data. Start with `startup` and `validate_environment` as shown in the root README.

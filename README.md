@@ -11,6 +11,13 @@ recorded rather than treated as exact agreement. The saved design vectors are
 the published numerical record: rerunning a stochastic GA is unnecessary to
 redraw the figures.
 
+The submitted [main article PDF](docuemnts/main.pdf) and
+[Supplementary Material PDF](docuemnts/supplementary_staci.pdf) are included
+in this repository. The `docuemnts/` spelling is retained because the
+submitted article links to that path. Publication PNGs in the manuscript
+package are compressed; this repository keeps their full-resolution renders
+and editable SVGs.
+
 ## Citation and manuscript sources
 
 The [citation metadata](CITATION.cff) identify this software and data release. When citing a calculation, give the repository URL and the exact Git commit; no archival DOI has yet been assigned. The article and Supplementary Material have two LaTeX source files, `main.tex` and `supplementary_staci.tex`, in the accompanying manuscript directory. This repository contains their calculation and figure sources. The GPL-2.0 license applies to article-specific code; bundled third-party components retain their own licenses.
@@ -21,7 +28,10 @@ Use MATLAB R2026a with Optimization Toolbox and Global Optimization Toolbox.
 Build `staci_mex` as described in the
 [STACI MATLAB README](https://github.com/hoscsaba/staci/blob/master/matlab/README.md).
 The EPANET MATLAB Toolkit in `third_party/` is used for network geometry and
-independent verification. From this repository's root:
+independent verification. For exact reproduction of the published numerical
+record, check out STACI commit `74d3660` before building its MATLAB MEX
+interface. Later STACI revisions may contain changes, so the pinned commit
+identifies the tested solver. From this repository's root:
 
 ```matlab
 startup

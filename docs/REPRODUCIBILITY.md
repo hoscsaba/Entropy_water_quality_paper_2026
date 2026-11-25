@@ -2,7 +2,7 @@
 
 ## Required software
 
-Use MATLAB R2026a with Optimization Toolbox and Global Optimization Toolbox, the MATLAB MEX interface from the [STACI repository](https://github.com/hoscsaba/staci), and EPANET 2.2 with the EPANET-MATLAB Toolkit for independent verification. Build the current STACI checkout: its TT Pareto numerical fallback requires `setSolverTolerances`, which older MEX binaries do not expose. The optimizer keeps one `StaciModel` in memory, updates pipe diameters there, and calls the hydraulic and direct stationary-quality solvers. It writes no per-candidate INP or quality history.
+Use MATLAB R2026a with Optimization Toolbox and Global Optimization Toolbox, the MATLAB MEX interface from the [STACI repository](https://github.com/hoscsaba/staci), and EPANET 2.2 with the EPANET-MATLAB Toolkit for independent verification. Build STACI commit `74d3660` for exact reproduction: its TT Pareto numerical fallback requires `setSolverTolerances`, which older MEX binaries do not expose. The optimizer keeps one `StaciModel` in memory, updates pipe diameters there, and calls the hydraulic and direct stationary-quality solvers. It writes no per-candidate INP or quality history.
 
 ## Tanyimboh–Templeman: full calculation sequence
 
