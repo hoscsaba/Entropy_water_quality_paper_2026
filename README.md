@@ -11,10 +11,11 @@ recorded rather than treated as exact agreement. The saved design vectors are
 the published numerical record: rerunning a stochastic GA is unnecessary to
 redraw the figures.
 
-The submitted [main article PDF](docuemnts/main.pdf) and
+The revision-draft [main article PDF](docuemnts/main.pdf) and
 [Supplementary Material PDF](docuemnts/supplementary_staci.pdf) are included
-in this repository. The `docuemnts/` spelling is retained because the
-submitted article links to that path. Publication PNGs in the manuscript
+in this repository. The Supplemental Material is also archived at
+[Zenodo](https://doi.org/10.5281/zenodo.24561348). The `docuemnts/`
+spelling is retained because manuscript cross-references link to that path. Publication PNGs in the manuscript
 package are compressed; this repository keeps their full-resolution renders
 and editable SVGs.
 
