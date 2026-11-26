@@ -19,7 +19,7 @@ a PNG or PDF. The exact final result folders are listed in the root README.
 | `anytown_schematic.png` | `make_anytown_schematic.m` | Anchor INP and topology-only branch-hop weights |
 | `anytown_objectives_flow_3x2.png` | `make_anytown_flow_matrix.m` | Anytown six final MAT designs |
 | `figure5_portrait_1.png` to `figure5_portrait_3.png` | `make_anytown_anchor_replay_figures.m`, `make_portrait_submission_figures.m` | Anytown six final MAT designs |
-| `figure9_ranking_objectives.png`, `figure10_anytown_chlorine_ranking_objectives.png`, `anytown_hydraulic_todini_rankings.png` | `reproduce_all_figures.m`, `+wdn/plot_ranking_*` | Anytown saved ranking MAT studies, including refined Todini |
+| `figure9_ranking_objectives_optimized_only.png` (main article), `figure9_ranking_objectives.png` (Supplementary Material), `figure10_anytown_chlorine_ranking_objectives.png`, `anytown_hydraulic_todini_rankings.png` | `reproduce_all_figures.m`, `+wdn/plot_ranking_*` | Anytown saved ranking MAT studies, including refined Todini |
 | `anytown_cost_branch_hop_failure_pareto.pdf` | `make_pareto_failure_figures.m` | Anytown saved Pareto archive and 114-case PDA replay per point |
 | `balerma_r38_anchor_schematic.png` | `make_balerma_r38_schematic.m` | Balerma original geometry and R38 nominal boundary definition |
 | `figure10_balerma_objectives_r38_anchor_3x2.png`, `figure14_balerma_chlorine_r38_anchor_3x2.png` | `make_balerma_figures.m` | Balerma R38-anchor six final MAT designs |

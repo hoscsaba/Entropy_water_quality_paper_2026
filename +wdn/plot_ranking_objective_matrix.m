@@ -1,11 +1,22 @@
-function output_files = plot_ranking_objective_matrix(cfg, cost_study, entropy_study, ~)
+function output_files = plot_ranking_objective_matrix(cfg, cost_study, entropy_study, ~, view)
 %PLOT_RANKING_OBJECTIVE_MATRIX Plot two ranked-subset optimization series.
 % Values are percentage changes from the study's K=0 reference design.
+% view="optimized_only" retains just the two optimized objectives for the
+% journal figure; the default full view preserves all cross-evaluations.
+if nargin < 5 || isempty(view), view = "full"; end
+optimized_only = strcmp(string(view), "optimized_only");
 
 colors = lines(numel(cost_study.criterion_labels));
 markers = {'o','s','^','d','v'};
-fig = figure('Color','w','Position',[100 50 1400 1820]);
-t = tiledlayout(fig, 6, 2, 'TileSpacing','loose','Padding','compact');
+if optimized_only
+    n_rows = 1;
+    figure_height = 580;
+else
+    n_rows = 6;
+    figure_height = 1820;
+end
+fig = figure('Color','w','Position',[100 50 1400 figure_height]);
+t = tiledlayout(fig, n_rows, 2, 'TileSpacing','loose','Padding','compact');
 x_percent = 100 * cost_study.k / numel(cfg.design_link_ids);
 
 entropy_metric='hydraulic_entropy';
@@ -25,7 +36,7 @@ labels = struct( ...
     'todini','Todini (%) (better \rightarrow)');
 
 first_axis = gobjects(1);
-for row = 1:6
+for row = 1:n_rows
     ax_left = nexttile(t);
     left_values = relative_metric(cost_study, left_order{row});
     left_handles = plot_panel(ax_left, x_percent, left_values, ...
@@ -69,6 +80,7 @@ basename = 'figure9_ranking_objectives';
 if isfield(cfg, 'ranking') && isfield(cfg.ranking, 'figure_basename')
     basename = cfg.ranking.figure_basename;
 end
+if optimized_only, basename = [basename '_optimized_only']; end
 png_file = fullfile(cfg.figures_dir, [basename '.png']);
 svg_file = fullfile(cfg.figures_dir, [basename '.svg']);
 exportgraphics(fig, png_file, 'Resolution', cfg.plot.resolution);
